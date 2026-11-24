@@ -1,0 +1,17 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "choice",
+  "title": "Choice layout",
+  "description": "Label, description, box and placement for Checkbox, Radio and Switch.",
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "registry/dither/ui/choice.tsx",
+      "content": "import * as React from \"react\";\n\nimport { cn } from \"@/registry/dither/lib/utils\";\n\n/**\n * Shared layout for Checkbox, Radio and Switch: label + description,\n * Type[default|box], Control placement[start|end], invalid and disabled.\n */\nexport interface ChoiceProps {\n  label?: React.ReactNode;\n  description?: React.ReactNode;\n  /** `box` wraps the control in a bordered card that turns brand-tinted when checked (Figma: Type). */\n  variant?: \"default\" | \"box\";\n  placement?: \"start\" | \"end\";\n  invalid?: boolean;\n  disabled?: boolean;\n}\n\nexport function Choice({\n  id,\n  control,\n  label,\n  description,\n  variant = \"default\",\n  placement = \"start\",\n  invalid,\n  disabled,\n  className,\n}: ChoiceProps & { id: string; control: React.ReactNode; className?: string }) {\n  if (!label && !description) return <>{control}</>;\n\n  return (\n    <label\n      htmlFor={id}\n      data-slot=\"choice\"\n      data-variant={variant}\n      data-disabled={disabled || undefined}\n      data-invalid={invalid || undefined}\n      className={cn(\n        \"group/choice flex w-full max-w-sm gap-3 text-sm\",\n        placement === \"end\" && \"flex-row-reverse justify-between\",\n        description ? \"items-start\" : \"items-center\",\n        variant === \"box\" && [\n          \"rounded-control border bg-surface p-3 shadow-xs transition-colors\",\n          \"has-data-[state=checked]:border-brand has-data-[state=checked]:bg-brand/5\",\n          \"data-invalid:border-destructive data-invalid:bg-destructive/5\",\n        ],\n        disabled ? \"cursor-not-allowed opacity-50\" : \"cursor-pointer\",\n        className,\n      )}\n    >\n      <span className={cn(\"flex shrink-0\", description && \"pt-0.5\")}>{control}</span>\n      <span className=\"flex flex-col gap-0.5\">\n        {label ? <span className=\"leading-5 font-medium group-data-invalid/choice:text-destructive\">{label}</span> : null}\n        {description ? <span className=\"leading-5 text-muted-foreground\">{description}</span> : null}\n      </span>\n    </label>\n  );\n}\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

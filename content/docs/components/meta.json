@@ -1,0 +1,25 @@
+{
+  "title": "Components",
+  "pages": [
+    "height-rule",
+    "---Actions---",
+    "button",
+    "button-group",
+    "toggle",
+    "---Inputs---",
+    "input",
+    "textarea",
+    "select",
+    "checkbox",
+    "radio-group",
+    "switch",
+    "---Navigation---",
+    "tabs",
+    "---Display---",
+    "badge",
+    "kbd",
+    "avatar",
+    "separator",
+    "tooltip"
+  ]
+}

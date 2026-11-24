@@ -1,0 +1,37 @@
+---
+title: Avatar
+description: "A person or team, as an image, initials or an icon. Five sizes and a group."
+status: stable
+variants: 5
+props: 1
+registry: avatar
+---
+
+<ComponentPreview name="avatar-demo" />
+
+## Installation
+
+<InstallCommand name="avatar" />
+
+## Usage
+
+```tsx
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+
+<Avatar>
+  <AvatarImage src="/team/lea.jpg" alt="Léa" />
+  <AvatarFallback>LM</AvatarFallback>
+</Avatar>
+```
+
+## Props
+
+<TypeTable type={{"size": {"type": "\"xs\" | \"sm\" | \"default\" | \"lg\" | \"xl\"", "default": "\"default\"", "description": "24 / 32 / 40 / 48 / 64 px."}}} />
+
+## Examples
+
+### Group
+
+`AvatarGroup` overlaps avatars with a surface ring; `AvatarGroupCount` shows the rest in mono.
+
+<ComponentPreview name="avatar-group" />

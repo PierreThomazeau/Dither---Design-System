@@ -1,0 +1,34 @@
+---
+title: Toggle
+description: "A two-state button, alone or in a group."
+status: stable
+variants: 6
+props: 3
+registry: toggle
+---
+
+<ComponentPreview name="toggle-demo" />
+
+## Installation
+
+<InstallCommand name="toggle" />
+
+## Usage
+
+```tsx
+import { Toggle } from "@/components/ui/toggle";
+
+<Toggle aria-label="Bold">B</Toggle>
+```
+
+## Props
+
+<TypeTable type={{"variant": {"type": "\"default\" | \"outline\"", "default": "\"default\""}, "size": {"type": "\"sm\" | \"default\" | \"lg\"", "default": "\"default\""}, "pressed": {"type": "boolean"}}} />
+
+## Examples
+
+### Toggle group
+
+`ToggleGroup` holds items in one container, like a button group: `type="single"` or `"multiple"`, `variant` and `size` apply to every item. Install it with `npx shadcn add @dither/toggle-group`.
+
+<ComponentPreview name="toggle-group-demo" />

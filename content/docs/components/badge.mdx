@@ -1,0 +1,30 @@
+---
+title: Badge
+description: "A short status or label. The tag variant is the black annotation used in charts."
+status: stable
+variants: 8
+props: 2
+registry: badge
+---
+
+<ComponentPreview name="badge-demo" />
+
+## Installation
+
+<InstallCommand name="badge" />
+
+## Usage
+
+```tsx
+import { Badge } from "@/components/ui/badge";
+
+<Badge variant="positive">Paid</Badge>
+```
+
+## Props
+
+<TypeTable type={{"variant": {"type": "\"default\" | \"secondary\" | \"outline\" | \"brand\" | \"positive\" | \"destructive\" | \"informative\" | \"tag\"", "default": "\"default\""}, "asChild": {"type": "boolean", "default": "false"}}} />
+
+## Examples
+
+See the preview above.

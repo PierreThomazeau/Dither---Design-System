@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "checkbox",
+  "title": "Checkbox",
+  "description": "Checkbox with label, description and box layout.",
+  "dependencies": [
+    "radix-ui",
+    "@hugeicons/react",
+    "@hugeicons/core-free-icons"
+  ],
+  "registryDependencies": [
+    "utils",
+    "@dither/choice",
+    "@dither/icon"
+  ],
+  "files": [
+    {
+      "path": "registry/dither/ui/checkbox.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { Checkbox as CheckboxPrimitive } from \"radix-ui\";\nimport { MinusSignIcon, Tick02Icon } from \"@hugeicons/core-free-icons\";\n\nimport { Icon } from \"@/registry/dither/lib/icon\";\nimport { cn } from \"@/registry/dither/lib/utils\";\nimport { Choice, type ChoiceProps } from \"@/registry/dither/ui/choice\";\n\ntype CheckboxProps = React.ComponentProps<typeof CheckboxPrimitive.Root> & Omit<ChoiceProps, \"disabled\">;\n\nfunction Checkbox({ className, id, label, description, variant, placement, invalid, ...props }: CheckboxProps) {\n  const autoId = React.useId();\n  const controlId = id ?? autoId;\n  const control = (\n    <CheckboxPrimitive.Root\n      id={controlId}\n      data-slot=\"checkbox\"\n      aria-invalid={invalid || undefined}\n      className={cn(\n        \"peer flex size-4 shrink-0 items-center justify-center rounded-[5px] border border-border-strong bg-surface shadow-2xs outline-none\",\n        \"transition-[background-color,border-color,box-shadow] duration-150\",\n        \"focus-visible:shadow-focus disabled:cursor-not-allowed disabled:opacity-50\",\n        \"data-[state=checked]:border-brand data-[state=checked]:bg-brand data-[state=checked]:text-brand-foreground\",\n        \"data-[state=indeterminate]:border-brand data-[state=indeterminate]:bg-brand data-[state=indeterminate]:text-brand-foreground\",\n        \"aria-invalid:border-destructive aria-invalid:focus-visible:shadow-focus-destructive aria-invalid:data-[state=checked]:bg-destructive\",\n        className,\n      )}\n      {...props}\n    >\n      <CheckboxPrimitive.Indicator data-slot=\"checkbox-indicator\" className=\"group flex items-center justify-center\">\n        <Icon icon={Tick02Icon} size={12} strokeWidth={2.5} className=\"group-data-[state=indeterminate]:hidden\" />\n        <Icon icon={MinusSignIcon} size={12} strokeWidth={2.5} className=\"hidden group-data-[state=indeterminate]:block\" />\n      </CheckboxPrimitive.Indicator>\n    </CheckboxPrimitive.Root>\n  );\n\n  return (\n    <Choice\n      id={controlId}\n      control={control}\n      label={label}\n      description={description}\n      variant={variant}\n      placement={placement}\n      invalid={invalid}\n      disabled={props.disabled}\n    />\n  );\n}\n\nexport { Checkbox, type CheckboxProps };\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

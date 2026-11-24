@@ -1,0 +1,35 @@
+---
+title: Radio Group
+description: "Pick exactly one option from a short list."
+status: stable
+variants: 8
+props: 7
+registry: radio-group
+---
+
+<ComponentPreview name="radio-demo" />
+
+## Installation
+
+<InstallCommand name="radio-group" />
+
+## Usage
+
+```tsx
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+
+<RadioGroup defaultValue="pro" aria-label="Plan">
+  <RadioGroupItem value="free" label="Free" />
+  <RadioGroupItem value="pro" label="Pro" />
+</RadioGroup>
+```
+
+## Props
+
+<TypeTable type={{"RadioGroupItem value": {"type": "string", "required": true}, "label": {"type": "ReactNode", "description": "Label text. Without it, the bare control renders."}, "description": {"type": "ReactNode"}, "variant": {"type": "\"default\" | \"box\"", "default": "\"default\"", "description": "box: bordered card, brand-tinted when checked."}, "placement": {"type": "\"start\" | \"end\"", "default": "\"start\"", "description": "Control before or after the text."}, "invalid": {"type": "boolean", "default": "false"}, "disabled": {"type": "boolean", "default": "false"}}} />
+
+## Examples
+
+### Box
+
+<ComponentPreview name="radio-box" />

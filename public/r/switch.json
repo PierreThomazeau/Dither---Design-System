@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "switch",
+  "title": "Switch",
+  "description": "Switch with label, description and box layout.",
+  "dependencies": [
+    "radix-ui"
+  ],
+  "registryDependencies": [
+    "utils",
+    "@dither/choice"
+  ],
+  "files": [
+    {
+      "path": "registry/dither/ui/switch.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { Switch as SwitchPrimitive } from \"radix-ui\";\n\nimport { cn } from \"@/registry/dither/lib/utils\";\nimport { Choice, type ChoiceProps } from \"@/registry/dither/ui/choice\";\n\ntype SwitchProps = React.ComponentProps<typeof SwitchPrimitive.Root> &\n  Omit<ChoiceProps, \"disabled\"> & { size?: \"default\" | \"sm\" };\n\nfunction Switch({ className, id, size = \"default\", label, description, variant, placement, invalid, ...props }: SwitchProps) {\n  const autoId = React.useId();\n  const controlId = id ?? autoId;\n  const control = (\n    <SwitchPrimitive.Root\n      id={controlId}\n      data-slot=\"switch\"\n      data-size={size}\n      aria-invalid={invalid || undefined}\n      className={cn(\n        \"peer group/switch inline-flex shrink-0 items-center rounded-full border border-transparent p-px outline-none\",\n        \"transition-[background-color,box-shadow] duration-150 focus-visible:shadow-focus disabled:cursor-not-allowed disabled:opacity-50\",\n        \"data-[state=unchecked]:bg-border-strong data-[state=checked]:bg-brand\",\n        \"aria-invalid:border-destructive aria-invalid:focus-visible:shadow-focus-destructive\",\n        \"data-[size=default]:h-5 data-[size=default]:w-9 data-[size=sm]:h-4 data-[size=sm]:w-7\",\n        className,\n      )}\n      {...props}\n    >\n      <SwitchPrimitive.Thumb\n        data-slot=\"switch-thumb\"\n        className={cn(\n          \"pointer-events-none block rounded-full bg-surface shadow-sm ring-0 transition-transform duration-150 motion-reduce:transition-none\",\n          \"dark:data-[state=unchecked]:bg-foreground dark:data-[state=checked]:bg-brand-foreground\",\n          \"group-data-[size=default]/switch:size-4 group-data-[size=default]/switch:data-[state=checked]:translate-x-4\",\n          \"group-data-[size=sm]/switch:size-3 group-data-[size=sm]/switch:data-[state=checked]:translate-x-3\",\n          \"data-[state=unchecked]:translate-x-0\",\n        )}\n      />\n    </SwitchPrimitive.Root>\n  );\n\n  return (\n    <Choice\n      id={controlId}\n      control={control}\n      label={label}\n      description={description}\n      variant={variant}\n      placement={placement}\n      invalid={invalid}\n      disabled={props.disabled}\n    />\n  );\n}\n\nexport { Switch, type SwitchProps };\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

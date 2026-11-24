@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "icon",
+  "title": "Icon",
+  "description": "Hugeicons wrapper with Dither defaults (16px, stroke 1.5).",
+  "dependencies": [
+    "@hugeicons/react",
+    "@hugeicons/core-free-icons"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "registry/dither/lib/icon.tsx",
+      "content": "import { HugeiconsIcon, type HugeiconsIconProps } from \"@hugeicons/react\";\n\n/** Hugeicons with Dither defaults: 16px, stroke 1.5. */\nexport function Icon({ size = 16, strokeWidth = 1.5, ...props }: HugeiconsIconProps) {\n  return <HugeiconsIcon size={size} strokeWidth={strokeWidth} aria-hidden=\"true\" {...props} />;\n}\n",
+      "type": "registry:lib"
+    }
+  ],
+  "type": "registry:lib"
+}

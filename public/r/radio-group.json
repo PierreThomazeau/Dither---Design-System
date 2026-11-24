@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "radio-group",
+  "title": "Radio Group",
+  "description": "Radio group with label, description and box layout.",
+  "dependencies": [
+    "radix-ui"
+  ],
+  "registryDependencies": [
+    "utils",
+    "@dither/choice"
+  ],
+  "files": [
+    {
+      "path": "registry/dither/ui/radio-group.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { RadioGroup as RadioGroupPrimitive } from \"radix-ui\";\n\nimport { cn } from \"@/registry/dither/lib/utils\";\nimport { Choice, type ChoiceProps } from \"@/registry/dither/ui/choice\";\n\nfunction RadioGroup({ className, ...props }: React.ComponentProps<typeof RadioGroupPrimitive.Root>) {\n  return <RadioGroupPrimitive.Root data-slot=\"radio-group\" className={cn(\"grid gap-3\", className)} {...props} />;\n}\n\ntype RadioGroupItemProps = React.ComponentProps<typeof RadioGroupPrimitive.Item> & Omit<ChoiceProps, \"disabled\">;\n\nfunction RadioGroupItem({ className, id, label, description, variant, placement, invalid, ...props }: RadioGroupItemProps) {\n  const autoId = React.useId();\n  const controlId = id ?? autoId;\n  const control = (\n    <RadioGroupPrimitive.Item\n      id={controlId}\n      data-slot=\"radio-group-item\"\n      aria-invalid={invalid || undefined}\n      className={cn(\n        \"peer flex size-4 shrink-0 items-center justify-center rounded-full border border-border-strong bg-surface shadow-2xs outline-none\",\n        \"transition-[border-color,box-shadow] duration-150 focus-visible:shadow-focus disabled:cursor-not-allowed disabled:opacity-50\",\n        \"data-[state=checked]:border-brand data-[state=checked]:bg-brand\",\n        \"aria-invalid:border-destructive aria-invalid:focus-visible:shadow-focus-destructive\",\n        className,\n      )}\n      {...props}\n    >\n      <RadioGroupPrimitive.Indicator data-slot=\"radio-group-indicator\" className=\"size-1.5 rounded-full bg-brand-foreground\" />\n    </RadioGroupPrimitive.Item>\n  );\n\n  return (\n    <Choice\n      id={controlId}\n      control={control}\n      label={label}\n      description={description}\n      variant={variant}\n      placement={placement}\n      invalid={invalid}\n      disabled={props.disabled}\n    />\n  );\n}\n\nexport { RadioGroup, RadioGroupItem, type RadioGroupItemProps };\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

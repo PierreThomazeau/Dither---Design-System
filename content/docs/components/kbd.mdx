@@ -1,0 +1,34 @@
+---
+title: Kbd
+description: "Keyboard keys and shortcuts, in mono."
+status: stable
+variants: 1
+props: 1
+registry: kbd
+---
+
+<ComponentPreview name="kbd-demo" />
+
+## Installation
+
+<InstallCommand name="kbd" />
+
+## Usage
+
+```tsx
+import { Kbd, KbdGroup } from "@/components/ui/kbd";
+
+<KbdGroup><Kbd>⌘</Kbd><Kbd>K</Kbd></KbdGroup>
+```
+
+## Props
+
+<TypeTable type={{"className": {"type": "string"}}} />
+
+## Examples
+
+### In a button
+
+Inside a primary button, Kbd turns translucent on the dark fill.
+
+<ComponentPreview name="button-states" />

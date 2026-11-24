@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "spinner",
+  "title": "Spinner",
+  "description": "Loading indicator.",
+  "dependencies": [
+    "@hugeicons/react",
+    "@hugeicons/core-free-icons"
+  ],
+  "registryDependencies": [
+    "utils",
+    "@dither/icon"
+  ],
+  "files": [
+    {
+      "path": "registry/dither/ui/spinner.tsx",
+      "content": "import { Loading03Icon } from \"@hugeicons/core-free-icons\";\n\nimport { Icon } from \"@/registry/dither/lib/icon\";\nimport { cn } from \"@/registry/dither/lib/utils\";\n\nfunction Spinner({ className, size = 16 }: { className?: string; size?: number }) {\n  return (\n    <span role=\"status\" aria-label=\"Loading\" className={cn(\"inline-flex\", className)}>\n      <Icon icon={Loading03Icon} size={size} className=\"animate-spin motion-reduce:animate-[spin_1.5s_linear_infinite]\" />\n    </span>\n  );\n}\n\nexport { Spinner };\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

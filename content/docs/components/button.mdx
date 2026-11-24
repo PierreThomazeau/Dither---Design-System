@@ -1,0 +1,39 @@
+---
+title: Button
+description: "Triggers an action. The primary variant is tactile: gradient overlay and inner shadows."
+status: stable
+variants: 6
+props: 4
+registry: button
+---
+
+<ComponentPreview name="button-demo" />
+
+## Installation
+
+<InstallCommand name="button" />
+
+## Usage
+
+```tsx
+import { Button } from "@/components/ui/button";
+
+<Button>Save changes</Button>
+<Button variant="outline" size="sm">Cancel</Button>
+```
+
+## Props
+
+<TypeTable type={{"variant": {"type": "\"default\" | \"outline\" | \"secondary\" | \"destructive\" | \"ghost\" | \"link\"", "default": "\"default\""}, "size": {"type": "\"xs\" | \"sm\" | \"default\" | \"lg\" | \"icon\" | \"icon-xs\" | \"icon-sm\" | \"icon-lg\"", "default": "\"default\"", "description": "Heights 32 / 36 / 40 / 44; icon sizes are square."}, "loading": {"type": "boolean", "default": "false", "description": "Spinner, disabled, aria-busy."}, "asChild": {"type": "boolean", "default": "false", "description": "Render the child element (e.g. a link) with button styles."}}} />
+
+## Examples
+
+### Sizes
+
+<ComponentPreview name="button-sizes" />
+
+### Icons, loading, shortcuts
+
+Icons are Hugeicons at 16px, stroke 1.5. Pressed state reverses the gradient and drops to `shadow-button-primary-pressed`.
+
+<ComponentPreview name="button-states" />

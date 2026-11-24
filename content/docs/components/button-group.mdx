@@ -1,0 +1,43 @@
+---
+title: Button Group
+description: "Related actions in one container, separated by short dividers."
+status: stable
+variants: 3
+props: 3
+registry: button-group
+---
+
+<ComponentPreview name="button-group-demo" />
+
+## Installation
+
+<InstallCommand name="button-group" />
+
+## Usage
+
+```tsx
+import { Button } from "@/components/ui/button";
+import { ButtonGroup, ButtonGroupSeparator } from "@/components/ui/button-group";
+
+<ButtonGroup aria-label="Report actions">
+  <Button variant="ghost" size="sm">Share</Button>
+  <ButtonGroupSeparator />
+  <Button variant="ghost" size="sm">Archive</Button>
+</ButtonGroup>
+```
+
+## Props
+
+<TypeTable type={{"variant": {"type": "\"outline\" | \"secondary\" | \"default\"", "default": "\"outline\"", "description": "default is the solid (primary) container."}, "orientation": {"type": "\"horizontal\" | \"vertical\"", "default": "\"horizontal\"", "description": "Vertical uses rounded-field."}, "size": {"type": "\"xs\" | \"sm\" | \"default\" | \"lg\"", "default": "\"default\"", "description": "Height of the whole group: 32 / 36 / 40 / 44."}}} />
+
+## Examples
+
+### Sizes
+
+The container carries the height, so a group is always one control tall.
+
+<ComponentPreview name="button-group-sizes" />
+
+### Vertical
+
+<ComponentPreview name="button-group-vertical" />

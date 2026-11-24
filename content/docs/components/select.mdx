@@ -1,0 +1,39 @@
+---
+title: Select
+description: "Pick one value from a list. Trigger heights match every other control."
+status: stable
+variants: 4
+props: 2
+registry: select
+---
+
+<ComponentPreview name="select-demo" />
+
+## Installation
+
+<InstallCommand name="select" />
+
+## Usage
+
+```tsx
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+
+<Select>
+  <SelectTrigger aria-label="Period">
+    <SelectValue placeholder="Select a period" />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectItem value="30d">Last 30 days</SelectItem>
+  </SelectContent>
+</Select>
+```
+
+## Props
+
+<TypeTable type={{"SelectTrigger size": {"type": "\"xs\" | \"sm\" | \"default\" | \"lg\"", "default": "\"default\""}, "SelectContent position": {"type": "\"popper\" | \"item-aligned\"", "default": "\"popper\""}}} />
+
+## Examples
+
+### Sizes
+
+<ComponentPreview name="select-sizes" />

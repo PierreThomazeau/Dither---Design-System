@@ -8,12 +8,30 @@
       "type": "registry:file",
       "title": "Dither theme",
       "description": "Tokens (light / dark), Tailwind v4 mapping, light scope and dither utilities.",
-      "dependencies": ["tw-animate-css"],
+      "dependencies": [
+        "tw-animate-css"
+      ],
       "files": [
-        { "path": "styles/tokens.css", "type": "registry:file", "target": "styles/dither/tokens.css" },
-        { "path": "styles/theme.css", "type": "registry:file", "target": "styles/dither/theme.css" },
-        { "path": "styles/scopes.css", "type": "registry:file", "target": "styles/dither/scopes.css" },
-        { "path": "styles/dither.css", "type": "registry:file", "target": "styles/dither/dither.css" }
+        {
+          "path": "styles/tokens.css",
+          "type": "registry:file",
+          "target": "styles/dither/tokens.css"
+        },
+        {
+          "path": "styles/theme.css",
+          "type": "registry:file",
+          "target": "styles/dither/theme.css"
+        },
+        {
+          "path": "styles/scopes.css",
+          "type": "registry:file",
+          "target": "styles/dither/scopes.css"
+        },
+        {
+          "path": "styles/dither.css",
+          "type": "registry:file",
+          "target": "styles/dither/dither.css"
+        }
       ]
     },
     {
@@ -21,10 +39,406 @@
       "type": "registry:lib",
       "title": "Dither pattern",
       "description": "The pixel dither texture: <DitherPattern /> (SVG pattern) and <DitherFill />.",
-      "registryDependencies": ["utils"],
+      "registryDependencies": [
+        "utils"
+      ],
       "files": [
-        { "path": "registry/dither/lib/dither-tile.ts", "type": "registry:lib" },
-        { "path": "registry/dither/lib/dither.tsx", "type": "registry:lib" }
+        {
+          "path": "registry/dither/lib/dither-tile.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "registry/dither/lib/dither.tsx",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "icon",
+      "type": "registry:lib",
+      "title": "Icon",
+      "description": "Hugeicons wrapper with Dither defaults (16px, stroke 1.5).",
+      "dependencies": [
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "registry/dither/lib/icon.tsx",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "control",
+      "type": "registry:lib",
+      "title": "Control styles",
+      "description": "Shared field styles: one height per size.",
+      "dependencies": [
+        "class-variance-authority"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "registry/dither/lib/control.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "spinner",
+      "type": "registry:ui",
+      "title": "Spinner",
+      "description": "Loading indicator.",
+      "dependencies": [
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons"
+      ],
+      "registryDependencies": [
+        "utils",
+        "@dither/icon"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/ui/spinner.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "label",
+      "type": "registry:ui",
+      "title": "Label",
+      "description": "Form label.",
+      "dependencies": [
+        "radix-ui"
+      ],
+      "registryDependencies": [
+        "utils"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/ui/label.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "button",
+      "type": "registry:ui",
+      "title": "Button",
+      "description": "Tactile primary button and five other variants.",
+      "dependencies": [
+        "radix-ui",
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "utils",
+        "@dither/spinner"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/ui/button.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "button-group",
+      "type": "registry:ui",
+      "title": "Button Group",
+      "description": "Grouped actions with dividers.",
+      "dependencies": [
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "utils",
+        "@dither/button"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/ui/button-group.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "input",
+      "type": "registry:ui",
+      "title": "Input",
+      "description": "Single-line text field.",
+      "dependencies": [
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "utils",
+        "@dither/control"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/ui/input.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "textarea",
+      "type": "registry:ui",
+      "title": "Textarea",
+      "description": "Multi-line text field.",
+      "registryDependencies": [
+        "utils"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/ui/textarea.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "select",
+      "type": "registry:ui",
+      "title": "Select",
+      "description": "Pick one value from a list.",
+      "dependencies": [
+        "radix-ui",
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons"
+      ],
+      "registryDependencies": [
+        "utils",
+        "@dither/control",
+        "@dither/icon"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/ui/select.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "tabs",
+      "type": "registry:ui",
+      "title": "Tabs",
+      "description": "Segmented or line tabs in four sizes.",
+      "dependencies": [
+        "radix-ui",
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "utils"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/ui/tabs.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "choice",
+      "type": "registry:ui",
+      "title": "Choice layout",
+      "description": "Label, description, box and placement for Checkbox, Radio and Switch.",
+      "registryDependencies": [
+        "utils"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/ui/choice.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "checkbox",
+      "type": "registry:ui",
+      "title": "Checkbox",
+      "description": "Checkbox with label, description and box layout.",
+      "dependencies": [
+        "radix-ui",
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons"
+      ],
+      "registryDependencies": [
+        "utils",
+        "@dither/choice",
+        "@dither/icon"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/ui/checkbox.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "radio-group",
+      "type": "registry:ui",
+      "title": "Radio Group",
+      "description": "Radio group with label, description and box layout.",
+      "dependencies": [
+        "radix-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "@dither/choice"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/ui/radio-group.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "switch",
+      "type": "registry:ui",
+      "title": "Switch",
+      "description": "Switch with label, description and box layout.",
+      "dependencies": [
+        "radix-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "@dither/choice"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/ui/switch.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "toggle",
+      "type": "registry:ui",
+      "title": "Toggle",
+      "description": "Two-state button.",
+      "dependencies": [
+        "radix-ui",
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "utils"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/ui/toggle.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "toggle-group",
+      "type": "registry:ui",
+      "title": "Toggle Group",
+      "description": "Toggles in one container.",
+      "dependencies": [
+        "radix-ui",
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "utils",
+        "@dither/toggle"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/ui/toggle-group.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "badge",
+      "type": "registry:ui",
+      "title": "Badge",
+      "description": "Status labels and annotation tags.",
+      "dependencies": [
+        "radix-ui",
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "utils"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/ui/badge.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "kbd",
+      "type": "registry:ui",
+      "title": "Kbd",
+      "description": "Keyboard keys.",
+      "registryDependencies": [
+        "utils"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/ui/kbd.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "avatar",
+      "type": "registry:ui",
+      "title": "Avatar",
+      "description": "Avatar, fallback and group.",
+      "dependencies": [
+        "radix-ui",
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "utils"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/ui/avatar.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "separator",
+      "type": "registry:ui",
+      "title": "Separator",
+      "description": "1px divider.",
+      "dependencies": [
+        "radix-ui"
+      ],
+      "registryDependencies": [
+        "utils"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/ui/separator.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "tooltip",
+      "type": "registry:ui",
+      "title": "Tooltip",
+      "description": "Dark tag tooltip.",
+      "dependencies": [
+        "radix-ui"
+      ],
+      "registryDependencies": [
+        "utils"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/ui/tooltip.tsx",
+          "type": "registry:ui"
+        }
       ]
     }
   ]

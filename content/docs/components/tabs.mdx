@@ -1,0 +1,46 @@
+---
+title: Tabs
+description: "Switch between views. Four sizes, segmented or line, horizontal or vertical."
+status: stable
+variants: 16
+props: 3
+registry: tabs
+---
+
+<ComponentPreview name="tabs-demo" />
+
+## Installation
+
+<InstallCommand name="tabs" />
+
+## Usage
+
+```tsx
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
+<Tabs defaultValue="overview">
+  <TabsList>
+    <TabsTrigger value="overview">Overview</TabsTrigger>
+    <TabsTrigger value="reports">Reports</TabsTrigger>
+  </TabsList>
+  <TabsContent value="overview">…</TabsContent>
+</Tabs>
+```
+
+## Props
+
+<TypeTable type={{"TabsList variant": {"type": "\"default\" | \"line\"", "default": "\"default\""}, "TabsList size": {"type": "\"xs\" | \"sm\" | \"default\" | \"lg\"", "default": "\"default\"", "description": "List 32 / 36 / 40 / 44, triggers 24 / 28 / 32 / 36."}, "Tabs orientation": {"type": "\"horizontal\" | \"vertical\"", "default": "\"horizontal\""}}} />
+
+## Examples
+
+### Sizes
+
+<ComponentPreview name="tabs-sizes" />
+
+### Line
+
+<ComponentPreview name="tabs-line" />
+
+### Vertical
+
+<ComponentPreview name="tabs-vertical" />

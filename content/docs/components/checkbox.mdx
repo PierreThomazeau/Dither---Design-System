@@ -1,0 +1,32 @@
+---
+title: Checkbox
+description: "Toggle an option on or off, with label, description and a box layout."
+status: stable
+variants: 8
+props: 7
+registry: checkbox
+---
+
+<ComponentPreview name="checkbox-demo" />
+
+## Installation
+
+<InstallCommand name="checkbox" />
+
+## Usage
+
+```tsx
+import { Checkbox } from "@/components/ui/checkbox";
+
+<Checkbox label="Weekly digest" description="A summary every Monday." />
+```
+
+## Props
+
+<TypeTable type={{"checked": {"type": "boolean | \"indeterminate\""}, "label": {"type": "ReactNode", "description": "Label text. Without it, the bare control renders."}, "description": {"type": "ReactNode"}, "variant": {"type": "\"default\" | \"box\"", "default": "\"default\"", "description": "box: bordered card, brand-tinted when checked."}, "placement": {"type": "\"start\" | \"end\"", "default": "\"start\"", "description": "Control before or after the text."}, "invalid": {"type": "boolean", "default": "false"}, "disabled": {"type": "boolean", "default": "false"}}} />
+
+## Examples
+
+### Box
+
+<ComponentPreview name="checkbox-box" />

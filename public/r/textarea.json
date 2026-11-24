@@ -1,0 +1,17 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "textarea",
+  "title": "Textarea",
+  "description": "Multi-line text field.",
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "registry/dither/ui/textarea.tsx",
+      "content": "import * as React from \"react\";\n\nimport { cn } from \"@/registry/dither/lib/utils\";\n\nfunction Textarea({ className, ...props }: React.ComponentProps<\"textarea\">) {\n  return (\n    <textarea\n      data-slot=\"textarea\"\n      className={cn(\n        \"field-sizing-content flex min-h-20 w-full rounded-field border bg-surface px-4 py-3 text-sm shadow-xs outline-none\",\n        \"transition-[border-color,box-shadow] duration-150 placeholder:text-muted-foreground hover:border-border-strong\",\n        \"focus-visible:border-ring focus-visible:shadow-focus\",\n        \"aria-invalid:border-destructive aria-invalid:focus-visible:shadow-focus-destructive\",\n        \"disabled:cursor-not-allowed disabled:opacity-50\",\n        className,\n      )}\n      {...props}\n    />\n  );\n}\n\nexport { Textarea };\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

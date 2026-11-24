@@ -1,0 +1,32 @@
+---
+title: Switch
+description: "An instant on/off setting. Checked in the brand indigo."
+status: stable
+variants: 16
+props: 8
+registry: switch
+---
+
+<ComponentPreview name="switch-demo" />
+
+## Installation
+
+<InstallCommand name="switch" />
+
+## Usage
+
+```tsx
+import { Switch } from "@/components/ui/switch";
+
+<Switch label="Airplane mode" />
+```
+
+## Props
+
+<TypeTable type={{"size": {"type": "\"default\" | \"sm\"", "default": "\"default\""}, "checked": {"type": "boolean"}, "label": {"type": "ReactNode", "description": "Label text. Without it, the bare control renders."}, "description": {"type": "ReactNode"}, "variant": {"type": "\"default\" | \"box\"", "default": "\"default\"", "description": "box: bordered card, brand-tinted when checked."}, "placement": {"type": "\"start\" | \"end\"", "default": "\"start\"", "description": "Control before or after the text."}, "invalid": {"type": "boolean", "default": "false"}, "disabled": {"type": "boolean", "default": "false"}}} />
+
+## Examples
+
+### Box
+
+<ComponentPreview name="switch-box" />

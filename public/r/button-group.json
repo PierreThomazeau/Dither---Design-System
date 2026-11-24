@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "button-group",
+  "title": "Button Group",
+  "description": "Grouped actions with dividers.",
+  "dependencies": [
+    "class-variance-authority"
+  ],
+  "registryDependencies": [
+    "utils",
+    "@dither/button"
+  ],
+  "files": [
+    {
+      "path": "registry/dither/ui/button-group.tsx",
+      "content": "import * as React from \"react\";\nimport { cva, type VariantProps } from \"class-variance-authority\";\n\nimport { cn } from \"@/registry/dither/lib/utils\";\n\n/**\n * Button group (grammar 3): one container holding ghost buttons separated by short dividers.\n * The container carries the size, so the group is exactly one control height (40 by default).\n */\nconst buttonGroupVariants = cva(\n  [\n    \"group/button-group inline-flex w-fit items-center gap-0.5 p-0.5\",\n    /* Children fill the container height; buttons inside behave as ghost buttons. */\n    \"*:data-[slot=button]:h-full *:data-[slot=button]:rounded-[calc(var(--radius-control)-3px)] *:data-[slot=button]:bg-transparent *:data-[slot=button]:bg-none *:data-[slot=button]:px-3 *:data-[slot=button]:shadow-none\",\n    \"*:data-[slot=button]:text-current\",\n  ],\n  {\n    variants: {\n      variant: {\n        outline: \"rounded-control border bg-surface shadow-xs *:data-[slot=button]:hover:bg-hover\",\n        secondary: \"rounded-control bg-background-muted *:data-[slot=button]:hover:bg-surface\",\n        default: [\n          \"rounded-control bg-primary text-primary-foreground shadow-button-primary\",\n          \"*:data-[slot=button]:hover:bg-primary-foreground/10\",\n        ],\n      },\n      orientation: {\n        horizontal: \"flex-row\",\n        vertical: \"h-auto! flex-col rounded-field *:data-[slot=button]:h-control-sm *:data-[slot=button]:w-full *:data-[slot=button]:justify-start\",\n      },\n      size: {\n        xs: \"h-control-xs *:data-[slot=button]:px-2 *:data-[slot=button]:text-xs\",\n        sm: \"h-control-sm\",\n        default: \"h-control\",\n        lg: \"h-control-lg *:data-[slot=button]:px-4\",\n      },\n    },\n    defaultVariants: { variant: \"outline\", orientation: \"horizontal\", size: \"default\" },\n  },\n);\n\nfunction ButtonGroup({\n  className,\n  variant,\n  orientation,\n  size,\n  ...props\n}: React.ComponentProps<\"div\"> & VariantProps<typeof buttonGroupVariants>) {\n  return (\n    <div\n      role=\"group\"\n      data-slot=\"button-group\"\n      data-variant={variant ?? \"outline\"}\n      data-orientation={orientation ?? \"horizontal\"}\n      className={cn(buttonGroupVariants({ variant, orientation, size }), className)}\n      {...props}\n    />\n  );\n}\n\n/** Short divider between grouped buttons: 16px, border colour (20% primary-foreground on the solid variant). */\nfunction ButtonGroupSeparator({ className, ...props }: React.ComponentProps<\"div\">) {\n  return (\n    <div\n      role=\"separator\"\n      data-slot=\"button-group-separator\"\n      className={cn(\n        \"h-4 w-px shrink-0 bg-border\",\n        \"group-data-[variant=default]/button-group:bg-primary-foreground/20\",\n        \"group-data-[orientation=vertical]/button-group:my-0.5 group-data-[orientation=vertical]/button-group:h-px group-data-[orientation=vertical]/button-group:w-[calc(100%-16px)] group-data-[orientation=vertical]/button-group:self-center\",\n        className,\n      )}\n      {...props}\n    />\n  );\n}\n\nexport { ButtonGroup, ButtonGroupSeparator, buttonGroupVariants };\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

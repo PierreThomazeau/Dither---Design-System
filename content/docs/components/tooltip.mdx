@@ -1,0 +1,33 @@
+---
+title: Tooltip
+description: "A short hint on hover or focus, as a dark tag."
+status: stable
+variants: 4
+props: 2
+registry: tooltip
+---
+
+<ComponentPreview name="tooltip-demo" />
+
+## Installation
+
+<InstallCommand name="tooltip" />
+
+## Usage
+
+```tsx
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+
+<Tooltip>
+  <TooltipTrigger asChild><Button variant="outline">Hover me</Button></TooltipTrigger>
+  <TooltipContent>Add to library</TooltipContent>
+</Tooltip>
+```
+
+## Props
+
+<TypeTable type={{"TooltipContent side": {"type": "\"top\" | \"right\" | \"bottom\" | \"left\"", "default": "\"top\""}, "TooltipContent sideOffset": {"type": "number", "default": "6"}}} />
+
+## Examples
+
+See the preview above.

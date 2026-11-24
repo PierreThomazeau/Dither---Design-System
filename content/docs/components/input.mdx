@@ -1,0 +1,36 @@
+---
+title: Input
+description: "Single-line text field. Same height as a button of the same size."
+status: stable
+variants: 4
+props: 2
+registry: input
+---
+
+<ComponentPreview name="input-demo" />
+
+## Installation
+
+<InstallCommand name="input" />
+
+## Usage
+
+```tsx
+import { Input } from "@/components/ui/input";
+
+<Input placeholder="you@northwind.studio" />
+```
+
+## Props
+
+<TypeTable type={{"size": {"type": "\"xs\" | \"sm\" | \"default\" | \"lg\"", "default": "\"default\""}, "aria-invalid": {"type": "boolean", "description": "Destructive border and focus ring."}}} />
+
+## Examples
+
+### Sizes
+
+<ComponentPreview name="input-sizes" />
+
+### States
+
+<ComponentPreview name="input-states" />

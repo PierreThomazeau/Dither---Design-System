@@ -3,7 +3,8 @@
 ## Where we are
 
 - **Batch 1 (Setup): done.** Next.js 16 + Tailwind v4 + tokens + fonts + dark mode (Fumadocs theme toggle) + Fumadocs docs + shadcn registry + `/tokens` page + dither pattern.
-- Next: batch 2 (core controls), after review.
+- **Batch 2 (Core controls): done.** Button, Button Group, Input, Textarea, Select, Tabs, Checkbox, Radio Group, Switch, Toggle, Toggle Group, Badge, Kbd, Avatar (+ group), Separator, Tooltip, plus Label, Spinner and the shared Choice layout. Height rule checked on `/docs/components/height-rule` (all controls measured at 32 / 36 / 40 / 44).
+- Next: batch 3 (surfaces & overlays), after review.
 
 ## Commands
 
@@ -23,6 +24,10 @@
 - Registry files import `@/registry/dither/...` so the shadcn CLI rewrites paths in the user's project.
 - Docs template: frontmatter `status`, `variants`, `props`, `registry` drive the eyebrow + meta chips; `<Preview>` renders children in a light and a dark panel inside an inset shell.
 - Fumadocs UI is the Base UI build (`fumadocs-ui` → `@fumadocs/base-ui`); docs chrome colours are mapped to Dither tokens in `app/global.css`.
+- Docs examples live in `registry/dither/examples/<name>.tsx` (registered in `index.ts`). `<ComponentPreview name>` renders them in light + dark panels and shows their source, rewritten to user paths (`@/components/ui/...`). Examples must not hard-code ids (they render twice).
+- Checkbox / Radio / Switch take `label`, `description`, `variant` ("default" | "box"; Figma "Type", renamed because `type` is the button attribute), `placement`, `invalid`. Checked = `brand`.
+- Shared field styles (height, border, focus) are in `registry/dither/lib/control.ts`; Icon wrapper (16px, stroke 1.5) in `lib/icon.tsx`.
+- Radix portals (Select content, Tooltip) render in `<body>`, so in docs previews they follow the site theme, not the panel.
 - Showcase screens in Figma (file `BASedQLpd5kssdxNmiOlVC`, node `34099:34828`) are a visual reference only (clean-room rule).
 
 ---
