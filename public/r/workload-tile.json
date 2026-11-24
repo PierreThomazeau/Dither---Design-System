@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "workload-tile",
+  "title": "Workload Tile",
+  "description": "Status tile with progress ring.",
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "registry/dither/blocks/workload-tile.tsx",
+      "content": "import * as React from \"react\";\n\nimport { cn } from \"@/registry/dither/lib/utils\";\n\ntype WorkloadStatus = \"backlog\" | \"not-started\" | \"in-progress\" | \"done\";\n\nconst statusMeta: Record<WorkloadStatus, { label: string; ring: string; progress: number }> = {\n  backlog: { label: \"Backlog\", ring: \"text-muted-foreground\", progress: 0 },\n  \"not-started\": { label: \"Not started\", ring: \"text-chart-1\", progress: 0.25 },\n  \"in-progress\": { label: \"In progress\", ring: \"text-informative\", progress: 0.6 },\n  done: { label: \"Done\", ring: \"text-positive\", progress: 1 },\n};\n\nexport interface WorkloadTileProps extends Omit<React.ComponentProps<\"div\">, \"title\"> {\n  count: number;\n  status?: WorkloadStatus;\n  /** Defaults to the status name. */\n  title?: React.ReactNode;\n  due?: React.ReactNode;\n  /** Override the ring progress (0–1); defaults per status. */\n  progress?: number;\n  /** Assignees, e.g. an AvatarGroup. */\n  assignees?: React.ReactNode;\n}\n\n/** Workflow state tile: a progress ring around the count, title, due date and assignees. */\nfunction WorkloadTile({ count, status = \"backlog\", title, due, progress, assignees, className, ...props }: WorkloadTileProps) {\n  const meta = statusMeta[status];\n  const p = Math.min(1, Math.max(0, progress ?? meta.progress));\n  const r = 13;\n  const c = 2 * Math.PI * r;\n  return (\n    <div\n      data-slot=\"workload-tile\"\n      data-status={status}\n      className={cn(\"flex items-center gap-3 rounded-field border bg-surface p-3 shadow-xs\", className)}\n      {...props}\n    >\n      <span className={cn(\"relative flex size-9 shrink-0 items-center justify-center\", meta.ring)}>\n        <svg viewBox=\"0 0 32 32\" className=\"absolute inset-0 -rotate-90\" aria-hidden=\"true\">\n          <circle cx=\"16\" cy=\"16\" r={r} fill=\"none\" stroke=\"var(--border)\" strokeWidth={2.5} strokeDasharray={status === \"backlog\" ? \"2 3\" : undefined} />\n          {p > 0 ? (\n            <circle cx=\"16\" cy=\"16\" r={r} fill=\"none\" stroke=\"currentColor\" strokeWidth={2.5} strokeLinecap=\"round\" strokeDasharray={`${p * c} ${c}`} />\n          ) : null}\n        </svg>\n        <span className=\"font-mono text-xs font-medium text-foreground tabular\">{count}</span>\n      </span>\n      <span className=\"flex min-w-0 flex-1 flex-col\">\n        <span className=\"truncate text-sm font-medium\">{title ?? meta.label}</span>\n        {due ? <span className=\"truncate text-xs text-muted-foreground\">{due}</span> : null}\n      </span>\n      {assignees ? <span className=\"shrink-0\">{assignees}</span> : null}\n    </div>\n  );\n}\n\nexport { WorkloadTile, type WorkloadStatus };\n",
+      "type": "registry:component",
+      "target": "components/blocks/workload-tile.tsx"
+    }
+  ],
+  "type": "registry:block"
+}

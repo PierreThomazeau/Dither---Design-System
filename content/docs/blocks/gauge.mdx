@@ -1,0 +1,30 @@
+---
+title: Gauge
+description: "Half-ring score gauge (0–100); the remaining arc is drawn in dither."
+status: stable
+variants: 3
+props: 4
+registry: gauge
+---
+
+<ComponentPreview name="gauge-demo" />
+
+## Installation
+
+<InstallCommand name="gauge" />
+
+## Usage
+
+```tsx
+import { Gauge } from "@/components/blocks/gauge";
+
+<Gauge value={82} label="Health score" status="good" />
+```
+
+## Props
+
+<TypeTable type={{"value": {"type": "number", "required": true, "description": "0–100."}, "label": {"type": "ReactNode"}, "status": {"type": "\"good\" | \"warning\" | \"critical\"", "default": "\"good\""}, "display": {"type": "ReactNode", "description": "Centre text; defaults to the value."}}} />
+
+## Examples
+
+See the preview above.

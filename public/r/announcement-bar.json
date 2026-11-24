@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "announcement-bar",
+  "title": "Announcement Bar",
+  "description": "Dismissible full-width banner.",
+  "dependencies": [
+    "class-variance-authority",
+    "@hugeicons/react",
+    "@hugeicons/core-free-icons"
+  ],
+  "registryDependencies": [
+    "utils",
+    "@dither/icon"
+  ],
+  "files": [
+    {
+      "path": "registry/dither/blocks/announcement-bar.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { cva, type VariantProps } from \"class-variance-authority\";\nimport { Cancel01Icon } from \"@hugeicons/core-free-icons\";\n\nimport { Icon } from \"@/registry/dither/lib/icon\";\nimport { cn } from \"@/registry/dither/lib/utils\";\n\nconst announcementBarVariants = cva(\n  \"relative flex min-h-control-sm w-full items-center justify-center gap-2 px-10 py-2 text-center text-sm [&_svg]:shrink-0\",\n  {\n    variants: {\n      variant: {\n        info: \"bg-foreground text-primary-foreground\",\n        promo: \"bg-informative text-informative-foreground\",\n        warning: \"bg-informative/10 text-informative\",\n      },\n    },\n    defaultVariants: { variant: \"info\" },\n  },\n);\n\nexport interface AnnouncementBarProps extends React.ComponentProps<\"div\">, VariantProps<typeof announcementBarVariants> {\n  icon?: React.ReactNode;\n  /** Trailing link, e.g. <a href=\"/changelog\">Learn more →</a>. */\n  action?: React.ReactNode;\n  dismissible?: boolean;\n  onDismiss?: () => void;\n}\n\n/** Full-width banner above the app header, for launches, promos and incidents. */\nfunction AnnouncementBar({ variant, icon, action, dismissible = true, onDismiss, className, children, ...props }: AnnouncementBarProps) {\n  const [open, setOpen] = React.useState(true);\n  if (!open) return null;\n  return (\n    <div data-slot=\"announcement-bar\" role=\"region\" aria-label=\"Announcement\" className={cn(announcementBarVariants({ variant }), className)} {...props}>\n      {icon}\n      <span>{children}</span>\n      {action ? <span className=\"font-medium underline-offset-4 [&_a]:outline-none [&_a:focus-visible]:underline [&_a:hover]:underline\">{action}</span> : null}\n      {dismissible ? (\n        <button\n          type=\"button\"\n          aria-label=\"Dismiss announcement\"\n          onClick={() => {\n            setOpen(false);\n            onDismiss?.();\n          }}\n          className=\"absolute right-2 inline-flex size-7 items-center justify-center rounded-control opacity-70 outline-none hover:bg-current/10 hover:opacity-100 focus-visible:shadow-focus\"\n        >\n          <Icon icon={Cancel01Icon} size={14} />\n        </button>\n      ) : null}\n    </div>\n  );\n}\n\nexport { AnnouncementBar, announcementBarVariants };\n",
+      "type": "registry:component",
+      "target": "components/blocks/announcement-bar.tsx"
+    }
+  ],
+  "type": "registry:block"
+}

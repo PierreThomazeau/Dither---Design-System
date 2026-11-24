@@ -1,0 +1,33 @@
+---
+title: Timeline
+description: "Vertical list of events on a dotted connector."
+status: stable
+variants: 4
+props: 5
+registry: timeline
+---
+
+<ComponentPreview name="timeline-demo" />
+
+## Installation
+
+<InstallCommand name="timeline" />
+
+## Usage
+
+```tsx
+import { Timeline, TimelineItem } from "@/components/blocks/timeline";
+
+<Timeline>
+  <TimelineItem title="Report created" time="09:12" />
+  <TimelineItem status="success" title="Invoice paid" time="10:40" />
+</Timeline>
+```
+
+## Props
+
+<TypeTable type={{"TimelineItem title": {"type": "ReactNode", "required": true}, "TimelineItem description": {"type": "ReactNode"}, "TimelineItem time": {"type": "ReactNode"}, "TimelineItem status": {"type": "\"default\" | \"success\" | \"warning\" | \"error\"", "default": "\"default\""}, "TimelineItem icon": {"type": "ReactNode"}}} />
+
+## Examples
+
+See the preview above.

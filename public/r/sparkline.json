@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "sparkline",
+  "title": "Sparkline",
+  "description": "Tiny responsive trend line.",
+  "registryDependencies": [
+    "utils",
+    "@dither/dither"
+  ],
+  "files": [
+    {
+      "path": "registry/dither/blocks/sparkline.tsx",
+      "content": "import * as React from \"react\";\n\nimport { DitherFill } from \"@/registry/dither/lib/dither\";\nimport { cn } from \"@/registry/dither/lib/utils\";\n\nexport interface SparklineProps extends Omit<React.ComponentProps<\"div\">, \"children\"> {\n  data: number[];\n  /** Fill under the line (a fading area in the line colour). */\n  area?: boolean;\n  /** Dither texture behind the line. */\n  dither?: boolean;\n  /** Accessible summary, e.g. \"Revenue, up 12% over 30 days\". */\n  label?: string;\n}\n\n/**\n * Tiny trend line that stretches to its container. Colour follows `currentColor`,\n * so set it with a text utility (`text-positive`, `text-chart-1`…).\n */\nfunction Sparkline({ data, area = true, dither = false, label, className, ...props }: SparklineProps) {\n  const gradientId = `spark-${React.useId().replace(/[^a-zA-Z0-9-]/g, \"\")}`;\n  const W = 100;\n  const H = 32;\n  const pad = 2;\n  const lo = Math.min(...data);\n  const hi = Math.max(...data);\n  // Keep a minimum vertical range (25% of the mean) so near-flat series stay flat instead of zigzagging.\n  const mean = data.reduce((a, b) => a + b, 0) / data.length;\n  const span = Math.max(hi - lo, Math.abs(mean) * 0.25) || 1;\n  const min = (lo + hi) / 2 - span / 2;\n  const points = data.map((v, i) => [\n    data.length === 1 ? W / 2 : (i / (data.length - 1)) * W,\n    pad + (1 - (v - min) / span) * (H - pad * 2),\n  ]);\n  const line = points.map(([x, y], i) => `${i ? \"L\" : \"M\"}${x.toFixed(2)},${y.toFixed(2)}`).join(\" \");\n  const fill = `${line} L${W},${H} L0,${H} Z`;\n\n  return (\n    <div\n      data-slot=\"sparkline\"\n      role={label ? \"img\" : undefined}\n      aria-label={label}\n      aria-hidden={label ? undefined : true}\n      className={cn(\"relative h-8 w-full overflow-hidden text-chart-1\", className)}\n      {...props}\n    >\n      {dither ? <DitherFill variant=\"fine\" /> : null}\n      <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio=\"none\" className=\"relative size-full overflow-visible\">\n        <defs>\n          <linearGradient id={gradientId} x1=\"0\" x2=\"0\" y1=\"0\" y2=\"1\">\n            <stop offset=\"0%\" stopColor=\"currentColor\" stopOpacity={0.24} />\n            <stop offset=\"100%\" stopColor=\"currentColor\" stopOpacity={0} />\n          </linearGradient>\n        </defs>\n        {area ? <path d={fill} fill={`url(#${gradientId})`} /> : null}\n        <path d={line} fill=\"none\" stroke=\"currentColor\" strokeWidth={1.5} strokeLinejoin=\"round\" strokeLinecap=\"round\" vectorEffect=\"non-scaling-stroke\" />\n      </svg>\n    </div>\n  );\n}\n\nexport { Sparkline };\n",
+      "type": "registry:component",
+      "target": "components/blocks/sparkline.tsx"
+    }
+  ],
+  "type": "registry:block"
+}

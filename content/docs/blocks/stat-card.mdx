@@ -1,0 +1,40 @@
+---
+title: Stat Card
+description: "KPI card: label, big value, mono delta and caption, sparkline over dither."
+status: stable
+variants: 3
+props: 8
+registry: stat-card
+---
+
+<ComponentPreview name="stat-card-demo" />
+
+## Installation
+
+<InstallCommand name="stat-card" />
+
+## Usage
+
+```tsx
+import { StatCard } from "@/components/blocks/stat-card";
+
+<StatCard label="Revenue" value="€482.9k" delta="+12.4%" caption="vs last month" trend="up" sparkline={[12, 14, 13, 18, 21]} />
+```
+
+## Props
+
+<TypeTable type={{"label": {"type": "ReactNode", "required": true}, "value": {"type": "ReactNode", "required": true}, "delta": {"type": "ReactNode"}, "caption": {"type": "ReactNode"}, "trend": {"type": "\"up\" | \"down\" | \"neutral\"", "default": "\"neutral\"", "description": "Colours the delta and the sparkline."}, "icon": {"type": "ReactNode"}, "sparkline": {"type": "number[]"}, "variant": {"type": "\"default\" | \"gradient\"", "default": "\"default\"", "description": "gradient: dither corner."}}} />
+
+## Examples
+
+### Gradient
+
+A dither corner fades in from the top right.
+
+<ComponentPreview name="stat-card-gradient" />
+
+### Sparkline on its own
+
+`Sparkline` is also exported: it stretches to its container and takes its colour from `currentColor`.
+
+<ComponentPreview name="sparkline-demo" />

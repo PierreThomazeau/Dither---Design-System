@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "timeline",
+  "title": "Timeline",
+  "description": "Event list with status markers.",
+  "dependencies": [
+    "@hugeicons/react",
+    "@hugeicons/core-free-icons"
+  ],
+  "registryDependencies": [
+    "utils",
+    "@dither/icon"
+  ],
+  "files": [
+    {
+      "path": "registry/dither/blocks/timeline.tsx",
+      "content": "import * as React from \"react\";\nimport { Alert02Icon, CancelCircleIcon, CheckmarkCircle02Icon } from \"@hugeicons/core-free-icons\";\n\nimport { Icon } from \"@/registry/dither/lib/icon\";\nimport { cn } from \"@/registry/dither/lib/utils\";\n\ntype TimelineStatus = \"default\" | \"success\" | \"warning\" | \"error\";\n\nconst statusMeta: Record<TimelineStatus, { className: string; icon: React.ReactNode }> = {\n  default: { className: \"text-muted-foreground\", icon: <span className=\"size-2 rounded-full border-[1.5px] border-current\" /> },\n  success: { className: \"text-positive\", icon: <Icon icon={CheckmarkCircle02Icon} size={14} /> },\n  warning: { className: \"text-chart-1\", icon: <Icon icon={Alert02Icon} size={14} /> },\n  error: { className: \"text-destructive\", icon: <Icon icon={CancelCircleIcon} size={14} /> },\n};\n\nfunction Timeline({ className, ...props }: React.ComponentProps<\"ol\">) {\n  return <ol data-slot=\"timeline\" className={cn(\"flex flex-col\", className)} {...props} />;\n}\n\nexport interface TimelineItemProps extends Omit<React.ComponentProps<\"li\">, \"title\"> {\n  title: React.ReactNode;\n  description?: React.ReactNode;\n  time?: React.ReactNode;\n  status?: TimelineStatus;\n  /** Replace the status marker. */\n  icon?: React.ReactNode;\n}\n\n/** One event: marker on a dotted connector, title, description and mono time. */\nfunction TimelineItem({ title, description, time, status = \"default\", icon, className, children, ...props }: TimelineItemProps) {\n  const meta = statusMeta[status];\n  return (\n    <li data-slot=\"timeline-item\" data-status={status} className={cn(\"group/timeline-item relative flex gap-3 pb-5 last:pb-0\", className)} {...props}>\n      <span\n        aria-hidden=\"true\"\n        className=\"absolute top-7 bottom-1 left-[11.5px] border-l border-dashed border-border-strong group-last/timeline-item:hidden\"\n      />\n      <span className={cn(\"relative flex size-6 shrink-0 items-center justify-center rounded-full border bg-surface\", meta.className)}>\n        {icon ?? meta.icon}\n      </span>\n      <div className=\"flex min-w-0 flex-1 flex-col gap-0.5 pt-0.5\">\n        <div className=\"flex items-baseline justify-between gap-3\">\n          <span className=\"text-sm font-medium\">{title}</span>\n          {time ? <time className=\"shrink-0 font-mono text-xs text-muted-foreground tabular\">{time}</time> : null}\n        </div>\n        {description ? <p className=\"text-sm text-muted-foreground\">{description}</p> : null}\n        {children}\n      </div>\n    </li>\n  );\n}\n\nexport { Timeline, TimelineItem, type TimelineStatus };\n",
+      "type": "registry:component",
+      "target": "components/blocks/timeline.tsx"
+    }
+  ],
+  "type": "registry:block"
+}

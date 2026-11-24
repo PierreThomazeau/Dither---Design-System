@@ -10,6 +10,7 @@ import { examples } from "@/registry/dither/examples";
 function toUserImports(source: string) {
   return source
     .replaceAll("@/registry/dither/ui/", "@/components/ui/")
+    .replaceAll("@/registry/dither/blocks/", "@/components/blocks/")
     .replaceAll("@/registry/dither/lib/utils", "@/lib/utils")
     .replaceAll("@/registry/dither/lib/", "@/lib/");
 }

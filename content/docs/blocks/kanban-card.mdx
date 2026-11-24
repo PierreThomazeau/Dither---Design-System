@@ -1,0 +1,30 @@
+---
+title: Kanban Card
+description: "Task card for a board: mono ID with priority, tag, title, subtasks and counters."
+status: stable
+variants: 1
+props: 9
+registry: kanban-card
+---
+
+<ComponentPreview name="kanban-card-demo" />
+
+## Installation
+
+<InstallCommand name="kanban-card" />
+
+## Usage
+
+```tsx
+import { KanbanCard } from "@/components/blocks/kanban-card";
+
+<KanbanCard id="ATL-142" tag="Design" title="Checkout redesign" subtasks={{ done: 2, total: 5 }} comments={4} due="Nov 28" />
+```
+
+## Props
+
+<TypeTable type={{"id": {"type": "string", "required": true}, "title": {"type": "ReactNode", "required": true}, "tag": {"type": "ReactNode"}, "priority": {"type": "\"low\" | \"medium\" | \"high\"", "default": "\"medium\""}, "subtasks": {"type": "{ done: number; total: number }"}, "comments": {"type": "number"}, "files": {"type": "number"}, "due": {"type": "ReactNode"}, "assignee": {"type": "ReactNode"}}} />
+
+## Examples
+
+See the preview above.

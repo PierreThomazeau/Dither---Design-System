@@ -1,0 +1,35 @@
+---
+title: Usage Meter
+description: "Quota meter with used and reserved segments, remaining capacity in dither."
+status: stable
+variants: 3
+props: 6
+registry: usage-meter
+---
+
+<ComponentPreview name="usage-meter-demo" stacked />
+
+## Installation
+
+<InstallCommand name="usage-meter" />
+
+## Usage
+
+```tsx
+import { UsageMeter } from "@/components/blocks/usage-meter";
+
+<UsageMeter
+  label="API calls"
+  max={10000}
+  segments={[{ label: "Production", value: 4200 }, { label: "Staging", value: 2040 }]}
+  caption="62% used · resets Dec 1"
+/>
+```
+
+## Props
+
+<TypeTable type={{"label": {"type": "ReactNode", "required": true}, "max": {"type": "number", "required": true}, "segments": {"type": "{ label: string; value: number }[]", "required": true, "description": "First solid, next ones lighter."}, "status": {"type": "\"normal\" | \"warning\" | \"critical\"", "default": "\"normal\""}, "caption": {"type": "ReactNode"}, "format": {"type": "(n: number) => string"}}} />
+
+## Examples
+
+See the preview above.

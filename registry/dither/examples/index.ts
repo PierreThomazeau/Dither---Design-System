@@ -1,8 +1,10 @@
 /* Docs examples, rendered by <ComponentPreview name="..." />. Keep in sync with the files in this folder. */
 import type { ComponentType } from "react";
 
+import ActivityHeatmapDemo from "./activity-heatmap-demo";
 import AlertAction from "./alert-action";
 import AlertDemo from "./alert-demo";
+import AnnouncementBarDemo from "./announcement-bar-demo";
 import AvatarDemo from "./avatar-demo";
 import AvatarGroup from "./avatar-group";
 import BadgeDemo from "./badge-demo";
@@ -17,6 +19,7 @@ import CardInset from "./card-inset";
 import CardSizes from "./card-sizes";
 import CheckboxBox from "./checkbox-box";
 import CheckboxDemo from "./checkbox-demo";
+import ChipDemo from "./chip-demo";
 import CommandDemo from "./command-demo";
 import CommandDialog from "./command-dialog";
 import DialogDemo from "./dialog-demo";
@@ -25,11 +28,14 @@ import DropdownMenuCheckboxes from "./dropdown-menu-checkboxes";
 import DropdownMenuDemo from "./dropdown-menu-demo";
 import EmptyDemo from "./empty-demo";
 import EmptyVariants from "./empty-variants";
+import GaugeDemo from "./gauge-demo";
 import HeightRule from "./height-rule";
 import InputDemo from "./input-demo";
 import InputSizes from "./input-sizes";
 import InputStates from "./input-states";
+import KanbanCardDemo from "./kanban-card-demo";
 import KbdDemo from "./kbd-demo";
+import OnboardingChecklistDemo from "./onboarding-checklist-demo";
 import PopoverDemo from "./popover-demo";
 import PopoverInset from "./popover-inset";
 import RadioBox from "./radio-box";
@@ -40,6 +46,9 @@ import SeparatorDemo from "./separator-demo";
 import SheetDemo from "./sheet-demo";
 import SheetSides from "./sheet-sides";
 import SkeletonDemo from "./skeleton-demo";
+import SparklineDemo from "./sparkline-demo";
+import StatCardDemo from "./stat-card-demo";
+import StatCardGradient from "./stat-card-gradient";
 import SwitchBox from "./switch-box";
 import SwitchDemo from "./switch-demo";
 import TabsDemo from "./tabs-demo";
@@ -48,13 +57,18 @@ import TabsSizes from "./tabs-sizes";
 import TabsVertical from "./tabs-vertical";
 import TextareaDemo from "./textarea-demo";
 import TextareaStates from "./textarea-states";
+import TimelineDemo from "./timeline-demo";
 import ToggleDemo from "./toggle-demo";
 import ToggleGroupDemo from "./toggle-group-demo";
 import TooltipDemo from "./tooltip-demo";
+import UsageMeterDemo from "./usage-meter-demo";
+import WorkloadTileDemo from "./workload-tile-demo";
 
 export const examples: Record<string, ComponentType> = {
+  "activity-heatmap-demo": ActivityHeatmapDemo,
   "alert-action": AlertAction,
   "alert-demo": AlertDemo,
+  "announcement-bar-demo": AnnouncementBarDemo,
   "avatar-demo": AvatarDemo,
   "avatar-group": AvatarGroup,
   "badge-demo": BadgeDemo,
@@ -69,6 +83,7 @@ export const examples: Record<string, ComponentType> = {
   "card-sizes": CardSizes,
   "checkbox-box": CheckboxBox,
   "checkbox-demo": CheckboxDemo,
+  "chip-demo": ChipDemo,
   "command-demo": CommandDemo,
   "command-dialog": CommandDialog,
   "dialog-demo": DialogDemo,
@@ -77,11 +92,14 @@ export const examples: Record<string, ComponentType> = {
   "dropdown-menu-demo": DropdownMenuDemo,
   "empty-demo": EmptyDemo,
   "empty-variants": EmptyVariants,
+  "gauge-demo": GaugeDemo,
   "height-rule": HeightRule,
   "input-demo": InputDemo,
   "input-sizes": InputSizes,
   "input-states": InputStates,
+  "kanban-card-demo": KanbanCardDemo,
   "kbd-demo": KbdDemo,
+  "onboarding-checklist-demo": OnboardingChecklistDemo,
   "popover-demo": PopoverDemo,
   "popover-inset": PopoverInset,
   "radio-box": RadioBox,
@@ -92,6 +110,9 @@ export const examples: Record<string, ComponentType> = {
   "sheet-demo": SheetDemo,
   "sheet-sides": SheetSides,
   "skeleton-demo": SkeletonDemo,
+  "sparkline-demo": SparklineDemo,
+  "stat-card-demo": StatCardDemo,
+  "stat-card-gradient": StatCardGradient,
   "switch-box": SwitchBox,
   "switch-demo": SwitchDemo,
   "tabs-demo": TabsDemo,
@@ -100,7 +121,10 @@ export const examples: Record<string, ComponentType> = {
   "tabs-vertical": TabsVertical,
   "textarea-demo": TextareaDemo,
   "textarea-states": TextareaStates,
+  "timeline-demo": TimelineDemo,
   "toggle-demo": ToggleDemo,
   "toggle-group-demo": ToggleGroupDemo,
   "tooltip-demo": TooltipDemo,
+  "usage-meter-demo": UsageMeterDemo,
+  "workload-tile-demo": WorkloadTileDemo,
 };

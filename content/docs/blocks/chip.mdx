@@ -1,0 +1,31 @@
+---
+title: Chip
+description: "Compact filter or tag: selectable and removable."
+status: stable
+variants: 2
+props: 4
+registry: chip
+---
+
+<ComponentPreview name="chip-demo" />
+
+## Installation
+
+<InstallCommand name="chip" />
+
+## Usage
+
+```tsx
+import { Chip } from "@/components/blocks/chip";
+
+<Chip selected={on} onSelectedChange={setOn}>Q4 2026</Chip>
+<Chip onRemove={() => remove("EMEA")}>EMEA</Chip>
+```
+
+## Props
+
+<TypeTable type={{"selected": {"type": "boolean", "default": "false"}, "onSelectedChange": {"type": "(selected: boolean) => void", "description": "Makes the chip a toggle (aria-pressed)."}, "onRemove": {"type": "() => void", "description": "Shows a remove button."}, "icon": {"type": "ReactNode"}}} />
+
+## Examples
+
+See the preview above.

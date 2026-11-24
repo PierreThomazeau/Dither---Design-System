@@ -1,0 +1,32 @@
+---
+title: Announcement Bar
+description: "Full-width banner above the app header, for launches, promos and incidents."
+status: stable
+variants: 3
+props: 5
+registry: announcement-bar
+---
+
+<ComponentPreview name="announcement-bar-demo" stacked />
+
+## Installation
+
+<InstallCommand name="announcement-bar" />
+
+## Usage
+
+```tsx
+import { AnnouncementBar } from "@/components/blocks/announcement-bar";
+
+<AnnouncementBar variant="promo" action={<a href="/pricing">Upgrade →</a>}>
+  Pro is 20% off this week.
+</AnnouncementBar>
+```
+
+## Props
+
+<TypeTable type={{"variant": {"type": "\"info\" | \"promo\" | \"warning\"", "default": "\"info\""}, "icon": {"type": "ReactNode"}, "action": {"type": "ReactNode"}, "dismissible": {"type": "boolean", "default": "true"}, "onDismiss": {"type": "() => void"}}} />
+
+## Examples
+
+See the preview above.

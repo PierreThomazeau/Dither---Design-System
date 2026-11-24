@@ -645,6 +645,220 @@
         "@hugeicons/react",
         "@hugeicons/core-free-icons"
       ]
+    },
+    {
+      "name": "sparkline",
+      "type": "registry:block",
+      "title": "Sparkline",
+      "description": "Tiny responsive trend line.",
+      "registryDependencies": [
+        "utils",
+        "@dither/dither"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/blocks/sparkline.tsx",
+          "type": "registry:component",
+          "target": "components/blocks/sparkline.tsx"
+        }
+      ]
+    },
+    {
+      "name": "stat-card",
+      "type": "registry:block",
+      "title": "Stat Card",
+      "description": "KPI card with delta and sparkline.",
+      "registryDependencies": [
+        "utils",
+        "@dither/sparkline",
+        "@dither/dither",
+        "@dither/icon"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/blocks/stat-card.tsx",
+          "type": "registry:component",
+          "target": "components/blocks/stat-card.tsx"
+        }
+      ],
+      "dependencies": [
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons"
+      ]
+    },
+    {
+      "name": "gauge",
+      "type": "registry:block",
+      "title": "Gauge",
+      "description": "Half-ring score gauge with dither track.",
+      "registryDependencies": [
+        "utils",
+        "@dither/dither"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/blocks/gauge.tsx",
+          "type": "registry:component",
+          "target": "components/blocks/gauge.tsx"
+        }
+      ]
+    },
+    {
+      "name": "usage-meter",
+      "type": "registry:block",
+      "title": "Usage Meter",
+      "description": "Quota meter with segments and dither remainder.",
+      "registryDependencies": [
+        "utils",
+        "@dither/theme"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/blocks/usage-meter.tsx",
+          "type": "registry:component",
+          "target": "components/blocks/usage-meter.tsx"
+        }
+      ]
+    },
+    {
+      "name": "workload-tile",
+      "type": "registry:block",
+      "title": "Workload Tile",
+      "description": "Status tile with progress ring.",
+      "registryDependencies": [
+        "utils"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/blocks/workload-tile.tsx",
+          "type": "registry:component",
+          "target": "components/blocks/workload-tile.tsx"
+        }
+      ]
+    },
+    {
+      "name": "timeline",
+      "type": "registry:block",
+      "title": "Timeline",
+      "description": "Event list with status markers.",
+      "registryDependencies": [
+        "utils",
+        "@dither/icon"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/blocks/timeline.tsx",
+          "type": "registry:component",
+          "target": "components/blocks/timeline.tsx"
+        }
+      ],
+      "dependencies": [
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons"
+      ]
+    },
+    {
+      "name": "onboarding-checklist",
+      "type": "registry:block",
+      "title": "Onboarding Checklist",
+      "description": "First-run checklist with progress.",
+      "registryDependencies": [
+        "utils",
+        "@dither/icon",
+        "@dither/theme"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/blocks/onboarding-checklist.tsx",
+          "type": "registry:component",
+          "target": "components/blocks/onboarding-checklist.tsx"
+        }
+      ],
+      "dependencies": [
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons"
+      ]
+    },
+    {
+      "name": "announcement-bar",
+      "type": "registry:block",
+      "title": "Announcement Bar",
+      "description": "Dismissible full-width banner.",
+      "registryDependencies": [
+        "utils",
+        "@dither/icon"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/blocks/announcement-bar.tsx",
+          "type": "registry:component",
+          "target": "components/blocks/announcement-bar.tsx"
+        }
+      ],
+      "dependencies": [
+        "class-variance-authority",
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons"
+      ]
+    },
+    {
+      "name": "chip",
+      "type": "registry:block",
+      "title": "Chip",
+      "description": "Selectable, removable chip.",
+      "registryDependencies": [
+        "utils",
+        "@dither/icon"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/blocks/chip.tsx",
+          "type": "registry:component",
+          "target": "components/blocks/chip.tsx"
+        }
+      ],
+      "dependencies": [
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons"
+      ]
+    },
+    {
+      "name": "kanban-card",
+      "type": "registry:block",
+      "title": "Kanban Card",
+      "description": "Board task card.",
+      "registryDependencies": [
+        "utils",
+        "@dither/icon",
+        "@dither/theme"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/blocks/kanban-card.tsx",
+          "type": "registry:component",
+          "target": "components/blocks/kanban-card.tsx"
+        }
+      ],
+      "dependencies": [
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons"
+      ]
+    },
+    {
+      "name": "activity-heatmap",
+      "type": "registry:block",
+      "title": "Activity Heatmap",
+      "description": "Contribution-style heatmap.",
+      "registryDependencies": [
+        "utils"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/blocks/activity-heatmap.tsx",
+          "type": "registry:component",
+          "target": "components/blocks/activity-heatmap.tsx"
+        }
+      ]
     }
   ]
 }

@@ -1,0 +1,30 @@
+---
+title: Workload Tile
+description: "Workflow state tile: progress ring around the count, title, due date and assignees."
+status: stable
+variants: 4
+props: 6
+registry: workload-tile
+---
+
+<ComponentPreview name="workload-tile-demo" />
+
+## Installation
+
+<InstallCommand name="workload-tile" />
+
+## Usage
+
+```tsx
+import { WorkloadTile } from "@/components/blocks/workload-tile";
+
+<WorkloadTile count={9} status="in-progress" due="Due Dec 4" />
+```
+
+## Props
+
+<TypeTable type={{"count": {"type": "number", "required": true}, "status": {"type": "\"backlog\" | \"not-started\" | \"in-progress\" | \"done\"", "default": "\"backlog\""}, "title": {"type": "ReactNode", "description": "Defaults to the status name."}, "due": {"type": "ReactNode"}, "progress": {"type": "number", "description": "0–1, overrides the per-status ring."}, "assignees": {"type": "ReactNode"}}} />
+
+## Examples
+
+See the preview above.

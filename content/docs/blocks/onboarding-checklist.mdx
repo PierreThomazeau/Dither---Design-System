@@ -1,0 +1,33 @@
+---
+title: Onboarding Checklist
+description: "First-run checklist with progress; the remaining part of the bar is in dither."
+status: stable
+variants: 1
+props: 3
+registry: onboarding-checklist
+---
+
+<ComponentPreview name="onboarding-checklist-demo" />
+
+## Installation
+
+<InstallCommand name="onboarding-checklist" />
+
+## Usage
+
+```tsx
+import { OnboardingChecklist } from "@/components/blocks/onboarding-checklist";
+
+<OnboardingChecklist
+  title="Set up your workspace"
+  steps={[{ label: "Connect a data source", done: true }, { label: "Invite your team", href: "/team" }]}
+/>
+```
+
+## Props
+
+<TypeTable type={{"title": {"type": "ReactNode", "required": true}, "steps": {"type": "{ label: ReactNode; done?: boolean; href?: string }[]", "required": true}, "actions": {"type": "ReactNode"}}} />
+
+## Examples
+
+See the preview above.

@@ -1,0 +1,15 @@
+{
+  "title": "Blocks",
+  "pages": [
+    "stat-card",
+    "gauge",
+    "usage-meter",
+    "workload-tile",
+    "timeline",
+    "onboarding-checklist",
+    "announcement-bar",
+    "chip",
+    "kanban-card",
+    "activity-heatmap"
+  ]
+}

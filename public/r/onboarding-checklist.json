@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "onboarding-checklist",
+  "title": "Onboarding Checklist",
+  "description": "First-run checklist with progress.",
+  "dependencies": [
+    "@hugeicons/react",
+    "@hugeicons/core-free-icons"
+  ],
+  "registryDependencies": [
+    "utils",
+    "@dither/icon",
+    "@dither/theme"
+  ],
+  "files": [
+    {
+      "path": "registry/dither/blocks/onboarding-checklist.tsx",
+      "content": "import * as React from \"react\";\nimport { ArrowRight01Icon, Tick02Icon } from \"@hugeicons/core-free-icons\";\n\nimport { Icon } from \"@/registry/dither/lib/icon\";\nimport { cn } from \"@/registry/dither/lib/utils\";\n\nexport interface ChecklistStep {\n  label: React.ReactNode;\n  done?: boolean;\n  /** Link for a pending step (shows an arrow). */\n  href?: string;\n}\n\nexport interface OnboardingChecklistProps extends Omit<React.ComponentProps<\"div\">, \"title\"> {\n  title: React.ReactNode;\n  steps: ChecklistStep[];\n  /** Buttons under the list (Continue setup, Dismiss…). */\n  actions?: React.ReactNode;\n}\n\n/** First-run checklist: progress bar (remaining in dither), done steps checked, pending steps linked. */\nfunction OnboardingChecklist({ title, steps, actions, className, ...props }: OnboardingChecklistProps) {\n  const done = steps.filter((s) => s.done).length;\n  return (\n    <div data-slot=\"onboarding-checklist\" className={cn(\"flex w-full max-w-sm flex-col gap-4 rounded-surface border bg-surface p-5 shadow-xs\", className)} {...props}>\n      <div className=\"flex flex-col gap-3\">\n        <div className=\"flex items-baseline justify-between gap-3\">\n          <span className=\"text-base font-semibold tracking-tight\">{title}</span>\n          <span className=\"shrink-0 font-mono text-xs whitespace-nowrap text-muted-foreground tabular\">\n            {done} of {steps.length}\n          </span>\n        </div>\n        <div\n          role=\"progressbar\"\n          aria-valuemin={0}\n          aria-valuemax={steps.length}\n          aria-valuenow={done}\n          className=\"relative h-1.5 overflow-hidden rounded-full\"\n        >\n          <span aria-hidden=\"true\" className=\"bg-dither-fine absolute inset-0\" />\n          <span className=\"absolute inset-y-0 left-0 rounded-full bg-positive transition-[width]\" style={{ width: `${(done / steps.length) * 100}%` }} />\n        </div>\n      </div>\n      <ul className=\"flex flex-col\">\n        {steps.map((step, i) => {\n          const content = (\n            <>\n              <span\n                className={cn(\n                  \"flex size-4 shrink-0 items-center justify-center rounded-full\",\n                  step.done ? \"bg-positive text-positive-foreground\" : \"border border-border-strong\",\n                )}\n              >\n                {step.done ? <Icon icon={Tick02Icon} size={10} strokeWidth={3} /> : null}\n              </span>\n              <span className={cn(\"flex-1 text-sm\", step.done && \"text-muted-foreground\")}>{step.label}</span>\n              {!step.done && step.href ? <Icon icon={ArrowRight01Icon} className=\"text-muted-foreground\" /> : null}\n            </>\n          );\n          return (\n            <li key={i}>\n              {!step.done && step.href ? (\n                <a href={step.href} className=\"-mx-2 flex h-control-sm items-center gap-3 rounded-control px-2 outline-none hover:bg-hover focus-visible:shadow-focus\">\n                  {content}\n                </a>\n              ) : (\n                <span className=\"-mx-2 flex h-control-sm items-center gap-3 px-2\">{content}</span>\n              )}\n            </li>\n          );\n        })}\n      </ul>\n      {actions ? <div className=\"flex items-center gap-2\">{actions}</div> : null}\n    </div>\n  );\n}\n\nexport { OnboardingChecklist };\n",
+      "type": "registry:component",
+      "target": "components/blocks/onboarding-checklist.tsx"
+    }
+  ],
+  "type": "registry:block"
+}

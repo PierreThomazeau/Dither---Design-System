@@ -1,0 +1,30 @@
+---
+title: Activity Heatmap
+description: "Contribution-style grid with five intensity levels."
+status: stable
+variants: 1
+props: 4
+registry: activity-heatmap
+---
+
+<ComponentPreview name="activity-heatmap-demo" stacked />
+
+## Installation
+
+<InstallCommand name="activity-heatmap" />
+
+## Usage
+
+```tsx
+import { ActivityHeatmap } from "@/components/blocks/activity-heatmap";
+
+<ActivityHeatmap values={dailyCounts} start="2026-07-06" unit="deploys" />
+```
+
+## Props
+
+<TypeTable type={{"values": {"type": "number[]", "required": true, "description": "One value per day, oldest first, starting on a Monday."}, "start": {"type": "string", "required": true, "description": "ISO date of the first value."}, "thresholds": {"type": "[number, number, number]", "default": "[1, 3, 6]"}, "unit": {"type": "string", "default": "\"events\""}}} />
+
+## Examples
+
+See the preview above.

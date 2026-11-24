@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "usage-meter",
+  "title": "Usage Meter",
+  "description": "Quota meter with segments and dither remainder.",
+  "registryDependencies": [
+    "utils",
+    "@dither/theme"
+  ],
+  "files": [
+    {
+      "path": "registry/dither/blocks/usage-meter.tsx",
+      "content": "import * as React from \"react\";\n\nimport { cn } from \"@/registry/dither/lib/utils\";\n\ntype UsageStatus = \"normal\" | \"warning\" | \"critical\";\n\nconst statusBar: Record<UsageStatus, string> = {\n  normal: \"bg-informative\",\n  warning: \"bg-chart-1\",\n  critical: \"bg-destructive\",\n};\nconst statusText: Record<UsageStatus, string> = {\n  normal: \"text-muted-foreground\",\n  warning: \"text-chart-1\",\n  critical: \"text-destructive\",\n};\n\nexport interface UsageSegment {\n  label: string;\n  value: number;\n}\n\nexport interface UsageMeterProps extends Omit<React.ComponentProps<\"div\">, \"children\"> {\n  label: React.ReactNode;\n  /** Total capacity, in the same unit as the segments. */\n  max: number;\n  /** First segment is drawn solid, the next ones lighter (reserved, staging…). */\n  segments: UsageSegment[];\n  status?: UsageStatus;\n  caption?: React.ReactNode;\n  /** Formats numbers in the header (default: locale grouping). */\n  format?: (n: number) => string;\n}\n\n/** Quota meter: used + reserved segments, remaining capacity in dither, legend and status caption. */\nfunction UsageMeter({\n  label,\n  max,\n  segments,\n  status = \"normal\",\n  caption,\n  format = (n) => n.toLocaleString(\"en-US\"),\n  className,\n  ...props\n}: UsageMeterProps) {\n  const used = segments.reduce((sum, s) => sum + s.value, 0);\n  return (\n    <div data-slot=\"usage-meter\" data-status={status} className={cn(\"flex w-full flex-col gap-2\", className)} {...props}>\n      <div className=\"flex items-baseline justify-between gap-3 text-sm\">\n        <span className=\"font-medium\">{label}</span>\n        <span className=\"font-mono text-xs text-muted-foreground tabular\">\n          <span className=\"text-foreground\">{format(used)}</span> / {format(max)}\n        </span>\n      </div>\n      <div\n        role=\"meter\"\n        aria-valuemin={0}\n        aria-valuemax={max}\n        aria-valuenow={used}\n        aria-label={typeof label === \"string\" ? label : undefined}\n        className=\"relative flex h-2 w-full gap-0.5 overflow-hidden rounded-full\"\n      >\n        <span aria-hidden=\"true\" className=\"bg-dither-fine absolute inset-0\" />\n        {segments.map((s, i) => (\n          <span\n            key={s.label}\n            className={cn(\"relative h-full first:rounded-l-full last:rounded-r-full\", statusBar[status], i > 0 && \"opacity-40\")}\n            style={{ width: `${Math.min(100, (s.value / max) * 100)}%` }}\n          />\n        ))}\n      </div>\n      <div className=\"flex flex-wrap items-center justify-between gap-x-4 gap-y-1 text-xs\">\n        <ul className=\"flex flex-wrap items-center gap-3 text-muted-foreground\">\n          {segments.map((s, i) => (\n            <li key={s.label} className=\"flex items-center gap-1.5\">\n              <span className={cn(\"size-2.5 rounded-[2px]\", statusBar[status], i > 0 && \"opacity-40\")} />\n              {s.label}\n            </li>\n          ))}\n        </ul>\n        {caption ? <span className={cn(\"font-mono tabular\", statusText[status])}>{caption}</span> : null}\n      </div>\n    </div>\n  );\n}\n\nexport { UsageMeter };\n",
+      "type": "registry:component",
+      "target": "components/blocks/usage-meter.tsx"
+    }
+  ],
+  "type": "registry:block"
+}
