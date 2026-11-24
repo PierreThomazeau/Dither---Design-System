@@ -1,0 +1,27 @@
+---
+title: Tokens
+description: Colours, radius, sizes, type and elevation, exported from Figma.
+---
+
+The full visual reference lives on the [Tokens page](/tokens).
+
+Tokens are CSS variables in `tokens.css`. Semantic colours live on `:root` (light) and `.dark`.
+Raw scales are prefixed `--dither-*`. `theme.css` maps them to Tailwind utilities, so you write
+`bg-surface`, `text-muted-foreground`, `border-border-strong`, `rounded-control`, `h-control` or
+`shadow-button-primary`.
+
+| Group | Utilities |
+|---|---|
+| Surfaces | `bg-surface` `bg-background` `bg-background-muted` |
+| Text | `text-foreground` `text-muted-foreground` |
+| Lines | `border-border` `border-border-strong` `ring-ring` |
+| Actions | `bg-primary` `text-primary-foreground` `bg-brand` |
+| Status | `positive` `destructive` `informative` |
+| Charts | `chart-1` … `chart-5` |
+| Radius | `rounded-hairline` 4 · `micro` 6 · `control` 12 · `control-min` 16 · `field` 20 · `surface` 24 · `body` 28 · `sheet` 32 · `display` 40 |
+| Heights | `h-control-xs` 32 · `h-control-sm` 36 · `h-control` 40 · `h-control-lg` 44 · `h-control-xl` 48 |
+
+<Callout title="Brand colour">
+  Dither's indigo is exposed as `brand` (`bg-brand`), because shadcn uses `accent` for hover backgrounds.
+  In Dither, hover backgrounds are `bg-hover`.
+</Callout>

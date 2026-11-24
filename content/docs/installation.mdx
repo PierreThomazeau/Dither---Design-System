@@ -1,0 +1,70 @@
+---
+title: Installation
+description: Add the Dither registry to a shadcn project and install components.
+---
+
+Dither is distributed as a [shadcn registry](https://ui.shadcn.com/docs/registry).
+You need a React project with Tailwind CSS v4 and a `components.json` (run `npx shadcn init` if you don't have one).
+
+## 1. Add the registry
+
+In `components.json`:
+
+```json title="components.json"
+{
+  "registries": {
+    "@dither": "https://<your-dither-domain>/r/{name}.json"
+  }
+}
+```
+
+## 2. Install the theme
+
+The theme brings the tokens (`tokens.css`), the Tailwind mapping (`theme.css`) and the dither utilities.
+
+```bash
+npx shadcn add @dither/theme
+```
+
+The files land in `styles/dither/`. Import them in your global stylesheet, after Tailwind
+(adjust the relative path to where your stylesheet lives):
+
+```css title="app/globals.css"
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "../styles/dither/tokens.css";
+@import "../styles/dither/theme.css";
+@import "../styles/dither/scopes.css";
+@import "../styles/dither/dither.css";
+
+@custom-variant dark (&:where(.dark, .dark *):not(:where(.light, .light *)));
+```
+
+## 3. Fonts
+
+Dither uses **Manrope** (text) and **Geist Mono** (data). With Next.js:
+
+```tsx title="app/layout.tsx"
+import { Geist_Mono, Manrope } from "next/font/google";
+
+const manrope = Manrope({ subsets: ["latin"], variable: "--font-manrope" });
+const geistMono = Geist_Mono({ subsets: ["latin"], weight: ["400", "500"], variable: "--font-geist-mono" });
+
+// <html className={`${manrope.variable} ${geistMono.variable}`}>
+```
+
+```css title="app/globals.css"
+:root {
+  --dither-font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --dither-font-heading: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --dither-font-mono: var(--font-geist-mono), ui-monospace, monospace;
+}
+```
+
+## 4. Add components
+
+```bash
+npx shadcn add @dither/dither
+```
+
+Components arrive in the next batches: Button, Input, Tabs, Card…

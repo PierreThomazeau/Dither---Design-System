@@ -1,0 +1,24 @@
+---
+title: Introduction
+description: A React + Tailwind design system with a pixel dither texture as its signature.
+---
+
+Dither is a component library for product and SaaS interfaces. It starts from
+[shadcn/ui](https://ui.shadcn.com) and Radix primitives, then changes almost everything you can see:
+neutral **woodsmoke** greys instead of zinc, rounder controls, tactile primary buttons, two-tone
+"inset" surfaces, mono numbers, and a pixel dither texture used wherever something is empty,
+remaining or uncertain.
+
+You install components the shadcn way: the code is copied into your project and is yours to change.
+
+## Principles
+
+- **Tokens first.** Every colour, radius, size and shadow comes from `tokens.css`. No raw hex in components.
+- **Light and dark, always.** Every component works with `.dark` on `<html>`.
+- **One height per size.** At the same size, a Button, Input, Select, Tabs list or Toggle are the same height: `xs 32 · sm 36 · default 40 · lg 44`.
+- **Mono for data.** Numbers, IDs, timestamps and tags use Geist Mono with tabular figures.
+- **Dither for the absent.** Remaining capacity, chart tracks, forecast ranges, empty states and skeletons use the dither texture.
+
+## Stack
+
+Next.js · Tailwind CSS v4 · Radix · Manrope + Geist Mono · Hugeicons · Recharts.

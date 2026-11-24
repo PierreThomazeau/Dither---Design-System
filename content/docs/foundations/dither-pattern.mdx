@@ -1,0 +1,94 @@
+---
+title: Dither pattern
+description: The pixel texture that gives Dither its name, as an SVG pattern and a CSS utility.
+status: stable
+variants: 4
+props: 3
+registry: dither
+---
+
+<Preview>
+  <DitherVariantsDemo />
+</Preview>
+
+```tsx
+import { DitherFill } from "@/lib/dither";
+
+<div className="relative h-20 overflow-hidden rounded-control border">
+  <DitherFill variant="regular" />
+</div>
+```
+
+## Installation
+
+```bash
+npx shadcn add @dither/dither
+```
+
+## Variants
+
+| Variant | Spec |
+|---|---|
+| `regular` | 2px squares on a 6px grid, odd rows offset by 3px |
+| `fine` | 1.5px squares on a 4px grid, odd rows offset by 2px |
+| `bayer` | 4×4 ordered dither, 4px cells, threshold 0.32 |
+| `gradient` | 4×4 ordered dither, density fading 0.68 → 0.06 top to bottom |
+
+The dots use `--dither-color`, which defaults to `--border-strong`, so the texture follows light and dark.
+
+## Props
+
+### DitherPattern
+
+An SVG `<pattern>` to put in the `<defs>` of any SVG (charts, tracks, forecast bands).
+
+<TypeTable
+  type={{
+    id: { type: "string", description: "Referenced by fill=\"url(#id)\". Unique on the page.", required: true },
+    variant: { type: '"regular" | "fine" | "bayer" | "gradient"', default: '"regular"' },
+    gradientHeight: { type: "number", description: "Height of the gradient tile in px.", default: "256" },
+  }}
+/>
+
+### DitherFill
+
+A self-contained SVG that fills its positioned parent. Accepts every `<svg>` prop plus `variant`.
+
+## Examples
+
+### Inside a chart
+
+```tsx
+<svg viewBox="0 0 200 24">
+  <defs>
+    <DitherPattern id="track" variant="fine" />
+  </defs>
+  <rect width="200" height="24" rx="6" fill="url(#track)" />
+  <rect width="128" height="24" rx="6" className="fill-chart-1" />
+</svg>
+```
+
+<Preview>
+  <DitherTrackDemo />
+</Preview>
+
+### CSS utility
+
+`bg-dither`, `bg-dither-fine`, `bg-dither-bayer` and `bg-dither-gradient` apply the texture as a mask over
+`--dither-color`. A mask also clips children, so put the utility on its own layer:
+
+```tsx
+<div className="relative h-24 rounded-surface border">
+  <span className="bg-dither-gradient absolute inset-0 rounded-[inherit]" />
+  <p className="relative">No reports yet</p>
+</div>
+```
+
+<Preview>
+  <div className="relative flex h-24 w-full items-center justify-center rounded-surface border bg-surface">
+    <span className="bg-dither-gradient absolute inset-0 rounded-[inherit]" />
+    <p className="relative text-sm text-muted-foreground">No reports yet</p>
+  </div>
+</Preview>
+
+Change the colour per element: `[--dither-color:var(--chart-1)]`.
