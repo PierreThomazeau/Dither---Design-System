@@ -1,0 +1,40 @@
+---
+title: Dropdown Menu
+description: "A menu of actions or options, opened from a button."
+status: stable
+variants: 3
+props: 3
+registry: dropdown-menu
+---
+
+<ComponentPreview name="dropdown-menu-demo" />
+
+## Installation
+
+<InstallCommand name="dropdown-menu" />
+
+## Usage
+
+```tsx
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+
+<DropdownMenu>
+  <DropdownMenuTrigger asChild><Button variant="outline">Account</Button></DropdownMenuTrigger>
+  <DropdownMenuContent>
+    <DropdownMenuItem>Profile</DropdownMenuItem>
+    <DropdownMenuItem variant="destructive">Log out</DropdownMenuItem>
+  </DropdownMenuContent>
+</DropdownMenu>
+```
+
+Items are 36px high with `rounded-control-min`; shortcuts and labels are mono.
+
+## Props
+
+<TypeTable type={{"DropdownMenuItem variant": {"type": "\"default\" | \"destructive\"", "default": "\"default\""}, "DropdownMenuItem inset": {"type": "boolean", "default": "false"}, "DropdownMenuContent sideOffset": {"type": "number", "default": "6"}}} />
+
+## Examples
+
+### Checkboxes and radios
+
+<ComponentPreview name="dropdown-menu-checkboxes" />

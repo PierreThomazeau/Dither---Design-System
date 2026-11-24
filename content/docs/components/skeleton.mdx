@@ -1,0 +1,32 @@
+---
+title: Skeleton
+description: "A loading placeholder in pulsing dither."
+status: stable
+variants: 1
+props: 1
+registry: skeleton
+---
+
+<ComponentPreview name="skeleton-demo" stacked />
+
+## Installation
+
+<InstallCommand name="skeleton" />
+
+## Usage
+
+```tsx
+import { Skeleton } from "@/components/ui/skeleton";
+
+<Skeleton className="h-4 w-32" />
+```
+
+The pulse stops when the user asks for reduced motion.
+
+## Props
+
+<TypeTable type={{"className": {"type": "string", "description": "Size and radius (default rounded-control)."}}} />
+
+## Examples
+
+See the preview above.

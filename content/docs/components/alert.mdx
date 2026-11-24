@@ -1,0 +1,38 @@
+---
+title: Alert
+description: "A message that needs attention, with an optional action."
+status: stable
+variants: 5
+props: 1
+registry: alert
+---
+
+<ComponentPreview name="alert-demo" stacked />
+
+## Installation
+
+<InstallCommand name="alert" />
+
+## Usage
+
+```tsx
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+
+<Alert variant="destructive">
+  <Icon icon={Alert02Icon} />
+  <AlertTitle>Payment failed</AlertTitle>
+  <AlertDescription>Update your billing details.</AlertDescription>
+</Alert>
+```
+
+`AlertTitle`, `AlertDescription`, `AlertAction`.
+
+## Props
+
+<TypeTable type={{"variant": {"type": "\"default\" | \"brand\" | \"positive\" | \"informative\" | \"destructive\"", "default": "\"default\""}}} />
+
+## Examples
+
+### With an action
+
+<ComponentPreview name="alert-action" stacked />

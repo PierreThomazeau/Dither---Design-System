@@ -1,0 +1,37 @@
+---
+title: Drawer
+description: "A bottom sheet with a drag handle, made for touch."
+status: stable
+variants: 4
+props: 1
+registry: drawer
+---
+
+<ComponentPreview name="drawer-demo" />
+
+## Installation
+
+<InstallCommand name="drawer" />
+
+## Usage
+
+```tsx
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
+
+<Drawer>
+  <DrawerTrigger asChild><Button variant="outline">Open</Button></DrawerTrigger>
+  <DrawerContent>
+    <DrawerHeader><DrawerTitle>Monthly target</DrawerTitle></DrawerHeader>
+  </DrawerContent>
+</Drawer>
+```
+
+Built on [vaul](https://vaul.emilkowal.ski).
+
+## Props
+
+<TypeTable type={{"direction": {"type": "\"bottom\" | \"top\" | \"left\" | \"right\"", "default": "\"bottom\"", "description": "On Drawer (vaul)."}}} />
+
+## Examples
+
+See the preview above.

@@ -1,0 +1,51 @@
+---
+title: Card
+description: "A container for related content. Default, or inset: the Dither two-tone surface."
+status: stable
+variants: 4
+props: 3
+registry: card
+---
+
+<ComponentPreview name="card-demo" stacked />
+
+## Installation
+
+<InstallCommand name="card" />
+
+## Usage
+
+```tsx
+import { Card, CardContent, CardDescription, CardHeader, CardInset, CardTitle } from "@/components/ui/card";
+
+<Card>
+  <CardHeader>
+    <CardTitle>Revenue</CardTitle>
+    <CardDescription>Last 30 days</CardDescription>
+  </CardHeader>
+  <CardContent>…</CardContent>
+</Card>
+
+<Card variant="inset" dither>
+  <CardHeader><CardTitle>Northwind Studio</CardTitle></CardHeader>
+  <CardInset>…</CardInset>
+</Card>
+```
+
+`CardHeader`, `CardTitle`, `CardDescription`, `CardAction` (top-right slot), `CardContent`, `CardFooter`, `CardInset` (inner panel of an inset card), `CardImage` (full-bleed media).
+
+## Props
+
+<TypeTable type={{"variant": {"type": "\"default\" | \"inset\"", "default": "\"default\"", "description": "inset: muted shell (p-1) + inner panel via CardInset."}, "size": {"type": "\"default\" | \"sm\"", "default": "\"default\""}, "dither": {"type": "boolean", "default": "false", "description": "Inset only: dither texture on the shell."}}} />
+
+## Examples
+
+### Inset
+
+The signature layout: header on the muted shell, content on the inner surface (`CardInset`). Add `dither` for the texture.
+
+<ComponentPreview name="card-inset" stacked />
+
+### Sizes
+
+<ComponentPreview name="card-sizes" stacked />

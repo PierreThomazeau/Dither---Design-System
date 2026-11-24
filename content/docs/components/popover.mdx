@@ -1,0 +1,39 @@
+---
+title: Popover
+description: "Rich content anchored to a trigger. Default panel or inset shell."
+status: stable
+variants: 2
+props: 3
+registry: popover
+---
+
+<ComponentPreview name="popover-demo" />
+
+## Installation
+
+<InstallCommand name="popover" />
+
+## Usage
+
+```tsx
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+
+<Popover>
+  <PopoverTrigger asChild><Button variant="outline">Open</Button></PopoverTrigger>
+  <PopoverContent>…</PopoverContent>
+</Popover>
+```
+
+`PopoverHeader`, `PopoverTitle`, `PopoverDescription`, `PopoverInset`.
+
+## Props
+
+<TypeTable type={{"PopoverContent variant": {"type": "\"default\" | \"inset\"", "default": "\"default\""}, "PopoverContent align": {"type": "\"start\" | \"center\" | \"end\"", "default": "\"center\""}, "PopoverContent sideOffset": {"type": "number", "default": "6"}}} />
+
+## Examples
+
+### Inset
+
+Header on the muted shell, body in `PopoverInset`. The track uses the dither texture for the remaining part.
+
+<ComponentPreview name="popover-inset" />

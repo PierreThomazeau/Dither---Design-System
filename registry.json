@@ -440,6 +440,211 @@
           "type": "registry:ui"
         }
       ]
+    },
+    {
+      "name": "menu",
+      "type": "registry:lib",
+      "title": "Menu styles",
+      "description": "Shared panel and item styles for menus.",
+      "files": [
+        {
+          "path": "registry/dither/lib/menu.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "card",
+      "type": "registry:ui",
+      "title": "Card",
+      "description": "Default and inset (two-tone) cards.",
+      "registryDependencies": [
+        "utils",
+        "@dither/theme"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/ui/card.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "class-variance-authority"
+      ]
+    },
+    {
+      "name": "alert",
+      "type": "registry:ui",
+      "title": "Alert",
+      "description": "Messages with icon, title, description and action.",
+      "registryDependencies": [
+        "utils"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/ui/alert.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "class-variance-authority"
+      ]
+    },
+    {
+      "name": "empty",
+      "type": "registry:ui",
+      "title": "Empty",
+      "description": "Empty states, including a dither variant.",
+      "registryDependencies": [
+        "utils",
+        "@dither/dither"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/ui/empty.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "class-variance-authority"
+      ]
+    },
+    {
+      "name": "skeleton",
+      "type": "registry:ui",
+      "title": "Skeleton",
+      "description": "Pulsing dither placeholder.",
+      "registryDependencies": [
+        "utils",
+        "@dither/theme"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/ui/skeleton.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "dialog",
+      "type": "registry:ui",
+      "title": "Dialog",
+      "description": "Modal with a muted footer strip.",
+      "registryDependencies": [
+        "utils",
+        "@dither/icon"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/ui/dialog.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "radix-ui",
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons"
+      ]
+    },
+    {
+      "name": "sheet",
+      "type": "registry:ui",
+      "title": "Sheet",
+      "description": "Floating edge panel.",
+      "registryDependencies": [
+        "utils",
+        "@dither/dialog"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/ui/sheet.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "radix-ui"
+      ]
+    },
+    {
+      "name": "drawer",
+      "type": "registry:ui",
+      "title": "Drawer",
+      "description": "Bottom sheet with handle.",
+      "registryDependencies": [
+        "utils"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/ui/drawer.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "vaul"
+      ]
+    },
+    {
+      "name": "popover",
+      "type": "registry:ui",
+      "title": "Popover",
+      "description": "Anchored panel, default or inset.",
+      "registryDependencies": [
+        "utils"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/ui/popover.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "radix-ui"
+      ]
+    },
+    {
+      "name": "dropdown-menu",
+      "type": "registry:ui",
+      "title": "Dropdown Menu",
+      "description": "Action menu with shortcuts, sub-menus, checkboxes and radios.",
+      "registryDependencies": [
+        "utils",
+        "@dither/icon",
+        "@dither/menu"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/ui/dropdown-menu.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "radix-ui",
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons"
+      ]
+    },
+    {
+      "name": "command",
+      "type": "registry:ui",
+      "title": "Command",
+      "description": "Searchable command list and palette.",
+      "registryDependencies": [
+        "utils",
+        "@dither/icon",
+        "@dither/menu",
+        "@dither/dialog"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/ui/command.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "cmdk",
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons"
+      ]
     }
   ]
 }

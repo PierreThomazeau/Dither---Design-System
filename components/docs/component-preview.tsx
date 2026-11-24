@@ -24,12 +24,14 @@ export async function ComponentPreview({
   className,
   panelClassName,
   hideCode,
+  stacked,
 }: {
   name: string;
   single?: boolean;
   className?: string;
   panelClassName?: string;
   hideCode?: boolean;
+  stacked?: boolean;
 }) {
   const Example = examples[name];
   if (!Example) throw new Error(`ComponentPreview: unknown example "${name}"`);
@@ -40,7 +42,7 @@ export async function ComponentPreview({
 
   return (
     <div className="not-prose my-6">
-      <Preview single={single} className="my-0" panelClassName={panelClassName}>
+      <Preview single={single} stacked={stacked} className="my-0" panelClassName={panelClassName}>
         <Example />
       </Preview>
       {source ? (

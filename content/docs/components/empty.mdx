@@ -1,0 +1,39 @@
+---
+title: Empty
+description: "What to show when there is nothing yet. One variant uses the dither texture."
+status: stable
+variants: 4
+props: 2
+registry: empty
+---
+
+<ComponentPreview name="empty-demo" stacked />
+
+## Installation
+
+<InstallCommand name="empty" />
+
+## Usage
+
+```tsx
+import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/ui/empty";
+
+<Empty variant="dither">
+  <EmptyHeader>
+    <EmptyMedia variant="icon"><Icon icon={Folder01Icon} /></EmptyMedia>
+    <EmptyTitle>No projects yet</EmptyTitle>
+    <EmptyDescription>Create your first project.</EmptyDescription>
+  </EmptyHeader>
+  <EmptyContent><Button>Create project</Button></EmptyContent>
+</Empty>
+```
+
+## Props
+
+<TypeTable type={{"variant": {"type": "\"default\" | \"outline\" | \"muted\" | \"dither\"", "default": "\"default\""}, "EmptyMedia variant": {"type": "\"default\" | \"icon\"", "default": "\"default\"", "description": "icon: 40px bordered tile."}}} />
+
+## Examples
+
+### Variants
+
+<ComponentPreview name="empty-variants" stacked />

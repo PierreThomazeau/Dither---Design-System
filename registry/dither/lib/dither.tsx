@@ -33,18 +33,20 @@ export function DitherPattern({ id, variant = "regular", gradientHeight }: Dithe
 
 export interface DitherFillProps extends React.ComponentProps<"svg"> {
   variant?: DitherVariant;
+  /** Gradient variant: height over which the density fades out (match the element height). */
+  gradientHeight?: number;
 }
 
 /**
  * A self-contained SVG that fills its positioned parent with the texture.
  * Use for empty states, skeletons, remaining capacity.
  */
-export function DitherFill({ variant = "regular", className, ...props }: DitherFillProps) {
+export function DitherFill({ variant = "regular", gradientHeight, className, ...props }: DitherFillProps) {
   const id = `dither-${React.useId().replace(/[^a-zA-Z0-9-]/g, "")}`;
   return (
     <svg aria-hidden="true" className={cn("pointer-events-none absolute inset-0 size-full", className)} {...props}>
       <defs>
-        <DitherPattern id={id} variant={variant} />
+        <DitherPattern id={id} variant={variant} gradientHeight={gradientHeight} />
       </defs>
       <rect width="100%" height="100%" fill={`url(#${id})`} />
     </svg>

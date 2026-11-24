@@ -1,0 +1,43 @@
+---
+title: Command
+description: "Fast, searchable list of commands, inline or as a palette."
+status: stable
+variants: 2
+props: 2
+registry: command
+---
+
+<ComponentPreview name="command-demo" />
+
+## Installation
+
+<InstallCommand name="command" />
+
+## Usage
+
+```tsx
+import { Command, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
+
+<Command>
+  <CommandInput placeholder="Search…" />
+  <CommandList>
+    <CommandGroup heading="Pages">
+      <CommandItem>Invoices</CommandItem>
+    </CommandGroup>
+  </CommandList>
+</Command>
+```
+
+Built on [cmdk](https://cmdk.paco.me).
+
+## Props
+
+<TypeTable type={{"CommandDialog footer": {"type": "ReactNode", "description": "Muted strip under the list (keyboard hints)."}, "CommandDialog open / onOpenChange": {"type": "boolean / (open) => void"}}} />
+
+## Examples
+
+### Palette
+
+Press ⌘K (Ctrl K) or click the button.
+
+<ComponentPreview name="command-dialog" />

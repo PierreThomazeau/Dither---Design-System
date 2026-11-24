@@ -1,0 +1,39 @@
+---
+title: Dialog
+description: "A modal window for a focused task. The footer is a muted strip."
+status: stable
+variants: 1
+props: 2
+registry: dialog
+---
+
+<ComponentPreview name="dialog-demo" />
+
+## Installation
+
+<InstallCommand name="dialog" />
+
+## Usage
+
+```tsx
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+
+<Dialog>
+  <DialogTrigger asChild><Button variant="outline">Open</Button></DialogTrigger>
+  <DialogContent>
+    <DialogHeader><DialogTitle>Rename project</DialogTitle></DialogHeader>
+    …
+    <DialogFooter><Button>Save</Button></DialogFooter>
+  </DialogContent>
+</Dialog>
+```
+
+`DialogTrigger`, `DialogContent` (rounded-body, 28), `DialogHeader`, `DialogTitle`, `DialogDescription`, `DialogFooter`, `DialogClose`.
+
+## Props
+
+<TypeTable type={{"DialogContent showCloseButton": {"type": "boolean", "default": "true"}, "open / onOpenChange": {"type": "boolean / (open) => void", "description": "Controlled mode, on Dialog."}}} />
+
+## Examples
+
+See the preview above.

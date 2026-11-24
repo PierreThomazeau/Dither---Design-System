@@ -11,12 +11,15 @@ export function Preview({
   className,
   panelClassName,
   single = false,
+  stacked = false,
 }: {
   children: ReactNode;
   className?: string;
   panelClassName?: string;
   /** Render one panel following the site theme instead of light + dark. */
   single?: boolean;
+  /** Light panel above the dark one, for wide components. */
+  stacked?: boolean;
 }) {
   const panel = (mode: "light" | "dark" | null) => (
     <div
@@ -35,7 +38,7 @@ export function Preview({
 
   return (
     <div className={cn("not-prose my-6 rounded-surface bg-background-muted p-1", className)}>
-      {single ? panel(null) : <div className="grid gap-1 md:grid-cols-2">{panel("light")}{panel("dark")}</div>}
+      {single ? panel(null) : <div className={cn("grid gap-1", !stacked && "md:grid-cols-2")}>{panel("light")}{panel("dark")}</div>}
     </div>
   );
 }
