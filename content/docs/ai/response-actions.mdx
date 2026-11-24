@@ -1,0 +1,32 @@
+---
+title: Response Actions
+description: "Copy, feedback, regenerate and share under an AI answer."
+status: stable
+variants: 1
+props: 5
+registry: response-actions
+---
+
+<ComponentPreview name="response-actions-demo" />
+
+## Installation
+
+<InstallCommand name="response-actions" />
+
+## Usage
+
+```tsx
+import { ResponseActions } from "@/components/blocks/response-actions";
+
+<ResponseActions copyText={answer} onRegenerate={regenerate} />
+```
+
+## Props
+
+<TypeTable type={{"copyText": {"type": "string"}, "feedback": {"type": "\"up\" | \"down\" | null"}, "onFeedbackChange": {"type": "(feedback) => void"}, "onRegenerate": {"type": "() => void", "description": "Shows the button when set."}, "onShare": {"type": "() => void", "description": "Shows the button when set."}}} />
+
+## Examples
+
+### Under an answer
+
+<ComponentPreview name="response-actions-answer" stacked />

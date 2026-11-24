@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "starter-prompt",
+  "title": "Starter Prompt",
+  "description": "Suggested prompt card.",
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "registry/dither/blocks/starter-prompt.tsx",
+      "content": "import * as React from \"react\";\n\nimport { cn } from \"@/registry/dither/lib/utils\";\n\nexport interface StarterPromptProps extends Omit<React.ComponentProps<\"button\">, \"title\"> {\n  icon?: React.ReactNode;\n  title: React.ReactNode;\n  description?: React.ReactNode;\n}\n\n/** Suggested prompt card for an empty AI chat. */\nfunction StarterPrompt({ icon, title, description, className, ...props }: StarterPromptProps) {\n  return (\n    <button\n      type=\"button\"\n      data-slot=\"starter-prompt\"\n      className={cn(\n        \"flex w-full flex-col items-start gap-3 rounded-field border bg-surface p-4 text-left shadow-xs outline-none transition-colors hover:bg-hover focus-visible:shadow-focus\",\n        className,\n      )}\n      {...props}\n    >\n      {icon ? (\n        <span className=\"flex size-7 items-center justify-center rounded-control border bg-surface text-foreground [&_svg]:size-4\">{icon}</span>\n      ) : null}\n      <span className=\"flex flex-col gap-1\">\n        <span className=\"text-sm font-medium\">{title}</span>\n        {description ? <span className=\"text-xs leading-4 text-muted-foreground\">{description}</span> : null}\n      </span>\n    </button>\n  );\n}\n\nexport { StarterPrompt };\n",
+      "type": "registry:component",
+      "target": "components/blocks/starter-prompt.tsx"
+    }
+  ],
+  "type": "registry:block"
+}

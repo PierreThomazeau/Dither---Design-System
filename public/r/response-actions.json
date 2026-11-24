@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "response-actions",
+  "title": "Response Actions",
+  "description": "Copy, feedback, regenerate, share.",
+  "dependencies": [
+    "@hugeicons/react",
+    "@hugeicons/core-free-icons"
+  ],
+  "registryDependencies": [
+    "utils",
+    "@dither/icon",
+    "@dither/tooltip"
+  ],
+  "files": [
+    {
+      "path": "registry/dither/blocks/response-actions.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { Copy01Icon, RefreshIcon, Share08Icon, ThumbsDownIcon, ThumbsUpIcon, Tick02Icon } from \"@hugeicons/core-free-icons\";\n\nimport { Icon } from \"@/registry/dither/lib/icon\";\nimport { cn } from \"@/registry/dither/lib/utils\";\nimport { Tooltip, TooltipContent, TooltipTrigger } from \"@/registry/dither/ui/tooltip\";\n\ntype Feedback = \"up\" | \"down\" | null;\n\nexport interface ResponseActionsProps extends React.ComponentProps<\"div\"> {\n  /** Text copied by the copy button. */\n  copyText?: string;\n  onRegenerate?: () => void;\n  onShare?: () => void;\n  feedback?: Feedback;\n  onFeedbackChange?: (feedback: Feedback) => void;\n}\n\nconst btn =\n  \"inline-flex size-control-xs items-center justify-center rounded-control text-muted-foreground outline-none transition-colors hover:bg-hover hover:text-foreground focus-visible:shadow-focus aria-pressed:text-foreground aria-pressed:bg-background-muted\";\n\nfunction Action({ label, children, ...props }: React.ComponentProps<\"button\"> & { label: string }) {\n  return (\n    <Tooltip>\n      <TooltipTrigger asChild>\n        <button type=\"button\" aria-label={label} className={btn} {...props}>\n          {children}\n        </button>\n      </TooltipTrigger>\n      <TooltipContent>{label}</TooltipContent>\n    </Tooltip>\n  );\n}\n\n/** Row of actions under an AI answer: copy, feedback, regenerate, share. */\nfunction ResponseActions({ copyText, onRegenerate, onShare, feedback: feedbackProp, onFeedbackChange, className, ...props }: ResponseActionsProps) {\n  const [copied, setCopied] = React.useState(false);\n  const [localFeedback, setLocalFeedback] = React.useState<Feedback>(null);\n  const feedback = feedbackProp !== undefined ? feedbackProp : localFeedback;\n  const setFeedback = (f: Feedback) => {\n    setLocalFeedback(f);\n    onFeedbackChange?.(f);\n  };\n\n  return (\n    <div data-slot=\"response-actions\" className={cn(\"flex items-center gap-0.5\", className)} {...props}>\n      <Action\n        label={copied ? \"Copied\" : \"Copy\"}\n        onClick={async () => {\n          if (copyText) {\n            try {\n              await navigator.clipboard.writeText(copyText);\n            } catch {\n              /* clipboard unavailable */\n            }\n          }\n          setCopied(true);\n          setTimeout(() => setCopied(false), 1500);\n        }}\n      >\n        <Icon icon={copied ? Tick02Icon : Copy01Icon} />\n      </Action>\n      <Action label=\"Good response\" aria-pressed={feedback === \"up\"} onClick={() => setFeedback(feedback === \"up\" ? null : \"up\")}>\n        <Icon icon={ThumbsUpIcon} />\n      </Action>\n      <Action label=\"Bad response\" aria-pressed={feedback === \"down\"} onClick={() => setFeedback(feedback === \"down\" ? null : \"down\")}>\n        <Icon icon={ThumbsDownIcon} />\n      </Action>\n      {onRegenerate ? (\n        <Action label=\"Regenerate\" onClick={onRegenerate}>\n          <Icon icon={RefreshIcon} />\n        </Action>\n      ) : null}\n      {onShare ? (\n        <Action label=\"Share\" onClick={onShare}>\n          <Icon icon={Share08Icon} />\n        </Action>\n      ) : null}\n    </div>\n  );\n}\n\nexport { ResponseActions };\n",
+      "type": "registry:component",
+      "target": "components/blocks/response-actions.tsx"
+    }
+  ],
+  "type": "registry:block"
+}

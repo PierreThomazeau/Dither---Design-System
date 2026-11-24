@@ -1,0 +1,37 @@
+---
+title: Agent Step
+description: "One step of an AI agent run: Done, Running or Queued."
+status: stable
+variants: 3
+props: 3
+registry: agent-step
+---
+
+<ComponentPreview name="agent-step-demo" />
+
+## Installation
+
+<InstallCommand name="agent-step" />
+
+## Usage
+
+```tsx
+import { AgentStep, AgentSteps } from "@/components/blocks/agent-step";
+
+<AgentSteps>
+  <AgentStep status="done" title="Read invoices" detail="invoices_2026.csv" />
+  <AgentStep status="running" title="Building report" />
+</AgentSteps>
+```
+
+## Props
+
+<TypeTable type={{"status": {"type": "\"done\" | \"running\" | \"queued\"", "default": "\"queued\""}, "title": {"type": "ReactNode", "required": true}, "detail": {"type": "ReactNode", "description": "Tool, query or file, in mono."}}} />
+
+## Examples
+
+### In an agent card
+
+The header uses the AI glow (grammar 8) over an inset shell.
+
+<ComponentPreview name="agent-step-card" />

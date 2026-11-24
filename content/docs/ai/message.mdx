@@ -1,0 +1,33 @@
+---
+title: Message
+description: "Chat message row and bubble: user on the right, assistant on the left."
+status: stable
+variants: 5
+props: 4
+registry: message
+---
+
+<ComponentPreview name="message-demo" stacked />
+
+## Installation
+
+<InstallCommand name="message" />
+
+## Usage
+
+```tsx
+import { Bubble, Message } from "@/components/blocks/message";
+
+<Message from="user"><Bubble>Which accounts may churn?</Bubble></Message>
+<Message from="assistant" avatar={<Avatar … />}><Bubble>38 accounts are at risk.</Bubble></Message>
+```
+
+## Props
+
+<TypeTable type={{"Message from": {"type": "\"user\" | \"assistant\"", "required": true}, "Message avatar": {"type": "ReactNode"}, "Message meta": {"type": "ReactNode", "description": "Name and time, in mono."}, "Bubble variant": {"type": "\"primary\" | \"muted\" | \"outline\" | \"plain\" | \"error\"", "description": "Defaults to primary for the user, muted for the assistant."}}} />
+
+## Examples
+
+### Bubble variants
+
+<ComponentPreview name="message-variants" stacked />

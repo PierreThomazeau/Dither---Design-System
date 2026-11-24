@@ -859,6 +859,183 @@
           "target": "components/blocks/activity-heatmap.tsx"
         }
       ]
+    },
+    {
+      "name": "ai-glow",
+      "type": "registry:lib",
+      "title": "AI glow",
+      "description": "Indigo \u2192 pink dithered wash for AI surfaces.",
+      "registryDependencies": [
+        "utils",
+        "@dither/theme"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/lib/ai-glow.tsx",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "chat-composer",
+      "type": "registry:block",
+      "title": "Chat Composer",
+      "description": "Two-tone AI composer with tools, mode and model pickers.",
+      "registryDependencies": [
+        "utils",
+        "@dither/ai-glow",
+        "@dither/icon",
+        "@dither/dropdown-menu"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/blocks/chat-composer.tsx",
+          "type": "registry:component",
+          "target": "components/blocks/chat-composer.tsx"
+        }
+      ],
+      "dependencies": [
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons"
+      ]
+    },
+    {
+      "name": "reasoning-block",
+      "type": "registry:block",
+      "title": "Reasoning Block",
+      "description": "Collapsible chain-of-thought.",
+      "registryDependencies": [
+        "utils",
+        "@dither/icon"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/blocks/reasoning-block.tsx",
+          "type": "registry:component",
+          "target": "components/blocks/reasoning-block.tsx"
+        }
+      ],
+      "dependencies": [
+        "radix-ui",
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons"
+      ]
+    },
+    {
+      "name": "agent-step",
+      "type": "registry:block",
+      "title": "Agent Step",
+      "description": "Agent run step: done, running, queued.",
+      "registryDependencies": [
+        "utils",
+        "@dither/icon"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/blocks/agent-step.tsx",
+          "type": "registry:component",
+          "target": "components/blocks/agent-step.tsx"
+        }
+      ],
+      "dependencies": [
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons"
+      ]
+    },
+    {
+      "name": "source-card",
+      "type": "registry:block",
+      "title": "Source Card",
+      "description": "Citation card.",
+      "registryDependencies": [
+        "utils",
+        "@dither/icon"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/blocks/source-card.tsx",
+          "type": "registry:component",
+          "target": "components/blocks/source-card.tsx"
+        }
+      ],
+      "dependencies": [
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons"
+      ]
+    },
+    {
+      "name": "response-actions",
+      "type": "registry:block",
+      "title": "Response Actions",
+      "description": "Copy, feedback, regenerate, share.",
+      "registryDependencies": [
+        "utils",
+        "@dither/icon",
+        "@dither/tooltip"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/blocks/response-actions.tsx",
+          "type": "registry:component",
+          "target": "components/blocks/response-actions.tsx"
+        }
+      ],
+      "dependencies": [
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons"
+      ]
+    },
+    {
+      "name": "context-window",
+      "type": "registry:block",
+      "title": "Context Window",
+      "description": "Token budget breakdown.",
+      "registryDependencies": [
+        "utils",
+        "@dither/theme"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/blocks/context-window.tsx",
+          "type": "registry:component",
+          "target": "components/blocks/context-window.tsx"
+        }
+      ]
+    },
+    {
+      "name": "starter-prompt",
+      "type": "registry:block",
+      "title": "Starter Prompt",
+      "description": "Suggested prompt card.",
+      "registryDependencies": [
+        "utils"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/blocks/starter-prompt.tsx",
+          "type": "registry:component",
+          "target": "components/blocks/starter-prompt.tsx"
+        }
+      ]
+    },
+    {
+      "name": "message",
+      "type": "registry:block",
+      "title": "Message",
+      "description": "Chat message and bubble.",
+      "registryDependencies": [
+        "utils"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/blocks/message.tsx",
+          "type": "registry:component",
+          "target": "components/blocks/message.tsx"
+        }
+      ],
+      "dependencies": [
+        "class-variance-authority"
+      ]
     }
   ]
 }

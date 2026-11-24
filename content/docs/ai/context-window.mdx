@@ -1,0 +1,32 @@
+---
+title: Context Window
+description: "Token budget breakdown for an AI conversation; free space in dither."
+status: stable
+variants: 1
+props: 3
+registry: context-window
+---
+
+<ComponentPreview name="context-window-demo" />
+
+## Installation
+
+<InstallCommand name="context-window" />
+
+## Usage
+
+```tsx
+import { ContextWindow } from "@/components/blocks/context-window";
+
+<ContextWindow max={200000} segments={[{ label: "Files", tokens: 38000 }, { label: "Conversation", tokens: 22000 }]} />
+```
+
+## Props
+
+<TypeTable type={{"max": {"type": "number", "required": true}, "segments": {"type": "{ label: string; tokens: number }[]", "required": true}, "title": {"type": "ReactNode", "default": "\"Context window\""}}} />
+
+## Examples
+
+### Almost full
+
+<ComponentPreview name="context-window-full" />

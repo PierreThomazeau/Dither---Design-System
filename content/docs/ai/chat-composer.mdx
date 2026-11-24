@@ -1,0 +1,34 @@
+---
+title: Chat Composer
+description: "Two-tone AI composer: raised input with tools and send, inside a shell carrying mode and model pickers."
+status: stable
+variants: 1
+props: 13
+registry: chat-composer
+---
+
+<ComponentPreview name="chat-composer-demo" stacked />
+
+## Installation
+
+<InstallCommand name="chat-composer" />
+
+## Usage
+
+```tsx
+import { ChatComposer } from "@/components/blocks/chat-composer";
+
+<ChatComposer onSubmit={(message, tools) => send(message, tools)} />
+```
+
+## Props
+
+<TypeTable type={{"placeholder": {"type": "string"}, "mode": {"type": "string", "default": "\"Direct chat\""}, "modes": {"type": "string[]"}, "onModeChange": {"type": "(mode: string) => void"}, "model": {"type": "string", "default": "\"Atlas 2\""}, "models": {"type": "string[]"}, "onModelChange": {"type": "(model: string) => void"}, "showTools": {"type": "boolean", "default": "true"}, "showFooter": {"type": "boolean", "default": "true"}, "tools": {"type": "{ id: string; label: string; icon?: ReactNode }[]"}, "onSubmit": {"type": "(message: string, activeTools: string[]) => void", "description": "Enter sends, Shift + Enter adds a line."}, "busy": {"type": "boolean", "default": "false", "description": "Shows a stop button."}, "onStop": {"type": "() => void"}}} />
+
+## Examples
+
+### Minimal
+
+Without tools and footer, for replies in a thread.
+
+<ComponentPreview name="chat-composer-minimal" stacked />

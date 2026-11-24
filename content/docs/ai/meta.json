@@ -1,0 +1,13 @@
+{
+  "title": "AI",
+  "pages": [
+    "chat-composer",
+    "message",
+    "reasoning-block",
+    "agent-step",
+    "source-card",
+    "response-actions",
+    "context-window",
+    "starter-prompt"
+  ]
+}

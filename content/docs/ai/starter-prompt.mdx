@@ -1,0 +1,32 @@
+---
+title: Starter Prompt
+description: "Suggested prompt card for an empty AI chat."
+status: stable
+variants: 1
+props: 3
+registry: starter-prompt
+---
+
+<ComponentPreview name="starter-prompt-demo" />
+
+## Installation
+
+<InstallCommand name="starter-prompt" />
+
+## Usage
+
+```tsx
+import { StarterPrompt } from "@/components/blocks/starter-prompt";
+
+<StarterPrompt icon={<Icon icon={Analytics02Icon} />} title="Explain last week’s revenue drop" onClick={…} />
+```
+
+## Props
+
+<TypeTable type={{"icon": {"type": "ReactNode"}, "title": {"type": "ReactNode", "required": true}, "description": {"type": "ReactNode"}}} />
+
+## Examples
+
+### Empty chat
+
+<ComponentPreview name="starter-prompt-empty-chat" stacked />

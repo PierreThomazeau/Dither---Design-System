@@ -1,0 +1,32 @@
+---
+title: Reasoning Block
+description: "Collapsible chain-of-thought summary shown above an AI answer."
+status: stable
+variants: 2
+props: 3
+registry: reasoning-block
+---
+
+<ComponentPreview name="reasoning-block-demo" />
+
+## Installation
+
+<InstallCommand name="reasoning-block" />
+
+## Usage
+
+```tsx
+import { ReasoningBlock } from "@/components/blocks/reasoning-block";
+
+<ReasoningBlock label="Thought for 12 seconds">…</ReasoningBlock>
+```
+
+## Props
+
+<TypeTable type={{"label": {"type": "ReactNode"}, "streaming": {"type": "boolean", "default": "false", "description": "Pulsing label while the model thinks."}, "defaultOpen / open / onOpenChange": {"type": "boolean / (open) => void"}}} />
+
+## Examples
+
+### Streaming
+
+<ComponentPreview name="reasoning-block-streaming" />

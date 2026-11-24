@@ -6,7 +6,8 @@
 - **Batch 2 (Core controls): done.** Button, Button Group, Input, Textarea, Select, Tabs, Checkbox, Radio Group, Switch, Toggle, Toggle Group, Badge, Kbd, Avatar (+ group), Separator, Tooltip, plus Label, Spinner and the shared Choice layout. Height rule checked on `/docs/components/height-rule` (all controls measured at 32 / 36 / 40 / 44).
 - **Batch 3 (Surfaces & overlays): done.** Card (default / inset + `dither`, sizes, `CardInset`), Alert, Empty (incl. `dither`), Skeleton (pulsing dither), Dialog (muted footer strip), Sheet (floating, rounded-sheet), Drawer (vaul), Popover (default / inset), Dropdown Menu, Command (cmdk, palette with footer).
 - **Batch 4 (Product blocks): done.** In `registry/dither/blocks/` (installed to `components/blocks/`): Stat Card (+ Sparkline), Gauge, Usage Meter, Workload Tile, Timeline, Onboarding Checklist, Announcement Bar, Chip, Kanban Card, Activity Heatmap. Docs under `/docs/blocks`.
-- Next: Figma round-trip (§7, due after batches 2 and 4) or batch 5 (AI blocks), after review.
+- **Batch 5 (AI blocks): done.** Chat Composer, Message + Bubble, Reasoning Block, Agent Step, Source Card, Response Actions, Context Window, Starter Prompt, plus `lib/ai-glow.tsx` (grammar 8). Docs under `/docs/ai`.
+- Next: Figma round-trip (§7, overdue since batches 2 and 4) or batch 6 (signature charts), after review. Some earlier pages still have a single example (Badge, Separator, Tooltip, Dialog, Drawer, several blocks).
 
 ## Commands
 
@@ -34,6 +35,7 @@
 - CSS `bg-dither-gradient` has a fixed 256px tile: to fade over a specific height, use `<DitherFill variant="gradient" gradientHeight={h} />`.
 - Status colours (no warning token exists): good / normal = `positive` (Usage Meter normal = `informative`, as in Figma), warning = `chart-1`, critical / error = `destructive`.
 - Remaining capacity is always dither (`bg-dither-fine` layer or `DitherPattern` in SVG): gauge arc, usage meter, checklist and subtask bars.
+- AI glow (`<AiGlow />`): wash + `bg-dither-fine` tinted by a gradient (`--dither-color: transparent` so only the gradient shows). Pink = `chart-3` light / `chart-5` dark. Model names in examples are generic ("Atlas 2").
 - Radix portals (Select content, Tooltip) render in `<body>`, so in docs previews they follow the site theme, not the panel.
 - Showcase screens in Figma (file `BASedQLpd5kssdxNmiOlVC`, node `34099:34828`) are a visual reference only (clean-room rule).
 
