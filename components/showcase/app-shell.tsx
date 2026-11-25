@@ -63,17 +63,20 @@ function ThemeToggle() {
   const mounted = React.useSyncExternalStore(noop, () => true, () => false);
   const dark = mounted && resolvedTheme === "dark";
   return (
-    <Button variant="ghost" size="icon-sm" aria-label={dark ? "Switch to light mode" : "Switch to dark mode"} onClick={() => setTheme(dark ? "light" : "dark")}>
+    <Button variant="outline" size="icon-sm" className="border-transparent" aria-label={dark ? "Switch to light mode" : "Switch to dark mode"} onClick={() => setTheme(dark ? "light" : "dark")}>
       <Icon icon={dark ? Sun03Icon : Moon02Icon} />
     </Button>
   );
 }
 
-/** Showcase app shell: sidebar on the page background, content in a raised rounded panel. */
+/**
+ * Showcase app shell: sidebar on a muted page, content in a rounded panel on the light background
+ * (white cards sit on it), top bar of floating pills: round sidebar toggle, breadcrumb chip, actions.
+ */
 export function AppShell({ workspace, actions = [], sections, user, breadcrumb, children, topbarRight }: AppShellProps) {
   const [open, setOpen] = React.useState(true);
   return (
-    <div className="flex min-h-dvh bg-background-muted/60 text-foreground dark:bg-background">
+    <div className="flex min-h-dvh bg-background-muted/70 text-foreground dark:bg-surface">
       <aside
         className={cn(
           "sticky top-0 hidden h-dvh w-60 shrink-0 flex-col gap-5 overflow-y-auto px-3 py-4 lg:flex",
@@ -116,17 +119,17 @@ export function AppShell({ workspace, actions = [], sections, user, breadcrumb, 
         </div>
       </aside>
       <div className="flex min-w-0 flex-1 flex-col p-2 lg:pl-0">
-        <div className="flex min-h-full flex-1 flex-col rounded-body border bg-surface shadow-sm">
-          <header className="flex h-14 shrink-0 items-center gap-3 border-b px-4">
-            <Button variant="ghost" size="icon-sm" aria-label={open ? "Hide sidebar" : "Show sidebar"} aria-pressed={!open} className="hidden lg:inline-flex" onClick={() => setOpen((o) => !o)}>
+        <div className="flex min-h-full flex-1 flex-col rounded-body bg-background shadow-xs dark:shadow-none">
+          <header className="flex h-16 shrink-0 items-center gap-2 px-4 md:px-6">
+            <Button variant="outline" size="icon-sm" aria-label={open ? "Hide sidebar" : "Show sidebar"} aria-pressed={!open} className="hidden border-transparent lg:inline-flex" onClick={() => setOpen((o) => !o)}>
               <Icon icon={SidebarLeft01Icon} />
             </Button>
-            <Button asChild variant="ghost" size="icon-sm" className="lg:hidden" aria-label="Back to showcase">
+            <Button asChild variant="outline" size="icon-sm" className="border-transparent lg:hidden" aria-label="Back to showcase">
               <Link href="/showcase">
                 <Icon icon={ArrowLeft01Icon} />
               </Link>
             </Button>
-            <nav aria-label="Breadcrumb" className="flex min-w-0 items-center gap-2 border-l pl-3 text-sm">
+            <nav aria-label="Breadcrumb" className="flex h-control-sm min-w-0 items-center gap-2 rounded-control bg-surface px-4 text-sm shadow-xs">
               {breadcrumb.map((b, i) => (
                 <React.Fragment key={b}>
                   {i > 0 ? <span className="text-muted-foreground">/</span> : null}
@@ -137,7 +140,7 @@ export function AppShell({ workspace, actions = [], sections, user, breadcrumb, 
             <div className="ml-auto flex items-center gap-1.5">
               {topbarRight}
               <ThemeToggle />
-              <Button asChild variant="outline" size="sm" className="hidden sm:inline-flex">
+              <Button asChild variant="outline" size="sm" className="hidden border-transparent font-semibold sm:inline-flex">
                 <Link href="/showcase">All screens</Link>
               </Button>
             </div>

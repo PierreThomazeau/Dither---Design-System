@@ -44,7 +44,7 @@ function Sparkline({ data, area = true, dither = false, label, className, ...pro
       className={cn("relative h-8 w-full overflow-hidden text-chart-1", className)}
       {...props}
     >
-      {dither ? <DitherFill variant="fine" /> : null}
+      {dither ? <DitherFill variant="organic" /> : null}
       <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" className="relative size-full overflow-visible">
         <defs>
           <linearGradient id={gradientId} x1="0" x2="0" y1="0" y2="1">
