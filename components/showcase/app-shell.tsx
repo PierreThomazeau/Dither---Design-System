@@ -70,13 +70,14 @@ function ThemeToggle() {
 }
 
 /**
- * Showcase app shell: sidebar on a muted page, content in a rounded panel on the light background
- * (white cards sit on it), top bar of floating pills: round sidebar toggle, breadcrumb chip, actions.
+ * Showcase app shell: sidebar and body on the same background (white cards sit on it), a top bar of
+ * floating pills (round sidebar toggle, breadcrumb chip, actions). The top bar stays put and only the
+ * content below scrolls; PageHeader sticks to the top of that scroll area.
  */
 export function AppShell({ workspace, actions = [], sections, user, breadcrumb, children, topbarRight }: AppShellProps) {
   const [open, setOpen] = React.useState(true);
   return (
-    <div className="flex min-h-dvh bg-background-muted/70 text-foreground dark:bg-surface">
+    <div className="flex h-dvh overflow-hidden bg-background text-foreground">
       <aside
         className={cn(
           "sticky top-0 hidden h-dvh w-60 shrink-0 flex-col gap-5 overflow-y-auto px-3 py-4 lg:flex",
@@ -118,8 +119,8 @@ export function AppShell({ workspace, actions = [], sections, user, breadcrumb, 
           </Button>
         </div>
       </aside>
-      <div className="flex min-w-0 flex-1 flex-col p-2 lg:pl-0">
-        <div className="flex min-h-full flex-1 flex-col rounded-body bg-background shadow-xs dark:shadow-none">
+      <div className="flex min-h-0 min-w-0 flex-1 flex-col">
+        <div className="flex min-h-0 flex-1 flex-col">
           <header className="flex h-16 shrink-0 items-center gap-2 px-4 md:px-6">
             <Button variant="outline" size="icon-sm" aria-label={open ? "Hide sidebar" : "Show sidebar"} aria-pressed={!open} className="hidden border-transparent lg:inline-flex" onClick={() => setOpen((o) => !o)}>
               <Icon icon={SidebarLeft01Icon} />
@@ -145,7 +146,7 @@ export function AppShell({ workspace, actions = [], sections, user, breadcrumb, 
               </Button>
             </div>
           </header>
-          <main className="flex min-w-0 flex-1 flex-col">{children}</main>
+          <main className="flex min-h-0 min-w-0 flex-1 flex-col overflow-y-auto overscroll-contain">{children}</main>
         </div>
       </div>
     </div>

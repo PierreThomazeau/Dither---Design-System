@@ -4,7 +4,11 @@ import { CheckmarkCircle01Icon } from "@hugeicons/core-free-icons";
 import { Icon } from "@/registry/dither/lib/icon";
 import { Avatar, AvatarFallback, AvatarGroup } from "@/registry/dither/ui/avatar";
 
-/** Screen title row: title, sync status, presence, live badge and actions. */
+/**
+ * Screen title row: title, sync status, presence, live badge and actions.
+ * Sticks to the top of the shell's scroll area (it covers the parent's p-5 / md:p-6 padding);
+ * a short fade under it keeps the scrolling content from being cut by a hard line.
+ */
 export function PageHeader({
   title,
   status,
@@ -19,7 +23,7 @@ export function PageHeader({
   actions?: React.ReactNode;
 }) {
   return (
-    <div className="flex flex-wrap items-center gap-x-4 gap-y-3">
+    <div className="sticky top-0 z-20 -mx-5 -mt-5 flex flex-wrap items-center gap-x-4 gap-y-3 bg-background px-5 pt-5 pb-3 after:pointer-events-none after:absolute after:inset-x-0 after:top-full after:h-4 after:bg-linear-to-b after:from-background after:to-transparent md:-mx-6 md:-mt-6 md:px-6 md:pt-6">
       <h1 className="mr-auto text-3xl leading-9 font-semibold tracking-tight">{title}</h1>
       {status ? (
         <span className="hidden items-center gap-1.5 text-sm text-muted-foreground md:flex">
