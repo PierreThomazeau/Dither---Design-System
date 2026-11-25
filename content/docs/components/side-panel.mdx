@@ -1,0 +1,52 @@
+---
+title: Side Panel
+description: "A right-hand panel that pushes the content aside instead of covering it."
+status: stable
+variants: 1
+props: 4
+registry: side-panel
+---
+
+<ComponentPreview name="side-panel-demo" stacked />
+
+## Installation
+
+<InstallCommand name="side-panel" />
+
+## Usage
+
+```tsx
+import {
+  SidePanel, SidePanelContent, SidePanelFooter, SidePanelHeader,
+  SidePanelInset, SidePanelLayout, SidePanelProvider, SidePanelTrigger,
+} from "@/components/ui/side-panel";
+
+<SidePanelProvider>
+  <SidePanelLayout>
+    <SidePanelInset>
+      {/* page content */}
+      <SidePanelTrigger asChild><Button variant="outline">Details</Button></SidePanelTrigger>
+    </SidePanelInset>
+    <SidePanel label="Invoice details">
+      <SidePanelHeader title="INV-2041" description="Lumen Finance" />
+      <SidePanelContent>…</SidePanelContent>
+      <SidePanelFooter><Button>Download</Button></SidePanelFooter>
+    </SidePanel>
+  </SidePanelLayout>
+</SidePanelProvider>
+```
+
+- **It pushes, it never floats.** The panel owns a column whose width animates from 0, so the content reflows next to it. Use a [Sheet](/docs/components/sheet) when the panel must sit over the page.
+- **A card on a darker ground.** Full height, `rounded-surface`, `background-muted` (surface in dark mode), 8px from the edges.
+- **Motion rule.** Opens in 200ms ease-out, closes in 100ms ease-in (see [Motion](/docs/foundations/motion)). Escape closes it; when closed it is `inert`.
+
+## Props
+
+<TypeTable
+  type={{
+    "SidePanelProvider open / defaultOpen": { type: "boolean", default: "false", description: "Controlled or uncontrolled open state, with onOpenChange." },
+    "SidePanel width": { type: "number", default: "380", description: "Width of the open panel in px (the card keeps it while the column animates)." },
+    "SidePanel label": { type: "string", default: "\"Details\"", description: "Accessible name of the panel landmark." },
+    "SidePanelTrigger asChild": { type: "boolean", default: "false", description: "Render your own button; it gets aria-expanded and aria-controls." },
+  }}
+/>

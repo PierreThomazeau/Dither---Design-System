@@ -7,6 +7,36 @@
   /* Fast out, soft landing. */
   --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
   --duration-liquid: 460ms;
+
+  /* Open / close rule (Pierre): an element opens in 200ms ease-out and closes in 100ms ease-in.
+     Opening decelerates into place; closing gets out of the way, twice as fast. */
+  --motion-open-duration: 200ms;
+  --motion-open-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --motion-close-duration: 100ms;
+  --motion-close-ease: cubic-bezier(0.4, 0, 1, 1);
+}
+
+/* Keyframe enter / exit (tw-animate-css animate-in / animate-out) on Radix overlays:
+   data-state="open" | "closed" picks the open or close timing. */
+@utility motion-overlay {
+  &[data-state="open"], &[data-state="delayed-open"], &[data-state="instant-open"], &[data-open] {
+    --tw-animation-duration: var(--motion-open-duration);
+    --tw-ease: var(--motion-open-ease);
+  }
+  &[data-state="closed"], &[data-closed] {
+    --tw-animation-duration: var(--motion-close-duration);
+    --tw-ease: var(--motion-close-ease);
+  }
+}
+
+/* CSS transitions (side panel width, collapsibles): close timing by default, open timing while open. */
+@utility motion-transition {
+  transition-duration: var(--motion-close-duration);
+  transition-timing-function: var(--motion-close-ease);
+  &[data-state="open"] {
+    transition-duration: var(--motion-open-duration);
+    transition-timing-function: var(--motion-open-ease);
+  }
 }
 
 /* Switch thumb: stretches while travelling, then settles (two names so the animation restarts on each toggle). */

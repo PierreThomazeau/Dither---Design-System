@@ -590,6 +590,28 @@
       ]
     },
     {
+      "name": "side-panel",
+      "type": "registry:ui",
+      "title": "Side Panel",
+      "description": "Right-hand panel that pushes the content: a full-height card on a darker ground, opens 200ms ease-out, closes 100ms ease-in.",
+      "registryDependencies": [
+        "utils",
+        "@dither/button",
+        "@dither/icon",
+        "@dither/theme"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/ui/side-panel.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "radix-ui",
+        "@hugeicons/core-free-icons"
+      ]
+    },
+    {
       "name": "drawer",
       "type": "registry:ui",
       "title": "Drawer",

@@ -13,6 +13,8 @@ import { Icon } from "@/registry/dither/lib/icon";
 import { Avatar, AvatarFallback, AvatarGroup } from "@/registry/dither/ui/avatar";
 import { Badge } from "@/registry/dither/ui/badge";
 import { Button } from "@/registry/dither/ui/button";
+import { SidePanelContent, SidePanelFooter, SidePanelHeader, SidePanelTrigger } from "@/registry/dither/ui/side-panel";
+import { Timeline, TimelineItem } from "@/registry/dither/blocks/timeline";
 import { Tabs, TabsList, TabsTrigger } from "@/registry/dither/ui/tabs";
 
 export const metadata: Metadata = { title: "Team overview · Showcase" };
@@ -56,9 +58,42 @@ function People({ list }: { list: string[] }) {
   );
 }
 
+/** Right-hand Side Panel: pushes the overview to the left when "Details" is pressed. */
+function SprintPanel() {
+  return (
+    <>
+      <SidePanelHeader title="Sprint 24" description="Nov 18 – Nov 29 · 4 squads" />
+      <SidePanelContent>
+        <div className="flex flex-wrap gap-1.5">
+          <Badge variant="positive">On track</Badge>
+          <Badge variant="outline">50 / 82 pts</Badge>
+          <Badge variant="destructive">2 blockers</Badge>
+        </div>
+        <section className="flex flex-col gap-1.5 rounded-[calc(var(--radius-surface)-8px)] border bg-surface p-4">
+          <h3 className="text-sm font-semibold">Goal</h3>
+          <p className="text-sm leading-6 text-muted-foreground">Ship the checkout redesign to 50% of traffic and close the accessibility sign-off.</p>
+        </section>
+        <section className="flex flex-col gap-3 rounded-[calc(var(--radius-surface)-8px)] border bg-surface p-4">
+          <h3 className="text-sm font-semibold">Activity</h3>
+          <Timeline>
+            <TimelineItem status="success" title="Payment step merged" description="Growth · ATL-142" time="10:42" />
+            <TimelineItem status="warning" title="Mobile app at 125% capacity" description="Two tasks moved to Sprint 25" time="09:15" />
+            <TimelineItem status="error" title="Accessibility sign-off blocked" description="5 specs waiting on review" time="Yesterday" />
+            <TimelineItem title="Sprint started" description="82 points committed" time="Nov 18" />
+          </Timeline>
+        </section>
+      </SidePanelContent>
+      <SidePanelFooter>
+        <Button variant="outline">Open board</Button>
+        <Button>Plan Sprint 25</Button>
+      </SidePanelFooter>
+    </>
+  );
+}
+
 export default function TeamOverview() {
   return (
-    <AppShell {...northwind("Overview")} breadcrumb={["Overview"]}>
+    <AppShell {...northwind("Overview")} breadcrumb={["Overview"]} panel={<SprintPanel />} panelLabel="Sprint details">
       <div className="flex flex-col gap-5 p-5 md:p-6">
         <PageHeader
           title="Team overview"
@@ -83,7 +118,7 @@ export default function TeamOverview() {
           <PeriodButton className="ml-auto">Sprint 24</PeriodButton>
         </div>
 
-        <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+        <div className="grid gap-3 @xl:grid-cols-2 @5xl:grid-cols-4">
           <StatCard label="Delivery velocity" value="42 pts" delta="+8%" caption="vs last sprint" trend="up" icon={<Icon icon={Analytics01Icon} />} sparkline={[30, 32, 31, 35, 34, 38, 37, 42]} />
           <StatCard label="Capacity used" value="86%" delta="+3 pts" caption="across 6 squads" trend="neutral" icon={<Icon icon={PieChartIcon} />} sparkline={[80, 82, 81, 84, 83, 85, 84, 86]} />
           <StatCard label="Open blockers" value="7" delta="+3" caption="since Monday" trend="down" icon={<Icon icon={AlertCircleIcon} />} sparkline={[3, 4, 4, 5, 4, 6, 6, 7]} />
@@ -95,7 +130,7 @@ export default function TeamOverview() {
             <h2 className="text-base font-semibold tracking-tight">Workload</h2>
             <span className="text-xs text-muted-foreground">12 open items across 4 squads</span>
           </div>
-          <div className="grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
+          <div className="grid gap-2 @xl:grid-cols-2 @5xl:grid-cols-4">
             <WorkloadTile count={2} status="backlog" due="Due 12 Nov" assignees={<People list={["M", "J"]} />} />
             <WorkloadTile count={1} status="not-started" due="Due 14 Nov" assignees={<People list={["J"]} />} />
             <WorkloadTile count={3} status="in-progress" title="Working on" due="Due 12 Nov" assignees={<People list={["F", "M"]} />} />
@@ -103,7 +138,7 @@ export default function TeamOverview() {
           </div>
         </section>
 
-        <div className="grid gap-4 xl:grid-cols-[1.6fr_1fr]">
+        <div className="grid gap-4 @5xl:grid-cols-[1.6fr_1fr]">
           <ChartCard
             title="Lead performance"
             subtitle="Items shipped vs. committed · Sprint 24"
@@ -124,9 +159,16 @@ export default function TeamOverview() {
             />
           </ChartCard>
           <section className="flex flex-col gap-1 rounded-surface bg-background-muted p-1">
-            <div className="flex flex-col gap-0.5 px-3 pt-2 pb-1.5">
-              <h2 className="text-base font-semibold tracking-tight">Sprint 24 progress</h2>
-              <p className="text-sm text-muted-foreground">Ends Friday · 4 days left</p>
+            <div className="flex items-start justify-between gap-3 px-3 pt-2 pb-1.5">
+              <div className="flex flex-col gap-0.5">
+                <h2 className="text-base font-semibold tracking-tight">Sprint 24 progress</h2>
+                <p className="text-sm text-muted-foreground">Ends Friday · 4 days left</p>
+              </div>
+              <SidePanelTrigger asChild>
+                <Button variant="outline" size="sm">
+                  Details
+                </Button>
+              </SidePanelTrigger>
             </div>
             <div className="flex flex-1 flex-col gap-4 rounded-[calc(var(--radius-surface)-4px)] border bg-surface p-4 shadow-xs">
               {squads.map((s) => (
@@ -155,7 +197,7 @@ export default function TeamOverview() {
           </section>
         </div>
 
-        <div className="grid gap-4 lg:grid-cols-2">
+        <div className="grid gap-4 @3xl:grid-cols-2">
           <Panel title="Squad leads" subtitle="Load and focus this sprint">
             <ul className="flex flex-col gap-3">
               {leads.map((l) => (
@@ -190,7 +232,7 @@ export default function TeamOverview() {
           </Panel>
         </div>
 
-        <div className="grid gap-4 xl:grid-cols-[1.6fr_1fr]">
+        <div className="grid gap-4 @5xl:grid-cols-[1.6fr_1fr]">
           <Panel
             title="Recent activity"
             action={

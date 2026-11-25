@@ -1,9 +1,31 @@
 ---
 title: Motion
-description: "Liquid springs, a living primary button and a dither that moves out of the way."
+description: "Open in 200ms ease-out, close in 100ms ease-in. Liquid springs for small feedback, a dither that moves out of the way."
 ---
 
-Dither moves like a liquid: things stretch a little when they travel, overshoot a little when they land, then settle. Every animation stops when the user asks for reduced motion.
+Two layers. **Opening and closing** follow one strict rule, so every surface feels the same. **Small feedback** (switches, tabs, checks) keeps a liquid spring. Every animation stops when the user asks for reduced motion.
+
+## Open and close
+
+An element **opens in 200ms ease-out** and **closes in 100ms ease-in**. Opening decelerates into place so the eye can follow it; closing accelerates away, twice as fast, because the user has already moved on.
+
+| | Duration | Easing | Token |
+|---|---|---|---|
+| Open | 200ms | ease-out `cubic-bezier(0.22, 1, 0.36, 1)` | `--motion-open-duration`, `--motion-open-ease` |
+| Close | 100ms | ease-in `cubic-bezier(0.4, 0, 1, 1)` | `--motion-close-duration`, `--motion-close-ease` |
+
+Two utilities apply it from `data-state`:
+
+- `motion-overlay` for keyframe enter / exit (`animate-in` / `animate-out`): Dialog, Sheet, Drawer overlay, Popover, Dropdown Menu, Select, Tooltip, Command.
+- `motion-transition` for CSS transitions: the [Side Panel](/docs/components/side-panel) column and card.
+
+```tsx
+<div data-state={open ? "open" : "closed"} className="motion-transition transition-[width]" style={{ width: open ? 380 : 0 }} />
+```
+
+Never set a per-component duration on an open / close: change the tokens instead.
+
+## Liquid feedback
 
 <ComponentPreview name="motion-liquid" />
 
@@ -15,7 +37,7 @@ Dither moves like a liquid: things stretch a little when they travel, overshoot 
 | Tabs | The active pill (or underline) slides between triggers on a spring and stretches on the way. |
 | Button (primary) | On hover, the dither lights up under the cursor and crawls; on press, the button squashes and springs back. |
 | Checkbox, Radio, Chip | The mark pops in with a small overshoot. |
-| Dialog, Popover, Menus, Select, Tooltip, Sheet | Open with the liquid easing. |
+| Dialog, Popover, Menus, Select, Tooltip, Sheet, Side Panel | Open / close rule above (200ms ease-out in, 100ms ease-in out). |
 
 ## Interactive dither
 
@@ -41,6 +63,11 @@ The organic texture (`DitherFill shape`, see [Dither pattern](/docs/foundations/
 --ease-liquid: cubic-bezier(0.34, 1.56, 0.64, 1);  /* overshoot, then settle */
 --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);   /* fast out, soft landing */
 --duration-liquid: 460ms;
+
+--motion-open-duration: 200ms;
+--motion-open-ease: cubic-bezier(0.22, 1, 0.36, 1);  /* ease-out */
+--motion-close-duration: 100ms;
+--motion-close-ease: cubic-bezier(0.4, 0, 1, 1);     /* ease-in */
 ```
 
 In React, use the springs from `lib/motion.ts` (`liquidSpring`, `softSpring`) with [motion](https://motion.dev).

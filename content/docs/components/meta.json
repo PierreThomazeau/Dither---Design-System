@@ -23,6 +23,7 @@
     "---Overlays---",
     "dialog",
     "sheet",
+    "side-panel",
     "drawer",
     "popover",
     "dropdown-menu",

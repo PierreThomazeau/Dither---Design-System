@@ -37,7 +37,7 @@ function SheetContent({
         data-side={side}
         className={cn(
           "fixed z-50 flex flex-col gap-5 overflow-y-auto rounded-sheet border bg-surface p-6 text-foreground shadow-xl outline-none",
-          "transition data-[state=closed]:animate-out data-[state=closed]:duration-200 data-[state=closed]:ease-(--ease-out-soft) data-[state=open]:animate-in data-[state=open]:duration-500 data-[state=open]:ease-(--ease-liquid)",
+          "motion-overlay transition data-[state=closed]:animate-out data-[state=open]:animate-in",
           side === "right" && "inset-y-2 right-2 w-[calc(100%-1rem)] max-w-sm data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right",
           side === "left" && "inset-y-2 left-2 w-[calc(100%-1rem)] max-w-sm data-[state=closed]:slide-out-to-left data-[state=open]:slide-in-from-left",
           side === "top" && "inset-x-2 top-2 max-h-[80dvh] data-[state=closed]:slide-out-to-top data-[state=open]:slide-in-from-top",

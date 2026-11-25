@@ -78,6 +78,7 @@ import SelectSizes from "./select-sizes";
 import SeparatorDemo from "./separator-demo";
 import SheetDemo from "./sheet-demo";
 import SheetSides from "./sheet-sides";
+import SidePanelDemo from "./side-panel-demo";
 import SkeletonDemo from "./skeleton-demo";
 import SourceCardDemo from "./source-card-demo";
 import SourceCardFile from "./source-card-file";
@@ -181,6 +182,7 @@ export const examples: Record<string, ComponentType> = {
   "separator-demo": SeparatorDemo,
   "sheet-demo": SheetDemo,
   "sheet-sides": SheetSides,
+  "side-panel-demo": SidePanelDemo,
   "skeleton-demo": SkeletonDemo,
   "source-card-demo": SourceCardDemo,
   "source-card-file": SourceCardFile,

@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { useTheme } from "next-themes";
-import { ArrowLeft01Icon, Moon02Icon, Notification02Icon, SidebarLeft01Icon, Sun03Icon, UnfoldMoreIcon } from "@hugeicons/core-free-icons";
+import { ArrowLeft01Icon, Moon02Icon, Notification02Icon, SidebarLeft01Icon, SidebarRight01Icon, Sun03Icon, UnfoldMoreIcon } from "@hugeicons/core-free-icons";
 import type { IconSvgElement } from "@hugeicons/react";
 
 import { LogoMark } from "@/components/site/logo";
@@ -11,6 +11,7 @@ import { Icon } from "@/registry/dither/lib/icon";
 import { cn } from "@/registry/dither/lib/utils";
 import { Avatar, AvatarFallback } from "@/registry/dither/ui/avatar";
 import { Button } from "@/registry/dither/ui/button";
+import { SidePanel, SidePanelInset, SidePanelLayout, SidePanelProvider, SidePanelTrigger } from "@/registry/dither/ui/side-panel";
 
 export interface NavItem {
   label: string;
@@ -36,6 +37,11 @@ export interface AppShellProps {
   children: React.ReactNode;
   /** Extra content on the right of the top bar. */
   topbarRight?: React.ReactNode;
+  /** Right-hand Side Panel content (SidePanelHeader / Content / Footer). Pushes the page when open. */
+  panel?: React.ReactNode;
+  /** Accessible name of the panel. */
+  panelLabel?: string;
+  panelDefaultOpen?: boolean;
 }
 
 function NavLink({ item }: { item: NavItem }) {
@@ -74,7 +80,7 @@ function ThemeToggle() {
  * floating pills (round sidebar toggle, breadcrumb chip, actions). The top bar stays put and only the
  * content below scrolls; PageHeader sticks to the top of that scroll area.
  */
-export function AppShell({ workspace, actions = [], sections, user, breadcrumb, children, topbarRight }: AppShellProps) {
+export function AppShell({ workspace, actions = [], sections, user, breadcrumb, children, topbarRight, panel, panelLabel = "Details", panelDefaultOpen = false }: AppShellProps) {
   const [open, setOpen] = React.useState(true);
   return (
     <div className="flex h-dvh overflow-hidden bg-background text-foreground">
@@ -119,8 +125,9 @@ export function AppShell({ workspace, actions = [], sections, user, breadcrumb, 
           </Button>
         </div>
       </aside>
-      <div className="flex min-h-0 min-w-0 flex-1 flex-col">
-        <div className="flex min-h-0 flex-1 flex-col">
+      <SidePanelProvider defaultOpen={panelDefaultOpen}>
+      <SidePanelLayout>
+        <SidePanelInset>
           <header className="flex h-16 shrink-0 items-center gap-2 px-4 md:px-6">
             <Button variant="outline" size="icon-sm" aria-label={open ? "Hide sidebar" : "Show sidebar"} aria-pressed={!open} className="hidden lg:inline-flex" onClick={() => setOpen((o) => !o)}>
               <Icon icon={SidebarLeft01Icon} />
@@ -141,14 +148,23 @@ export function AppShell({ workspace, actions = [], sections, user, breadcrumb, 
             <div className="ml-auto flex items-center gap-1.5">
               {topbarRight}
               <ThemeToggle />
+              {panel ? (
+                <SidePanelTrigger asChild>
+                  <Button variant="outline" size="icon-sm" aria-label={`Toggle ${panelLabel.toLowerCase()} panel`}>
+                    <Icon icon={SidebarRight01Icon} />
+                  </Button>
+                </SidePanelTrigger>
+              ) : null}
               <Button asChild variant="outline" size="sm" className="hidden sm:inline-flex">
                 <Link href="/showcase">All screens</Link>
               </Button>
             </div>
           </header>
-          <main className="flex min-h-0 min-w-0 flex-1 flex-col overflow-y-auto overscroll-contain">{children}</main>
-        </div>
-      </div>
+          <main className="@container flex min-h-0 min-w-0 flex-1 flex-col overflow-y-auto overscroll-contain">{children}</main>
+        </SidePanelInset>
+        {panel ? <SidePanel label={panelLabel}>{panel}</SidePanel> : null}
+      </SidePanelLayout>
+      </SidePanelProvider>
     </div>
   );
 }
