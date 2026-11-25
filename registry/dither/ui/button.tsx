@@ -27,7 +27,7 @@ const buttonVariants = cva(
           "active:from-white/0 active:to-white/5 active:shadow-button-primary-pressed",
           "focus-visible:shadow-[var(--dither-shadow-button-primary),var(--dither-shadow-focus)]",
         ],
-        outline: "border bg-surface shadow-xs hover:bg-hover active:bg-background-muted focus-visible:border-ring",
+        outline: "border bg-surface hover:bg-hover active:bg-background-muted focus-visible:border-ring",
         secondary: "bg-background-muted text-foreground hover:bg-border/60 active:bg-border",
         destructive: [
           "bg-destructive/10 text-destructive hover:bg-destructive/15 active:bg-destructive/20",

@@ -6,7 +6,7 @@ import { cva } from "class-variance-authority";
  */
 export const fieldVariants = cva(
   [
-    "flex w-full min-w-0 items-center rounded-control border bg-surface text-sm text-foreground shadow-xs outline-none",
+    "flex w-full min-w-0 items-center rounded-control border bg-surface text-sm text-foreground outline-none",
     "transition-[border-color,box-shadow] duration-150",
     "placeholder:text-muted-foreground data-[placeholder]:text-muted-foreground",
     "hover:border-border-strong",

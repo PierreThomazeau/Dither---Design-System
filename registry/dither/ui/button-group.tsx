@@ -17,7 +17,7 @@ const buttonGroupVariants = cva(
   {
     variants: {
       variant: {
-        outline: "rounded-control border bg-surface shadow-xs *:data-[slot=button]:hover:bg-hover",
+        outline: "rounded-control border bg-surface *:data-[slot=button]:hover:bg-hover",
         secondary: "rounded-control bg-background-muted *:data-[slot=button]:hover:bg-surface",
         default: [
           "rounded-control bg-primary text-primary-foreground shadow-button-primary",

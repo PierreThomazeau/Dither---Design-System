@@ -63,7 +63,7 @@ function ThemeToggle() {
   const mounted = React.useSyncExternalStore(noop, () => true, () => false);
   const dark = mounted && resolvedTheme === "dark";
   return (
-    <Button variant="outline" size="icon-sm" className="border-transparent" aria-label={dark ? "Switch to light mode" : "Switch to dark mode"} onClick={() => setTheme(dark ? "light" : "dark")}>
+    <Button variant="outline" size="icon-sm" aria-label={dark ? "Switch to light mode" : "Switch to dark mode"} onClick={() => setTheme(dark ? "light" : "dark")}>
       <Icon icon={dark ? Sun03Icon : Moon02Icon} />
     </Button>
   );
@@ -122,15 +122,15 @@ export function AppShell({ workspace, actions = [], sections, user, breadcrumb, 
       <div className="flex min-h-0 min-w-0 flex-1 flex-col">
         <div className="flex min-h-0 flex-1 flex-col">
           <header className="flex h-16 shrink-0 items-center gap-2 px-4 md:px-6">
-            <Button variant="outline" size="icon-sm" aria-label={open ? "Hide sidebar" : "Show sidebar"} aria-pressed={!open} className="hidden border-transparent lg:inline-flex" onClick={() => setOpen((o) => !o)}>
+            <Button variant="outline" size="icon-sm" aria-label={open ? "Hide sidebar" : "Show sidebar"} aria-pressed={!open} className="hidden lg:inline-flex" onClick={() => setOpen((o) => !o)}>
               <Icon icon={SidebarLeft01Icon} />
             </Button>
-            <Button asChild variant="outline" size="icon-sm" className="border-transparent lg:hidden" aria-label="Back to showcase">
+            <Button asChild variant="outline" size="icon-sm" className="lg:hidden" aria-label="Back to showcase">
               <Link href="/showcase">
                 <Icon icon={ArrowLeft01Icon} />
               </Link>
             </Button>
-            <nav aria-label="Breadcrumb" className="flex h-control-sm min-w-0 items-center gap-2 rounded-control bg-surface px-4 text-sm shadow-xs">
+            <nav aria-label="Breadcrumb" className="flex h-control-sm min-w-0 items-center gap-2 rounded-control border bg-surface px-4 text-sm">
               {breadcrumb.map((b, i) => (
                 <React.Fragment key={b}>
                   {i > 0 ? <span className="text-muted-foreground">/</span> : null}
@@ -141,7 +141,7 @@ export function AppShell({ workspace, actions = [], sections, user, breadcrumb, 
             <div className="ml-auto flex items-center gap-1.5">
               {topbarRight}
               <ThemeToggle />
-              <Button asChild variant="outline" size="sm" className="hidden border-transparent font-semibold sm:inline-flex">
+              <Button asChild variant="outline" size="sm" className="hidden sm:inline-flex">
                 <Link href="/showcase">All screens</Link>
               </Button>
             </div>

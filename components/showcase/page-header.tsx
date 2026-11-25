@@ -48,8 +48,8 @@ export function PageHeader({
         </span>
       ) : null}
       {actions ? <div className="flex items-center gap-2">{actions}</div> : null}
-      {/* Blur layers are siblings, not on this element: a backdrop-filter here would stop theirs from seeing the page. */}
-      <div aria-hidden="true" className="absolute inset-0 -z-10 bg-background/85 backdrop-blur-xl" />
+      {/* Opaque, the same background as the top bar; the blur lives in a sibling layer under it. */}
+      <div aria-hidden="true" className="absolute inset-0 -z-10 bg-background" />
       <ProgressiveBlur className="absolute inset-x-0 top-full -z-10 h-12" />
     </div>
   );

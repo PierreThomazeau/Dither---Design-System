@@ -27,7 +27,7 @@ function ToggleGroup({
       data-size={size}
       className={cn(
         "group/toggle-group inline-flex w-fit items-center gap-0.5 rounded-control p-0.5",
-        variant === "outline" ? "border bg-surface shadow-xs" : "bg-background-muted",
+        variant === "outline" ? "border bg-surface" : "bg-background-muted",
         size === "sm" && "h-control-sm",
         size === "default" && "h-control",
         size === "lg" && "h-control-lg",
