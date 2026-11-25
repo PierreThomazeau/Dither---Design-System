@@ -1,0 +1,41 @@
+---
+title: Table
+description: "Data table primitives: muted header, 44px rows, mono numbers, selected rows tinted."
+status: stable
+variants: 1
+props: 1
+registry: table
+---
+
+<ComponentPreview name="table-demo" stacked />
+
+## Installation
+
+<InstallCommand name="table" />
+
+## Usage
+
+```tsx
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+
+<Table>
+  <TableHeader>
+    <TableRow><TableHead>Invoice</TableHead><TableHead className="text-right">Amount</TableHead></TableRow>
+  </TableHeader>
+  <TableBody>
+    <TableRow><TableCell className="font-mono text-xs">INV-0412</TableCell><TableCell className="text-right font-mono">€126,000</TableCell></TableRow>
+  </TableBody>
+</Table>
+```
+
+## Props
+
+<TypeTable type={{"TableRow data-state": {"type": "\"selected\"", "description": "Tints the row (use with a Checkbox)."}}} />
+
+Parts: `Table` (wraps a horizontally scrollable container), `TableHeader`, `TableBody`, `TableFooter`, `TableRow`, `TableHead`, `TableCell`, `TableCaption`.
+
+## Examples
+
+### Selection and footer
+
+<ComponentPreview name="table-selection" stacked />

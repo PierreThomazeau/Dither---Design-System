@@ -1390,6 +1390,21 @@
           "target": "components/charts/treemap-chart.tsx"
         }
       ]
+    },
+    {
+      "name": "table",
+      "type": "registry:ui",
+      "title": "Table",
+      "description": "Data table primitives.",
+      "registryDependencies": [
+        "utils"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/ui/table.tsx",
+          "type": "registry:ui"
+        }
+      ]
     }
   ]
 }

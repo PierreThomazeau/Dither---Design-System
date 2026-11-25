@@ -56,20 +56,26 @@ type ButtonProps = React.ComponentProps<"button"> &
   };
 
 function Button({ className, variant, size, asChild = false, loading = false, disabled, children, ...props }: ButtonProps) {
-  const Comp = asChild ? Slot.Root : "button";
+  const shared = {
+    "data-slot": "button",
+    "data-variant": variant ?? "default",
+    "data-size": size ?? "default",
+    className: cn(buttonVariants({ variant, size }), className),
+    "aria-busy": loading || undefined,
+  };
+  if (asChild) {
+    // Slot needs exactly one child element.
+    return (
+      <Slot.Root {...shared} {...props}>
+        {children}
+      </Slot.Root>
+    );
+  }
   return (
-    <Comp
-      data-slot="button"
-      data-variant={variant ?? "default"}
-      data-size={size ?? "default"}
-      className={cn(buttonVariants({ variant, size }), className)}
-      disabled={disabled || loading}
-      aria-busy={loading || undefined}
-      {...props}
-    >
-      {loading && !asChild ? <Spinner /> : null}
-      {asChild ? children : <Slot.Slottable>{children}</Slot.Slottable>}
-    </Comp>
+    <button {...shared} disabled={disabled || loading} {...props}>
+      {loading ? <Spinner /> : null}
+      {children}
+    </button>
   );
 }
 

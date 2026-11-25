@@ -8,7 +8,8 @@ export const menuPanelClass =
 export const menuItemClass = [
   "relative flex h-control-sm cursor-default items-center gap-2 rounded-control-min px-3 text-sm outline-none select-none",
   "focus:bg-hover data-[highlighted]:bg-hover data-[selected=true]:bg-hover",
-  "data-[disabled]:pointer-events-none data-[disabled]:opacity-50 data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50",
+  // Radix sets data-disabled="" when disabled; cmdk sets data-disabled="true" | "false" on every item.
+  "data-[disabled]:not-data-[disabled=false]:pointer-events-none data-[disabled]:not-data-[disabled=false]:opacity-50",
   "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:text-muted-foreground",
   "data-[variant=destructive]:text-destructive data-[variant=destructive]:focus:bg-destructive/10 data-[variant=destructive]:data-[highlighted]:bg-destructive/10 data-[variant=destructive]:[&_svg]:text-destructive",
 ].join(" ");

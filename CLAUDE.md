@@ -8,7 +8,8 @@
 - **Batch 4 (Product blocks): done.** In `registry/dither/blocks/` (installed to `components/blocks/`): Stat Card (+ Sparkline), Gauge, Usage Meter, Workload Tile, Timeline, Onboarding Checklist, Announcement Bar, Chip, Kanban Card, Activity Heatmap. Docs under `/docs/blocks`.
 - **Batch 5 (AI blocks): done.** Chat Composer, Message + Bubble, Reasoning Block, Agent Step, Source Card, Response Actions, Context Window, Starter Prompt, plus `lib/ai-glow.tsx` (grammar 8). Docs under `/docs/ai`.
 - **Batch 6 (Signature charts): done.** 18 charts in `registry/dither/charts/` (installed to `components/charts/`) + `chart-kit.tsx` (ChartCard, PeriodButton, ChartLegend, ChartTag, SvgTag, DeltaChip, HtmlPlot, niceScale, axisTick, gridProps) and `chart-tooltip.tsx`. Docs under `/docs/charts` (one example each, from the Figma "Charts / Signature" board).
-- Next: Figma round-trip (§7, now due: after batches 2, 4 and 6) or batch 7 (showcase), after review. Single-example pages remain (Badge, Separator, Tooltip, Dialog, Drawer, several blocks, all charts).
+- **Batch 7 (Showcase): done.** `/showcase` index (in the home layout) + 12 full-screen screens under `app/(app)/showcase/<slug>` sharing `components/showcase/app-shell.tsx` (collapsible sidebar, raised content panel, breadcrumb, theme toggle). Workspaces in `components/showcase/nav.ts` (Northwind Studio, Lumen Finance, Atlas Copilot). New primitive: Table (+ docs). Fixed on the way: Button `asChild` (Slot got two children), menu items under cmdk all at 50% opacity (cmdk sets `data-disabled="false"`).
+- Next: Figma round-trip (§7, now due: after batches 2, 4 and 6) or batch 8 (marketing site), after review. Single-example pages remain (Badge, Separator, Tooltip, Dialog, Drawer, several blocks, all charts).
 
 ## Commands
 
@@ -39,6 +40,7 @@
 - AI glow (`<AiGlow />`): wash + `bg-dither-fine` tinted by a gradient (`--dither-color: transparent` so only the gradient shows). Pink = `chart-3` light / `chart-5` dark. Model names in examples are generic ("Atlas 2").
 - Charts: Recharts only for Forecast Line, Stacked Area, Combo, Scatter, Response Curve (client); the 13 others are HTML/SVG (server-safe, stretch naturally). Chart components render the plot only; wrap them in `ChartCard` + `ChartLegend`. Recharts paints use `chartColor` (CSS vars); dither inside Recharts = `<defs><DitherPattern/></defs>` + `fill="url(#id)"`. Keep loops that accumulate (offsets, running totals) in pure helpers outside the component: the React Compiler lint rejects reassignment inside render callbacks.
 - Treemap labels sit in a `bg-surface/90` chip so they stay readable on any chart colour in both modes.
+- Showcase pages are server components; anything passing functions (chart formatters) to a Recharts chart lives in `components/showcase/client-charts.tsx` ("use client"). Brand names from the Figma screens are replaced with generic ones (ledger, board, design file, Atlas 2).
 - Radix portals (Select content, Tooltip) render in `<body>`, so in docs previews they follow the site theme, not the panel.
 - Showcase screens in Figma (file `BASedQLpd5kssdxNmiOlVC`, node `34099:34828`) are a visual reference only (clean-room rule).
 

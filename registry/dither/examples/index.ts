@@ -85,6 +85,8 @@ import StatCardDemo from "./stat-card-demo";
 import StatCardGradient from "./stat-card-gradient";
 import SwitchBox from "./switch-box";
 import SwitchDemo from "./switch-demo";
+import TableDemo from "./table-demo";
+import TableSelection from "./table-selection";
 import TabsDemo from "./tabs-demo";
 import TabsLine from "./tabs-line";
 import TabsSizes from "./tabs-sizes";
@@ -183,6 +185,8 @@ export const examples: Record<string, ComponentType> = {
   "stat-card-gradient": StatCardGradient,
   "switch-box": SwitchBox,
   "switch-demo": SwitchDemo,
+  "table-demo": TableDemo,
+  "table-selection": TableSelection,
   "tabs-demo": TabsDemo,
   "tabs-line": TabsLine,
   "tabs-sizes": TabsSizes,
