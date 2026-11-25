@@ -19,7 +19,7 @@ The site exposes a stateless MCP endpoint over HTTP at `/mcp`.
 ### Claude Code
 
 ```bash
-claude mcp add --transport http dither https://<your-dither-domain>/mcp
+claude mcp add --transport http dither https://dither-design-system.vercel.app/mcp
 ```
 
 ### Cursor, VS Code and other clients
@@ -27,7 +27,7 @@ claude mcp add --transport http dither https://<your-dither-domain>/mcp
 ```json title=".cursor/mcp.json"
 {
   "mcpServers": {
-    "dither": { "url": "https://<your-dither-domain>/mcp" }
+    "dither": { "url": "https://dither-design-system.vercel.app/mcp" }
   }
 }
 ```

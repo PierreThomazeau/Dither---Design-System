@@ -4,8 +4,8 @@ export const appDescription =
 export const version = "0.1.0";
 export const docsRoute = "/docs";
 
-/** Public URL of the site and of the shadcn registry (`/r/{name}.json`). Placeholder until the domain is chosen. */
-export const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+/** Public URL of the site and of the shadcn registry (`/r/{name}.json`). Override with NEXT_PUBLIC_SITE_URL. */
+export const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://dither-design-system.vercel.app";
 
 export const gitConfig = {
   user: "PierreThomazeau",
