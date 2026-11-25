@@ -1,0 +1,31 @@
+---
+title: Heatmap
+description: "Matrix heatmap that stretches; empty cells in dither."
+status: stable
+variants: 1
+props: 5
+registry: heatmap-chart
+---
+
+<ComponentPreview name="chart-heatmap" stacked />
+
+## Installation
+
+<InstallCommand name="heatmap-chart" />
+
+## Usage
+
+```tsx
+import { ChartCard } from "@/components/charts/chart-kit";
+import { HeatmapChart } from "@/components/charts/heatmap-chart";
+
+<ChartCard title="…" subtitle="…" action="Q4 2026">
+  <HeatmapChart … />
+</ChartCard>
+```
+
+## Props
+
+<TypeTable type={{"values": {"type": "number[][]", "description": "values[row][col]."}, "rowLabels": {"type": "string[]"}, "columnLabels": {"type": "Record<number, string>"}, "thresholds": {"type": "[n, n, n]", "description": "[2, 5, 8]"}, "unit": {"type": "string"}}} />
+
+The chart renders the plot only; wrap it in `ChartCard` and add a `ChartLegend` (see [Chart kit](/docs/charts)).

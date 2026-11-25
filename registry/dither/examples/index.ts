@@ -19,6 +19,24 @@ import ButtonStates from "./button-states";
 import CardDemo from "./card-demo";
 import CardInset from "./card-inset";
 import CardSizes from "./card-sizes";
+import ChartBullet from "./chart-bullet";
+import ChartCapacityBar from "./chart-capacity-bar";
+import ChartColumn from "./chart-column";
+import ChartCombo from "./chart-combo";
+import ChartDonut from "./chart-donut";
+import ChartForecast from "./chart-forecast";
+import ChartFunnel from "./chart-funnel";
+import ChartGauge from "./chart-gauge";
+import ChartHeatmap from "./chart-heatmap";
+import ChartHistogram from "./chart-histogram";
+import ChartProgressBars from "./chart-progress-bars";
+import ChartRanking from "./chart-ranking";
+import ChartResponseCurve from "./chart-response-curve";
+import ChartScatter from "./chart-scatter";
+import ChartSplitBar from "./chart-split-bar";
+import ChartStackedArea from "./chart-stacked-area";
+import ChartTreemap from "./chart-treemap";
+import ChartWaterfall from "./chart-waterfall";
 import ChatComposerDemo from "./chat-composer-demo";
 import ChatComposerMinimal from "./chat-composer-minimal";
 import CheckboxBox from "./checkbox-box";
@@ -99,6 +117,24 @@ export const examples: Record<string, ComponentType> = {
   "card-demo": CardDemo,
   "card-inset": CardInset,
   "card-sizes": CardSizes,
+  "chart-bullet": ChartBullet,
+  "chart-capacity-bar": ChartCapacityBar,
+  "chart-column": ChartColumn,
+  "chart-combo": ChartCombo,
+  "chart-donut": ChartDonut,
+  "chart-forecast": ChartForecast,
+  "chart-funnel": ChartFunnel,
+  "chart-gauge": ChartGauge,
+  "chart-heatmap": ChartHeatmap,
+  "chart-histogram": ChartHistogram,
+  "chart-progress-bars": ChartProgressBars,
+  "chart-ranking": ChartRanking,
+  "chart-response-curve": ChartResponseCurve,
+  "chart-scatter": ChartScatter,
+  "chart-split-bar": ChartSplitBar,
+  "chart-stacked-area": ChartStackedArea,
+  "chart-treemap": ChartTreemap,
+  "chart-waterfall": ChartWaterfall,
   "chat-composer-demo": ChatComposerDemo,
   "chat-composer-minimal": ChatComposerMinimal,
   "checkbox-box": CheckboxBox,

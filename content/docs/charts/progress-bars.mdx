@@ -1,0 +1,31 @@
+---
+title: Progress Bars
+description: "Vertical progress bars: remaining to 100% in dither, one highlighted bar, a target line."
+status: stable
+variants: 1
+props: 5
+registry: progress-bars
+---
+
+<ComponentPreview name="chart-progress-bars" stacked />
+
+## Installation
+
+<InstallCommand name="progress-bars" />
+
+## Usage
+
+```tsx
+import { ChartCard } from "@/components/charts/chart-kit";
+import { ProgressBars } from "@/components/charts/progress-bars";
+
+<ChartCard title="…" subtitle="…" action="Q4 2026">
+  <ProgressBars … />
+</ChartCard>
+```
+
+## Props
+
+<TypeTable type={{"items": {"type": "{ label; value; marker? }[]", "description": "Values 0–100."}, "highlight": {"type": "number", "description": "Index of the chart-1 bar."}, "target": {"type": "number", "description": "Target line, 0–100."}, "delta": {"type": "ReactNode", "description": "Chip above the highlighted bar."}, "height": {"type": "number", "description": "180"}}} />
+
+The chart renders the plot only; wrap it in `ChartCard` and add a `ChartLegend` (see [Chart kit](/docs/charts)).

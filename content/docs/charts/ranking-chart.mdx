@@ -1,0 +1,31 @@
+---
+title: Ranking
+description: "Horizontal ranking on dither tracks with a break-even line."
+status: stable
+variants: 1
+props: 4
+registry: ranking-chart
+---
+
+<ComponentPreview name="chart-ranking" stacked />
+
+## Installation
+
+<InstallCommand name="ranking-chart" />
+
+## Usage
+
+```tsx
+import { ChartCard } from "@/components/charts/chart-kit";
+import { RankingChart } from "@/components/charts/ranking-chart";
+
+<ChartCard title="…" subtitle="…" action="Q4 2026">
+  <RankingChart … />
+</ChartCard>
+```
+
+## Props
+
+<TypeTable type={{"data": {"type": "{ label; value }[]", "description": "Sorted descending."}, "max": {"type": "number"}, "breakEven": {"type": "number", "description": "Values below turn destructive."}, "format": {"type": "(n) => string", "description": "1.0x"}}} />
+
+The chart renders the plot only; wrap it in `ChartCard` and add a `ChartLegend` (see [Chart kit](/docs/charts)).

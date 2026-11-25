@@ -1,0 +1,31 @@
+---
+title: Gauge
+description: "Large half ring with the remaining arc in dither and an alert marker."
+status: stable
+variants: 1
+props: 5
+registry: gauge-chart
+---
+
+<ComponentPreview name="chart-gauge" stacked />
+
+## Installation
+
+<InstallCommand name="gauge-chart" />
+
+## Usage
+
+```tsx
+import { ChartCard } from "@/components/charts/chart-kit";
+import { GaugeChart } from "@/components/charts/gauge-chart";
+
+<ChartCard title="…" subtitle="…" action="Q4 2026">
+  <GaugeChart … />
+</ChartCard>
+```
+
+## Props
+
+<TypeTable type={{"value": {"type": "number", "description": "0–100."}, "alert": {"type": "number", "description": "Threshold marker + tag."}, "display": {"type": "ReactNode"}, "caption": {"type": "ReactNode"}, "minLabel / maxLabel": {"type": "string"}}} />
+
+The chart renders the plot only; wrap it in `ChartCard` and add a `ChartLegend` (see [Chart kit](/docs/charts)).

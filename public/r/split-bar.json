@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "split-bar",
+  "title": "Split Bar",
+  "description": "Diverging bars around a centre line, tracks in dither.",
+  "registryDependencies": [
+    "utils",
+    "@dither/chart-kit"
+  ],
+  "files": [
+    {
+      "path": "registry/dither/charts/split-bar.tsx",
+      "content": "import * as React from \"react\";\n\nimport { cn } from \"@/registry/dither/lib/utils\";\n\nexport interface SplitBarDatum {\n  label: string;\n  value: number;\n}\n\nexport interface SplitBarProps extends React.ComponentProps<\"div\"> {\n  data: SplitBarDatum[];\n  format?: (n: number) => string;\n  /** Labels over each side. */\n  negativeLabel?: string;\n  positiveLabel?: string;\n}\n\n/** Diverging bars around a centre line: decreases left in red, increases right in green, tracks in dither. */\nexport function SplitBar({ data, format = (n) => `${n}`, negativeLabel = \"Reduce\", positiveLabel = \"Increase\", className, ...props }: SplitBarProps) {\n  const max = Math.max(...data.map((d) => Math.abs(d.value))) * 1.15 || 1;\n  return (\n    <div data-slot=\"split-bar\" className={cn(\"grid grid-cols-[auto_1fr_1fr] items-center gap-x-0 gap-y-2\", className)} {...props}>\n      <span />\n      <span className=\"pr-2 text-left font-mono text-[10px] text-muted-foreground uppercase\">{negativeLabel}</span>\n      <span className=\"pl-2 text-right font-mono text-[10px] text-muted-foreground uppercase\">{positiveLabel}</span>\n      {data.map((d) => {\n        const w = `${(Math.abs(d.value) / max) * 100}%`;\n        const neg = d.value < 0;\n        const label = `${neg ? \"−\" : \"+\"}${format(Math.abs(d.value))}`;\n        return (\n          <React.Fragment key={d.label}>\n            <span className=\"pr-3 text-sm\">{d.label}</span>\n            <span className=\"relative h-3 border-r border-foreground\" role={neg ? \"img\" : undefined} aria-label={neg ? `${d.label}: ${label}` : undefined}>\n              <span aria-hidden=\"true\" className=\"bg-dither-fine absolute inset-y-0.5 right-0 left-0\" />\n              {neg ? (\n                <>\n                  <span className=\"absolute inset-y-0 right-0 rounded-l-[3px] bg-destructive\" style={{ width: w }} />\n                  <span className=\"absolute top-1/2 -translate-y-1/2 pr-1.5 font-mono text-[11px] font-medium whitespace-nowrap tabular\" style={{ right: w }}>\n                    {label}\n                  </span>\n                </>\n              ) : null}\n            </span>\n            <span className=\"relative h-3\" role={!neg ? \"img\" : undefined} aria-label={!neg ? `${d.label}: ${label}` : undefined}>\n              <span aria-hidden=\"true\" className=\"bg-dither-fine absolute inset-y-0.5 right-0 left-0\" />\n              {!neg ? (\n                <>\n                  <span className=\"absolute inset-y-0 left-0 rounded-r-[3px] bg-positive\" style={{ width: w }} />\n                  <span className=\"absolute top-1/2 -translate-y-1/2 pl-1.5 font-mono text-[11px] font-medium tabular\" style={{ left: w }}>\n                    {label}\n                  </span>\n                </>\n              ) : null}\n            </span>\n          </React.Fragment>\n        );\n      })}\n    </div>\n  );\n}\n",
+      "type": "registry:component",
+      "target": "components/charts/split-bar.tsx"
+    }
+  ],
+  "type": "registry:block"
+}

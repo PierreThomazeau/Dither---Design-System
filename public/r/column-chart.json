@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "column-chart",
+  "title": "Columns",
+  "description": "Planned vs actual columns: plan in dither, actual solid, the current column highlighted.",
+  "registryDependencies": [
+    "utils",
+    "@dither/chart-kit"
+  ],
+  "files": [
+    {
+      "path": "registry/dither/charts/column-chart.tsx",
+      "content": "import * as React from \"react\";\n\nimport { DeltaChip, HtmlPlot, niceScale } from \"@/registry/dither/charts/chart-kit\";\nimport { cn } from \"@/registry/dither/lib/utils\";\n\nexport interface ColumnDatum {\n  label: string;\n  /** Plan (drawn in dither behind the bar). */\n  planned: number;\n  /** Actual (solid bar). */\n  actual: number;\n}\n\nexport interface ColumnChartProps extends React.ComponentProps<\"div\"> {\n  data: ColumnDatum[];\n  /** Index of the highlighted column (chart-1), e.g. the current sprint. Defaults to the last one. */\n  highlight?: number;\n  /** Delta chip in the top-left corner, e.g. \"84% shipped\". */\n  delta?: React.ReactNode;\n  height?: number;\n}\n\n/** Planned vs actual columns: plan in dither, actual solid, the current column highlighted. */\nexport function ColumnChart({ data, highlight = data.length - 1, delta, height = 200, className, ...props }: ColumnChartProps) {\n  const { max, ticks } = niceScale(Math.max(...data.flatMap((d) => [d.planned, d.actual])));\n  return (\n    <div data-slot=\"column-chart\" className={cn(\"flex flex-col gap-2\", className)} {...props}>\n      <HtmlPlot ticks={ticks} max={max} height={height}>\n        {delta ? (\n          <span className=\"absolute -top-6 left-1 z-10\">\n            <DeltaChip tone=\"bg-chart-1\">{delta}</DeltaChip>\n          </span>\n        ) : null}\n        <div className=\"absolute inset-0 flex items-end gap-[6%] px-[3%]\">\n          {data.map((d, i) => {\n            const hl = i === highlight;\n            return (\n              <div key={d.label} className=\"relative h-full flex-1\" role=\"img\" aria-label={`${d.label}: ${d.actual} of ${d.planned}`}>\n                <span aria-hidden=\"true\" className=\"bg-dither-fine absolute inset-x-0 bottom-0 rounded-t-[6px]\" style={{ height: `${(d.planned / max) * 100}%` }} />\n                <span\n                  className={cn(\"absolute inset-x-[10%] bottom-0 rounded-t-[6px]\", hl ? \"bg-chart-1\" : \"bg-foreground/85\")}\n                  style={{ height: `${(d.actual / max) * 100}%` }}\n                />\n                {hl ? (\n                  <span className=\"absolute left-1/2 -translate-x-1/2 -translate-y-[calc(100%+4px)] font-mono text-xs font-medium tabular\" style={{ bottom: `${(Math.max(d.actual, d.planned) / max) * 100}%` }}>\n                    {d.actual}\n                  </span>\n                ) : null}\n              </div>\n            );\n          })}\n        </div>\n      </HtmlPlot>\n      <div className=\"flex gap-[6%] pr-[3%] pl-[calc(2.5rem+3%)] font-mono text-[11px] text-muted-foreground\">\n        {data.map((d) => (\n          <span key={d.label} className=\"flex-1 text-center\">{d.label}</span>\n        ))}\n      </div>\n    </div>\n  );\n}\n",
+      "type": "registry:component",
+      "target": "components/charts/column-chart.tsx"
+    }
+  ],
+  "type": "registry:block"
+}

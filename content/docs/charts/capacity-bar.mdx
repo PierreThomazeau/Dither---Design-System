@@ -1,0 +1,31 @@
+---
+title: Capacity Bar
+description: "Capacity split in segments with the free part in dither."
+status: stable
+variants: 1
+props: 5
+registry: capacity-bar
+---
+
+<ComponentPreview name="chart-capacity-bar" stacked />
+
+## Installation
+
+<InstallCommand name="capacity-bar" />
+
+## Usage
+
+```tsx
+import { ChartCard } from "@/components/charts/chart-kit";
+import { CapacityBar } from "@/components/charts/capacity-bar";
+
+<ChartCard title="…" subtitle="…" action="Q4 2026">
+  <CapacityBar … />
+</ChartCard>
+```
+
+## Props
+
+<TypeTable type={{"total": {"type": "number"}, "segments": {"type": "{ label; value; tone? }[]"}, "display": {"type": "ReactNode", "description": "Big total."}, "caption": {"type": "ReactNode"}, "format": {"type": "(n) => string"}}} />
+
+The chart renders the plot only; wrap it in `ChartCard` and add a `ChartLegend` (see [Chart kit](/docs/charts)).

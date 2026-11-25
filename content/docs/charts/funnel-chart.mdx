@@ -1,0 +1,31 @@
+---
+title: Funnel
+description: "Conversion funnel with drop-off in dither and step conversion chips."
+status: stable
+variants: 1
+props: 3
+registry: funnel-chart
+---
+
+<ComponentPreview name="chart-funnel" stacked />
+
+## Installation
+
+<InstallCommand name="funnel-chart" />
+
+## Usage
+
+```tsx
+import { ChartCard } from "@/components/charts/chart-kit";
+import { FunnelChart } from "@/components/charts/funnel-chart";
+
+<ChartCard title="…" subtitle="…" action="Q4 2026">
+  <FunnelChart … />
+</ChartCard>
+```
+
+## Props
+
+<TypeTable type={{"stages": {"type": "{ label; value }[]"}, "format": {"type": "(n) => string", "description": "1.2M, 384k…"}, "height": {"type": "number", "description": "160"}}} />
+
+The chart renders the plot only; wrap it in `ChartCard` and add a `ChartLegend` (see [Chart kit](/docs/charts)).

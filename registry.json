@@ -1036,6 +1036,360 @@
       "dependencies": [
         "class-variance-authority"
       ]
+    },
+    {
+      "name": "chart-kit",
+      "type": "registry:block",
+      "title": "Chart kit",
+      "description": "Chart card, legend, tags, delta chip, axis and grid helpers, tooltip.",
+      "dependencies": [
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons"
+      ],
+      "registryDependencies": [
+        "utils",
+        "@dither/icon",
+        "@dither/theme"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/charts/chart-kit.tsx",
+          "type": "registry:component",
+          "target": "components/charts/chart-kit.tsx"
+        },
+        {
+          "path": "registry/dither/charts/chart-tooltip.tsx",
+          "type": "registry:component",
+          "target": "components/charts/chart-tooltip.tsx"
+        }
+      ]
+    },
+    {
+      "name": "progress-bars",
+      "type": "registry:block",
+      "title": "Progress Bars",
+      "description": "Vertical progress bars: remaining to 100% in dither, one highlighted bar, a target line.",
+      "registryDependencies": [
+        "utils",
+        "@dither/chart-kit"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/charts/progress-bars.tsx",
+          "type": "registry:component",
+          "target": "components/charts/progress-bars.tsx"
+        }
+      ]
+    },
+    {
+      "name": "capacity-bar",
+      "type": "registry:block",
+      "title": "Capacity Bar",
+      "description": "Capacity split in segments with the free part in dither.",
+      "registryDependencies": [
+        "utils",
+        "@dither/chart-kit"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/charts/capacity-bar.tsx",
+          "type": "registry:component",
+          "target": "components/charts/capacity-bar.tsx"
+        }
+      ]
+    },
+    {
+      "name": "column-chart",
+      "type": "registry:block",
+      "title": "Columns",
+      "description": "Planned vs actual columns: plan in dither, actual solid, the current column highlighted.",
+      "registryDependencies": [
+        "utils",
+        "@dither/chart-kit"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/charts/column-chart.tsx",
+          "type": "registry:component",
+          "target": "components/charts/column-chart.tsx"
+        }
+      ]
+    },
+    {
+      "name": "ranking-chart",
+      "type": "registry:block",
+      "title": "Ranking",
+      "description": "Horizontal ranking on dither tracks with a break-even line.",
+      "registryDependencies": [
+        "utils",
+        "@dither/chart-kit"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/charts/ranking-chart.tsx",
+          "type": "registry:component",
+          "target": "components/charts/ranking-chart.tsx"
+        }
+      ]
+    },
+    {
+      "name": "forecast-chart",
+      "type": "registry:block",
+      "title": "Forecast Line",
+      "description": "Actuals, a dashed forecast, a dither confidence band and a TODAY marker.",
+      "registryDependencies": [
+        "utils",
+        "@dither/chart-kit",
+        "@dither/dither"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/charts/forecast-chart.tsx",
+          "type": "registry:component",
+          "target": "components/charts/forecast-chart.tsx"
+        }
+      ],
+      "dependencies": [
+        "recharts"
+      ]
+    },
+    {
+      "name": "stacked-area",
+      "type": "registry:block",
+      "title": "Stacked Area",
+      "description": "Stacked areas with a total line.",
+      "registryDependencies": [
+        "utils",
+        "@dither/chart-kit"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/charts/stacked-area.tsx",
+          "type": "registry:component",
+          "target": "components/charts/stacked-area.tsx"
+        }
+      ],
+      "dependencies": [
+        "recharts"
+      ]
+    },
+    {
+      "name": "combo-chart",
+      "type": "registry:block",
+      "title": "Combo",
+      "description": "Bars with a dither cap and a line on a second axis.",
+      "registryDependencies": [
+        "utils",
+        "@dither/chart-kit",
+        "@dither/dither"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/charts/combo-chart.tsx",
+          "type": "registry:component",
+          "target": "components/charts/combo-chart.tsx"
+        }
+      ],
+      "dependencies": [
+        "recharts"
+      ]
+    },
+    {
+      "name": "donut-chart",
+      "type": "registry:block",
+      "title": "Donut",
+      "description": "Gapped arcs, unallocated share in dither, centre value and legend table.",
+      "registryDependencies": [
+        "utils",
+        "@dither/chart-kit",
+        "@dither/dither"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/charts/donut-chart.tsx",
+          "type": "registry:component",
+          "target": "components/charts/donut-chart.tsx"
+        }
+      ]
+    },
+    {
+      "name": "gauge-chart",
+      "type": "registry:block",
+      "title": "Gauge",
+      "description": "Large half ring with the remaining arc in dither and an alert marker.",
+      "registryDependencies": [
+        "utils",
+        "@dither/chart-kit",
+        "@dither/dither"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/charts/gauge-chart.tsx",
+          "type": "registry:component",
+          "target": "components/charts/gauge-chart.tsx"
+        }
+      ]
+    },
+    {
+      "name": "bullet-chart",
+      "type": "registry:block",
+      "title": "Bullet",
+      "description": "KPI vs target: expected range, stretch zone in dither, value bar, target tick.",
+      "registryDependencies": [
+        "utils",
+        "@dither/chart-kit"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/charts/bullet-chart.tsx",
+          "type": "registry:component",
+          "target": "components/charts/bullet-chart.tsx"
+        }
+      ]
+    },
+    {
+      "name": "waterfall-chart",
+      "type": "registry:block",
+      "title": "Waterfall",
+      "description": "Bridge from one total to the next: increases, decreases, totals and headroom.",
+      "registryDependencies": [
+        "utils",
+        "@dither/chart-kit"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/charts/waterfall-chart.tsx",
+          "type": "registry:component",
+          "target": "components/charts/waterfall-chart.tsx"
+        }
+      ]
+    },
+    {
+      "name": "funnel-chart",
+      "type": "registry:block",
+      "title": "Funnel",
+      "description": "Conversion funnel with drop-off in dither and step conversion chips.",
+      "registryDependencies": [
+        "utils",
+        "@dither/chart-kit"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/charts/funnel-chart.tsx",
+          "type": "registry:component",
+          "target": "components/charts/funnel-chart.tsx"
+        }
+      ]
+    },
+    {
+      "name": "split-bar",
+      "type": "registry:block",
+      "title": "Split Bar",
+      "description": "Diverging bars around a centre line, tracks in dither.",
+      "registryDependencies": [
+        "utils",
+        "@dither/chart-kit"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/charts/split-bar.tsx",
+          "type": "registry:component",
+          "target": "components/charts/split-bar.tsx"
+        }
+      ]
+    },
+    {
+      "name": "histogram",
+      "type": "registry:block",
+      "title": "Histogram",
+      "description": "Distribution with the core range solid, tails in dither and a median tag.",
+      "registryDependencies": [
+        "utils",
+        "@dither/chart-kit"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/charts/histogram.tsx",
+          "type": "registry:component",
+          "target": "components/charts/histogram.tsx"
+        }
+      ]
+    },
+    {
+      "name": "scatter-chart",
+      "type": "registry:block",
+      "title": "Scatter",
+      "description": "Bubble scatter with an opportunity zone in dither.",
+      "registryDependencies": [
+        "utils",
+        "@dither/chart-kit",
+        "@dither/dither"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/charts/scatter-chart.tsx",
+          "type": "registry:component",
+          "target": "components/charts/scatter-chart.tsx"
+        }
+      ],
+      "dependencies": [
+        "recharts"
+      ]
+    },
+    {
+      "name": "response-curve",
+      "type": "registry:block",
+      "title": "Response Curve",
+      "description": "Diminishing-returns curve with a saturation zone in dither and the current point.",
+      "registryDependencies": [
+        "utils",
+        "@dither/chart-kit",
+        "@dither/dither"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/charts/response-curve.tsx",
+          "type": "registry:component",
+          "target": "components/charts/response-curve.tsx"
+        }
+      ],
+      "dependencies": [
+        "recharts"
+      ]
+    },
+    {
+      "name": "heatmap-chart",
+      "type": "registry:block",
+      "title": "Heatmap",
+      "description": "Matrix heatmap that stretches; empty cells in dither.",
+      "registryDependencies": [
+        "utils",
+        "@dither/chart-kit"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/charts/heatmap-chart.tsx",
+          "type": "registry:component",
+          "target": "components/charts/heatmap-chart.tsx"
+        }
+      ]
+    },
+    {
+      "name": "treemap-chart",
+      "type": "registry:block",
+      "title": "Treemap",
+      "description": "Squarified treemap; the unassigned tile is in dither.",
+      "registryDependencies": [
+        "utils",
+        "@dither/chart-kit"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/charts/treemap-chart.tsx",
+          "type": "registry:component",
+          "target": "components/charts/treemap-chart.tsx"
+        }
+      ]
     }
   ]
 }

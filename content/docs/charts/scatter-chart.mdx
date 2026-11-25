@@ -1,0 +1,31 @@
+---
+title: Scatter
+description: "Bubble scatter with an opportunity zone in dither."
+status: stable
+variants: 1
+props: 4
+registry: scatter-chart
+---
+
+<ComponentPreview name="chart-scatter" stacked />
+
+## Installation
+
+<InstallCommand name="scatter-chart" />
+
+## Usage
+
+```tsx
+import { ChartCard } from "@/components/charts/chart-kit";
+import { ScatterChart } from "@/components/charts/scatter-chart";
+
+<ChartCard title="…" subtitle="…" action="Q4 2026">
+  <ScatterChart … />
+</ChartCard>
+```
+
+## Props
+
+<TypeTable type={{"data": {"type": "{ x; y; z?; highlight? }[]"}, "zone": {"type": "{ x1; x2; y1; y2; label? }"}, "formatX / formatY": {"type": "(n) => string"}, "height": {"type": "number", "description": "240"}}} />
+
+The chart renders the plot only; wrap it in `ChartCard` and add a `ChartLegend` (see [Chart kit](/docs/charts)).

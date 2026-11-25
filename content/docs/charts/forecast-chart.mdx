@@ -1,0 +1,31 @@
+---
+title: Forecast Line
+description: "Actuals, a dashed forecast, a dither confidence band and a TODAY marker."
+status: stable
+variants: 1
+props: 4
+registry: forecast-chart
+---
+
+<ComponentPreview name="chart-forecast" stacked />
+
+## Installation
+
+<InstallCommand name="forecast-chart" />
+
+## Usage
+
+```tsx
+import { ChartCard } from "@/components/charts/chart-kit";
+import { ForecastChart } from "@/components/charts/forecast-chart";
+
+<ChartCard title="…" subtitle="…" action="Q4 2026">
+  <ForecastChart … />
+</ChartCard>
+```
+
+## Props
+
+<TypeTable type={{"data": {"type": "{ label; actual?; forecast?; range?: [lo, hi] }[]"}, "today": {"type": "string", "description": "x label of today."}, "format": {"type": "(n) => string"}, "height": {"type": "number", "description": "220"}}} />
+
+The chart renders the plot only; wrap it in `ChartCard` and add a `ChartLegend` (see [Chart kit](/docs/charts)).

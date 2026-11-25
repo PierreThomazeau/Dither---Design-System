@@ -11,6 +11,7 @@ function toUserImports(source: string) {
   return source
     .replaceAll("@/registry/dither/ui/", "@/components/ui/")
     .replaceAll("@/registry/dither/blocks/", "@/components/blocks/")
+    .replaceAll("@/registry/dither/charts/", "@/components/charts/")
     .replaceAll("@/registry/dither/lib/utils", "@/lib/utils")
     .replaceAll("@/registry/dither/lib/", "@/lib/");
 }

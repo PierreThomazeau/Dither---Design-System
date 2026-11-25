@@ -7,7 +7,8 @@
 - **Batch 3 (Surfaces & overlays): done.** Card (default / inset + `dither`, sizes, `CardInset`), Alert, Empty (incl. `dither`), Skeleton (pulsing dither), Dialog (muted footer strip), Sheet (floating, rounded-sheet), Drawer (vaul), Popover (default / inset), Dropdown Menu, Command (cmdk, palette with footer).
 - **Batch 4 (Product blocks): done.** In `registry/dither/blocks/` (installed to `components/blocks/`): Stat Card (+ Sparkline), Gauge, Usage Meter, Workload Tile, Timeline, Onboarding Checklist, Announcement Bar, Chip, Kanban Card, Activity Heatmap. Docs under `/docs/blocks`.
 - **Batch 5 (AI blocks): done.** Chat Composer, Message + Bubble, Reasoning Block, Agent Step, Source Card, Response Actions, Context Window, Starter Prompt, plus `lib/ai-glow.tsx` (grammar 8). Docs under `/docs/ai`.
-- Next: Figma round-trip (§7, overdue since batches 2 and 4) or batch 6 (signature charts), after review. Some earlier pages still have a single example (Badge, Separator, Tooltip, Dialog, Drawer, several blocks).
+- **Batch 6 (Signature charts): done.** 18 charts in `registry/dither/charts/` (installed to `components/charts/`) + `chart-kit.tsx` (ChartCard, PeriodButton, ChartLegend, ChartTag, SvgTag, DeltaChip, HtmlPlot, niceScale, axisTick, gridProps) and `chart-tooltip.tsx`. Docs under `/docs/charts` (one example each, from the Figma "Charts / Signature" board).
+- Next: Figma round-trip (§7, now due: after batches 2, 4 and 6) or batch 7 (showcase), after review. Single-example pages remain (Badge, Separator, Tooltip, Dialog, Drawer, several blocks, all charts).
 
 ## Commands
 
@@ -36,6 +37,8 @@
 - Status colours (no warning token exists): good / normal = `positive` (Usage Meter normal = `informative`, as in Figma), warning = `chart-1`, critical / error = `destructive`.
 - Remaining capacity is always dither (`bg-dither-fine` layer or `DitherPattern` in SVG): gauge arc, usage meter, checklist and subtask bars.
 - AI glow (`<AiGlow />`): wash + `bg-dither-fine` tinted by a gradient (`--dither-color: transparent` so only the gradient shows). Pink = `chart-3` light / `chart-5` dark. Model names in examples are generic ("Atlas 2").
+- Charts: Recharts only for Forecast Line, Stacked Area, Combo, Scatter, Response Curve (client); the 13 others are HTML/SVG (server-safe, stretch naturally). Chart components render the plot only; wrap them in `ChartCard` + `ChartLegend`. Recharts paints use `chartColor` (CSS vars); dither inside Recharts = `<defs><DitherPattern/></defs>` + `fill="url(#id)"`. Keep loops that accumulate (offsets, running totals) in pure helpers outside the component: the React Compiler lint rejects reassignment inside render callbacks.
+- Treemap labels sit in a `bg-surface/90` chip so they stay readable on any chart colour in both modes.
 - Radix portals (Select content, Tooltip) render in `<body>`, so in docs previews they follow the site theme, not the panel.
 - Showcase screens in Figma (file `BASedQLpd5kssdxNmiOlVC`, node `34099:34828`) are a visual reference only (clean-room rule).
 

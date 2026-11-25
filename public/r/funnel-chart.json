@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "funnel-chart",
+  "title": "Funnel",
+  "description": "Conversion funnel with drop-off in dither and step conversion chips.",
+  "registryDependencies": [
+    "utils",
+    "@dither/chart-kit"
+  ],
+  "files": [
+    {
+      "path": "registry/dither/charts/funnel-chart.tsx",
+      "content": "import * as React from \"react\";\n\nimport { DeltaChip } from \"@/registry/dither/charts/chart-kit\";\nimport { cn } from \"@/registry/dither/lib/utils\";\n\nexport interface FunnelStage {\n  label: string;\n  value: number;\n}\n\nexport interface FunnelChartProps extends React.ComponentProps<\"div\"> {\n  stages: FunnelStage[];\n  format?: (n: number) => string;\n  height?: number;\n}\n\nconst compact = (n: number) => (n >= 1_000_000 ? `${+(n / 1_000_000).toFixed(1)}M` : n >= 1000 ? `${Math.round(n / 1000)}k` : `${n}`);\n\n/** Conversion funnel: each stage solid, the drop-off from the previous stage in dither, step conversion chips. */\nexport function FunnelChart({ stages, format = compact, height = 160, className, ...props }: FunnelChartProps) {\n  const top = stages[0]?.value || 1;\n  return (\n    <div data-slot=\"funnel-chart\" className={cn(\"flex flex-col gap-2\", className)} {...props}>\n      <div className=\"mt-6 flex items-end gap-2\" style={{ height }}>\n        {stages.map((s, i) => {\n          const prev = i === 0 ? s.value : stages[i - 1].value;\n          const last = i === stages.length - 1;\n          return (\n            <div key={s.label} className=\"relative h-full flex-1\" role=\"img\" aria-label={`${s.label}: ${format(s.value)}`}>\n              {i > 0 ? (\n                <span aria-hidden=\"true\" className=\"bg-dither-fine absolute inset-x-0 rounded-t-[6px]\" style={{ bottom: `${(s.value / top) * 100}%`, height: `${((prev - s.value) / top) * 100}%` }} />\n              ) : null}\n              <span className={cn(\"absolute inset-x-0 bottom-0 rounded-[6px]\", last ? \"bg-chart-1\" : \"bg-foreground/85\")} style={{ height: `max(${(s.value / top) * 100}%, 4px)` }} />\n              <span className=\"absolute left-0 -translate-y-[calc(100%+4px)] font-mono text-xs font-medium tabular\" style={{ bottom: `${(prev / top) * 100}%` }}>\n                {format(s.value)}\n              </span>\n            </div>\n          );\n        })}\n      </div>\n      <div className=\"flex gap-2\">\n        {stages.map((s, i) => (\n          <div key={s.label} className=\"flex min-w-0 flex-1 flex-col items-start gap-1\">\n            <span className=\"truncate text-xs text-muted-foreground\">{s.label}</span>\n            {i > 0 ? (\n              <DeltaChip tone={s.value / stages[i - 1].value >= 0.3 ? \"bg-positive\" : \"bg-destructive\"}>\n                {Math.round((s.value / stages[i - 1].value) * 100)}%\n              </DeltaChip>\n            ) : null}\n          </div>\n        ))}\n      </div>\n    </div>\n  );\n}\n",
+      "type": "registry:component",
+      "target": "components/charts/funnel-chart.tsx"
+    }
+  ],
+  "type": "registry:block"
+}

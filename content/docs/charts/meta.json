@@ -1,0 +1,24 @@
+{
+  "title": "Charts",
+  "pages": [
+    "index",
+    "progress-bars",
+    "capacity-bar",
+    "column-chart",
+    "ranking-chart",
+    "forecast-chart",
+    "stacked-area",
+    "combo-chart",
+    "donut-chart",
+    "gauge-chart",
+    "bullet-chart",
+    "waterfall-chart",
+    "funnel-chart",
+    "split-bar",
+    "histogram",
+    "scatter-chart",
+    "response-curve",
+    "heatmap-chart",
+    "treemap-chart"
+  ]
+}

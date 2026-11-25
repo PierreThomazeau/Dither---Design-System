@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "stacked-area",
+  "title": "Stacked Area",
+  "description": "Stacked areas with a total line.",
+  "dependencies": [
+    "recharts"
+  ],
+  "registryDependencies": [
+    "utils",
+    "@dither/chart-kit"
+  ],
+  "files": [
+    {
+      "path": "registry/dither/charts/stacked-area.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from \"recharts\";\n\nimport { axisTick, chartColor, gridProps } from \"@/registry/dither/charts/chart-kit\";\nimport { ChartTooltipContent } from \"@/registry/dither/charts/chart-tooltip\";\n\nexport interface StackedSeries {\n  key: string;\n  label: string;\n  /** CSS colour; defaults: chart-1, chart-4, chart-3, chart-5. */\n  color?: string;\n}\n\nexport interface StackedAreaProps {\n  data: Record<string, number | string>[];\n  /** Key of the x value in each datum. */\n  xKey: string;\n  series: StackedSeries[];\n  format?: (n: number) => string;\n  height?: number;\n  className?: string;\n}\n\nconst DEFAULTS = [chartColor.highlight, chartColor.secondary, chartColor.tertiary, \"var(--chart-5)\"];\n\n/** Stacked areas, highlighted series at the bottom, a thin total line on top. */\nexport function StackedArea({ data, xKey, series, format = (n) => `${n}`, height = 220, className }: StackedAreaProps) {\n  const withTotal = data.map((d) => ({ ...d, __total: series.reduce((s, x) => s + Number(d[x.key] ?? 0), 0) }));\n  return (\n    <div data-slot=\"stacked-area\" className={className} style={{ height }}>\n      <ResponsiveContainer width=\"100%\" height=\"100%\">\n        <AreaChart data={withTotal} margin={{ top: 12, right: 8, bottom: 0, left: 0 }}>\n          <CartesianGrid {...gridProps} />\n          <XAxis dataKey={xKey} tick={axisTick} tickLine={false} axisLine={false} interval=\"preserveStartEnd\" minTickGap={24} />\n          <YAxis tick={axisTick} tickLine={false} axisLine={false} width={44} tickFormatter={format} />\n          <Tooltip content={<ChartTooltipContent format={(v) => format(Number(v))} />} cursor={{ stroke: chartColor.grid }} />\n          {series.map((s, i) => (\n            <Area\n              key={s.key}\n              dataKey={s.key}\n              name={s.label}\n              stackId=\"stack\"\n              stroke=\"var(--surface)\"\n              strokeWidth={1}\n              fill={s.color ?? DEFAULTS[i % DEFAULTS.length]}\n              fillOpacity={1}\n              isAnimationActive={false}\n            />\n          ))}\n          <Area dataKey=\"__total\" name=\"Total\" stroke={chartColor.neutral} strokeWidth={1.5} fill=\"none\" isAnimationActive={false} />\n        </AreaChart>\n      </ResponsiveContainer>\n    </div>\n  );\n}\n",
+      "type": "registry:component",
+      "target": "components/charts/stacked-area.tsx"
+    }
+  ],
+  "type": "registry:block"
+}

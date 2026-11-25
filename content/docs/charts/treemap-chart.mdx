@@ -1,0 +1,31 @@
+---
+title: Treemap
+description: "Squarified treemap; the unassigned tile is in dither."
+status: stable
+variants: 1
+props: 3
+registry: treemap-chart
+---
+
+<ComponentPreview name="chart-treemap" stacked />
+
+## Installation
+
+<InstallCommand name="treemap-chart" />
+
+## Usage
+
+```tsx
+import { ChartCard } from "@/components/charts/chart-kit";
+import { TreemapChart } from "@/components/charts/treemap-chart";
+
+<ChartCard title="…" subtitle="…" action="Q4 2026">
+  <TreemapChart … />
+</ChartCard>
+```
+
+## Props
+
+<TypeTable type={{"items": {"type": "{ label; value; tone?; unassigned? }[]"}, "format": {"type": "(n) => string"}, "height": {"type": "number", "description": "220"}}} />
+
+The chart renders the plot only; wrap it in `ChartCard` and add a `ChartLegend` (see [Chart kit](/docs/charts)).

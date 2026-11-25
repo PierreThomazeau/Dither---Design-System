@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "scatter-chart",
+  "title": "Scatter",
+  "description": "Bubble scatter with an opportunity zone in dither.",
+  "dependencies": [
+    "recharts"
+  ],
+  "registryDependencies": [
+    "utils",
+    "@dither/chart-kit",
+    "@dither/dither"
+  ],
+  "files": [
+    {
+      "path": "registry/dither/charts/scatter-chart.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { CartesianGrid, ReferenceArea, ResponsiveContainer, Scatter, ScatterChart as RScatterChart, Tooltip, XAxis, YAxis, ZAxis } from \"recharts\";\n\nimport { axisTick, chartColor, gridProps, SvgTag } from \"@/registry/dither/charts/chart-kit\";\nimport { DitherPattern } from \"@/registry/dither/lib/dither\";\n\nexport interface ScatterDatum {\n  x: number;\n  y: number;\n  /** Bubble size. */\n  z?: number;\n  label?: string;\n  /** Highlighted points (chart-1), e.g. inside the opportunity zone. */\n  highlight?: boolean;\n}\n\nexport interface ScatterChartProps {\n  data: ScatterDatum[];\n  /** Opportunity zone drawn in dither, with a tag. */\n  zone?: { x1: number; x2: number; y1: number; y2: number; label?: string };\n  formatX?: (n: number) => string;\n  formatY?: (n: number) => string;\n  height?: number;\n  className?: string;\n}\n\n/** Bubble scatter: highlighted points in chart-1, others neutral, an opportunity zone in dither. */\nexport function ScatterChart({ data, zone, formatX = (n) => `${n}`, formatY = (n) => `${n}`, height = 240, className }: ScatterChartProps) {\n  const id = `scatter-${React.useId().replace(/[^a-zA-Z0-9-]/g, \"\")}`;\n  return (\n    <div data-slot=\"scatter-chart\" className={className} style={{ height }}>\n      <ResponsiveContainer width=\"100%\" height=\"100%\">\n        <RScatterChart margin={{ top: 16, right: 20, bottom: 0, left: 4 }}>\n          <defs>\n            <DitherPattern id={id} variant=\"fine\" />\n          </defs>\n          <CartesianGrid {...gridProps} vertical />\n          <XAxis type=\"number\" dataKey=\"x\" tick={axisTick} tickLine={false} axisLine={false} tickFormatter={formatX} />\n          <YAxis type=\"number\" dataKey=\"y\" tick={axisTick} tickLine={false} axisLine={false} width={40} tickFormatter={formatY} />\n          <ZAxis type=\"number\" dataKey=\"z\" range={[30, 260]} />\n          {zone ? (\n            <ReferenceArea\n              x1={zone.x1}\n              x2={zone.x2}\n              y1={zone.y1}\n              y2={zone.y2}\n              fill={`url(#${id})`}\n              fillOpacity={1}\n              stroke=\"none\"\n              label={(props: { viewBox?: { x?: number; y?: number; width?: number } }) => {\n                const vb = props.viewBox ?? {};\n                return zone.label ? <SvgTag x={(vb.x ?? 0) + (vb.width ?? 0) - 4} y={(vb.y ?? 0) + 10} text={zone.label} anchor=\"end\" /> : null;\n              }}\n            />\n          ) : null}\n          <Tooltip cursor={{ strokeDasharray: \"2 3\", stroke: chartColor.grid }} />\n          <Scatter data={data.filter((d) => !d.highlight)} fill={chartColor.neutral} fillOpacity={0.85} isAnimationActive={false} />\n          <Scatter data={data.filter((d) => d.highlight)} fill={chartColor.highlight} isAnimationActive={false} />\n        </RScatterChart>\n      </ResponsiveContainer>\n    </div>\n  );\n}\n",
+      "type": "registry:component",
+      "target": "components/charts/scatter-chart.tsx"
+    }
+  ],
+  "type": "registry:block"
+}

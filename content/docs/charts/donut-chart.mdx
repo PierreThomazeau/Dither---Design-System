@@ -1,0 +1,31 @@
+---
+title: Donut
+description: "Gapped arcs, unallocated share in dither, centre value and legend table."
+status: stable
+variants: 1
+props: 5
+registry: donut-chart
+---
+
+<ComponentPreview name="chart-donut" stacked />
+
+## Installation
+
+<InstallCommand name="donut-chart" />
+
+## Usage
+
+```tsx
+import { ChartCard } from "@/components/charts/chart-kit";
+import { DonutChart } from "@/components/charts/donut-chart";
+
+<ChartCard title="…" subtitle="…" action="Q4 2026">
+  <DonutChart … />
+</ChartCard>
+```
+
+## Props
+
+<TypeTable type={{"segments": {"type": "{ label; value; color?; unallocated? }[]"}, "value": {"type": "ReactNode", "description": "Centre value."}, "caption": {"type": "ReactNode"}, "legend": {"type": "boolean", "description": "true"}, "size": {"type": "number", "description": "168"}}} />
+
+The chart renders the plot only; wrap it in `ChartCard` and add a `ChartLegend` (see [Chart kit](/docs/charts)).

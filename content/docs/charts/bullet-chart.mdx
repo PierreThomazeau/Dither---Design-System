@@ -1,0 +1,31 @@
+---
+title: Bullet
+description: "KPI vs target: expected range, stretch zone in dither, value bar, target tick."
+status: stable
+variants: 1
+props: 1
+registry: bullet-chart
+---
+
+<ComponentPreview name="chart-bullet" stacked />
+
+## Installation
+
+<InstallCommand name="bullet-chart" />
+
+## Usage
+
+```tsx
+import { ChartCard } from "@/components/charts/chart-kit";
+import { BulletChart } from "@/components/charts/bullet-chart";
+
+<ChartCard title="…" subtitle="…" action="Q4 2026">
+  <BulletChart … />
+</ChartCard>
+```
+
+## Props
+
+<TypeTable type={{"data": {"type": "{ label; caption?; display; value; target; range? }[]", "description": "value, target, range in 0–100."}}} />
+
+The chart renders the plot only; wrap it in `ChartCard` and add a `ChartLegend` (see [Chart kit](/docs/charts)).

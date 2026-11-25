@@ -1,0 +1,31 @@
+---
+title: Split Bar
+description: "Diverging bars around a centre line, tracks in dither."
+status: stable
+variants: 1
+props: 3
+registry: split-bar
+---
+
+<ComponentPreview name="chart-split-bar" stacked />
+
+## Installation
+
+<InstallCommand name="split-bar" />
+
+## Usage
+
+```tsx
+import { ChartCard } from "@/components/charts/chart-kit";
+import { SplitBar } from "@/components/charts/split-bar";
+
+<ChartCard title="…" subtitle="…" action="Q4 2026">
+  <SplitBar … />
+</ChartCard>
+```
+
+## Props
+
+<TypeTable type={{"data": {"type": "{ label; value }[]", "description": "Negative values go left."}, "format": {"type": "(n) => string"}, "negativeLabel / positiveLabel": {"type": "string", "description": "\"Reduce\" / \"Increase\""}}} />
+
+The chart renders the plot only; wrap it in `ChartCard` and add a `ChartLegend` (see [Chart kit](/docs/charts)).

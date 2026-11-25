@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "response-curve",
+  "title": "Response Curve",
+  "description": "Diminishing-returns curve with a saturation zone in dither and the current point.",
+  "dependencies": [
+    "recharts"
+  ],
+  "registryDependencies": [
+    "utils",
+    "@dither/chart-kit",
+    "@dither/dither"
+  ],
+  "files": [
+    {
+      "path": "registry/dither/charts/response-curve.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { CartesianGrid, Line, LineChart, ReferenceArea, ReferenceDot, ResponsiveContainer, Tooltip, XAxis, YAxis } from \"recharts\";\n\nimport { axisTick, chartColor, gridProps, SvgTag } from \"@/registry/dither/charts/chart-kit\";\nimport { ChartTooltipContent } from \"@/registry/dither/charts/chart-tooltip\";\nimport { DitherPattern } from \"@/registry/dither/lib/dither\";\n\nexport interface ResponseCurveProps {\n  /** Points of the curve, x ascending. */\n  data: { x: number; y: number }[];\n  /** Saturation zone start (x), drawn in dither to the end with a tag. */\n  saturation?: number;\n  /** Current point (dot + label). */\n  current?: { x: number; label?: string };\n  formatX?: (n: number) => string;\n  formatY?: (n: number) => string;\n  height?: number;\n  className?: string;\n}\n\n/** Diminishing-returns curve in chart-1, saturation zone in dither, the current point marked. */\nexport function ResponseCurve({ data, saturation, current, formatX = (n) => `${n}`, formatY = (n) => `${n}`, height = 220, className }: ResponseCurveProps) {\n  const id = `curve-${React.useId().replace(/[^a-zA-Z0-9-]/g, \"\")}`;\n  const maxX = data[data.length - 1]?.x ?? 0;\n  const currentY = current ? data.reduce((best, p) => (Math.abs(p.x - current.x) < Math.abs(best.x - current.x) ? p : best), data[0]).y : 0;\n  return (\n    <div data-slot=\"response-curve\" className={className} style={{ height }}>\n      <ResponsiveContainer width=\"100%\" height=\"100%\">\n        <LineChart data={data} margin={{ top: 16, right: 8, bottom: 0, left: 0 }}>\n          <defs>\n            <DitherPattern id={id} variant=\"fine\" />\n          </defs>\n          <CartesianGrid {...gridProps} />\n          <XAxis type=\"number\" dataKey=\"x\" domain={[0, maxX]} tick={axisTick} tickLine={false} axisLine={false} tickFormatter={formatX} />\n          <YAxis tick={axisTick} tickLine={false} axisLine={false} width={36} tickFormatter={formatY} />\n          {saturation !== undefined ? (\n            <ReferenceArea\n              x1={saturation}\n              x2={maxX}\n              fill={`url(#${id})`}\n              fillOpacity={1}\n              stroke=\"none\"\n              label={(props: { viewBox?: { x?: number; y?: number; width?: number; height?: number } }) => {\n                const vb = props.viewBox ?? {};\n                return <SvgTag x={(vb.x ?? 0) + (vb.width ?? 0) / 2} y={(vb.y ?? 0) + (vb.height ?? 0) - 12} text={`Saturation ${formatX(saturation)}`} />;\n              }}\n            />\n          ) : null}\n          <Tooltip content={<ChartTooltipContent format={(v) => formatY(Number(v))} />} cursor={{ stroke: chartColor.grid }} labelFormatter={(l) => formatX(Number(l))} />\n          <Line dataKey=\"y\" name=\"Response\" type=\"monotone\" stroke={chartColor.highlight} strokeWidth={2} dot={false} isAnimationActive={false} />\n          {current ? (\n            <ReferenceDot\n              x={current.x}\n              y={currentY}\n              r={4}\n              fill=\"var(--foreground)\"\n              stroke=\"var(--surface)\"\n              strokeWidth={2}\n              label={(props: { viewBox?: { x?: number; y?: number } }) => {\n                const vb = props.viewBox ?? {};\n                return current.label ? <SvgTag x={(vb.x ?? 0) - 8} y={(vb.y ?? 0) - 14} text={current.label} anchor=\"end\" /> : null;\n              }}\n            />\n          ) : null}\n        </LineChart>\n      </ResponsiveContainer>\n    </div>\n  );\n}\n",
+      "type": "registry:component",
+      "target": "components/charts/response-curve.tsx"
+    }
+  ],
+  "type": "registry:block"
+}

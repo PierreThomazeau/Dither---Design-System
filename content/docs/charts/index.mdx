@@ -1,0 +1,33 @@
+---
+title: Chart kit
+description: "Shared rules and parts of the Dither signature charts."
+---
+
+Every Dither chart follows the same grammar:
+
+- **Card header**: title `text-lg` semibold, subtitle muted, an outline period button on the right (`ChartCard`, `PeriodButton`).
+- **Grid and axes**: dotted gridlines in `border`, axis labels in mono `text-xs` muted (`gridProps`, `axisTick`, `HtmlPlot`).
+- **Dither for the absent**: tracks, remaining totals, confidence ranges, drop-offs, zones and empty cells.
+- **One highlighted series** in `chart-1`; the others neutral (`foreground` at 85% or `border-strong`).
+- **Black tags** for annotations: `TARGET 70%`, `TODAY`, `ALERT 90%`, `BREAK-EVEN 1.0x` (`ChartTag`, `SvgTag` inside SVG).
+- **Delta chip**: surface, 1px border, 6px radius, a coloured square and mono text (`DeltaChip`).
+- **Legends**: 10px squares; the dither entry is a mini dither swatch (`ChartLegend`).
+- Charts **stretch** to their container width.
+
+<InstallCommand name="chart-kit" />
+
+Five charts use [Recharts](https://recharts.org) (Forecast Line, Stacked Area, Combo, Scatter, Response Curve); the others are plain HTML and SVG, so they render on the server.
+
+```tsx
+import { ChartCard, ChartLegend } from "@/components/charts/chart-kit";
+import { ProgressBars } from "@/components/charts/progress-bars";
+
+<ChartCard
+  title="Lead performance"
+  subtitle="Items shipped vs. committed"
+  action="Sprint 24"
+  legend={<ChartLegend items={[{ label: "Highlighted lead" }, { label: "Remaining", kind: "dither" }]} />}
+>
+  <ProgressBars items={items} highlight={2} target={70} />
+</ChartCard>
+```

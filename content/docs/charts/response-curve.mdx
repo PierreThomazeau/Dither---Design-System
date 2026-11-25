@@ -1,0 +1,31 @@
+---
+title: Response Curve
+description: "Diminishing-returns curve with a saturation zone in dither and the current point."
+status: stable
+variants: 1
+props: 4
+registry: response-curve
+---
+
+<ComponentPreview name="chart-response-curve" stacked />
+
+## Installation
+
+<InstallCommand name="response-curve" />
+
+## Usage
+
+```tsx
+import { ChartCard } from "@/components/charts/chart-kit";
+import { ResponseCurve } from "@/components/charts/response-curve";
+
+<ChartCard title="…" subtitle="…" action="Q4 2026">
+  <ResponseCurve … />
+</ChartCard>
+```
+
+## Props
+
+<TypeTable type={{"data": {"type": "{ x; y }[]"}, "saturation": {"type": "number", "description": "x where the dither zone starts."}, "current": {"type": "{ x; label? }"}, "formatX / formatY": {"type": "(n) => string"}}} />
+
+The chart renders the plot only; wrap it in `ChartCard` and add a `ChartLegend` (see [Chart kit](/docs/charts)).

@@ -1,0 +1,31 @@
+---
+title: Stacked Area
+description: "Stacked areas with a total line."
+status: stable
+variants: 1
+props: 5
+registry: stacked-area
+---
+
+<ComponentPreview name="chart-stacked-area" stacked />
+
+## Installation
+
+<InstallCommand name="stacked-area" />
+
+## Usage
+
+```tsx
+import { ChartCard } from "@/components/charts/chart-kit";
+import { StackedArea } from "@/components/charts/stacked-area";
+
+<ChartCard title="…" subtitle="…" action="Q4 2026">
+  <StackedArea … />
+</ChartCard>
+```
+
+## Props
+
+<TypeTable type={{"data": {"type": "Record<string, number | string>[]"}, "xKey": {"type": "string"}, "series": {"type": "{ key; label; color? }[]", "description": "First series = chart-1."}, "format": {"type": "(n) => string"}, "height": {"type": "number", "description": "220"}}} />
+
+The chart renders the plot only; wrap it in `ChartCard` and add a `ChartLegend` (see [Chart kit](/docs/charts)).

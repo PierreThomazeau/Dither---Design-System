@@ -1,0 +1,31 @@
+---
+title: Columns
+description: "Planned vs actual columns: plan in dither, actual solid, the current column highlighted."
+status: stable
+variants: 1
+props: 4
+registry: column-chart
+---
+
+<ComponentPreview name="chart-column" stacked />
+
+## Installation
+
+<InstallCommand name="column-chart" />
+
+## Usage
+
+```tsx
+import { ChartCard } from "@/components/charts/chart-kit";
+import { ColumnChart } from "@/components/charts/column-chart";
+
+<ChartCard title="…" subtitle="…" action="Q4 2026">
+  <ColumnChart … />
+</ChartCard>
+```
+
+## Props
+
+<TypeTable type={{"data": {"type": "{ label; planned; actual }[]"}, "highlight": {"type": "number", "description": "Defaults to the last column."}, "delta": {"type": "ReactNode", "description": "Chip top-left."}, "height": {"type": "number", "description": "200"}}} />
+
+The chart renders the plot only; wrap it in `ChartCard` and add a `ChartLegend` (see [Chart kit](/docs/charts)).
