@@ -1,13 +1,14 @@
 import * as React from "react";
 import { CheckmarkCircle01Icon } from "@hugeicons/core-free-icons";
 
+import { ProgressiveBlur } from "@/components/showcase/progressive-blur";
 import { Icon } from "@/registry/dither/lib/icon";
 import { Avatar, AvatarFallback, AvatarGroup } from "@/registry/dither/ui/avatar";
 
 /**
  * Screen title row: title, sync status, presence, live badge and actions.
  * Sticks to the top of the shell's scroll area (it covers the parent's p-5 / md:p-6 padding);
- * a short fade under it keeps the scrolling content from being cut by a hard line.
+ * the content scrolling under it goes through a progressive blur instead of a hard line.
  */
 export function PageHeader({
   title,
@@ -23,7 +24,7 @@ export function PageHeader({
   actions?: React.ReactNode;
 }) {
   return (
-    <div className="sticky top-0 z-20 -mx-5 -mt-5 flex flex-wrap items-center gap-x-4 gap-y-3 bg-background px-5 pt-5 pb-3 after:pointer-events-none after:absolute after:inset-x-0 after:top-full after:h-4 after:bg-linear-to-b after:from-background after:to-transparent md:-mx-6 md:-mt-6 md:px-6 md:pt-6">
+    <div className="sticky top-0 z-20 -mx-5 -mt-5 flex flex-wrap items-center gap-x-4 gap-y-3 px-5 pt-5 pb-3 md:-mx-6 md:-mt-6 md:px-6 md:pt-6">
       <h1 className="mr-auto text-3xl leading-9 font-semibold tracking-tight">{title}</h1>
       {status ? (
         <span className="hidden items-center gap-1.5 text-sm text-muted-foreground md:flex">
@@ -47,6 +48,9 @@ export function PageHeader({
         </span>
       ) : null}
       {actions ? <div className="flex items-center gap-2">{actions}</div> : null}
+      {/* Blur layers are siblings, not on this element: a backdrop-filter here would stop theirs from seeing the page. */}
+      <div aria-hidden="true" className="absolute inset-0 -z-10 bg-background/85 backdrop-blur-xl" />
+      <ProgressiveBlur className="absolute inset-x-0 top-full -z-10 h-12" />
     </div>
   );
 }
