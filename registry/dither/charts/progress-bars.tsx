@@ -26,7 +26,8 @@ export interface ProgressBarsProps extends React.ComponentProps<"div"> {
 export function ProgressBars({ items, highlight, target, delta, height = 180, className, ...props }: ProgressBarsProps) {
   return (
     <div data-slot="progress-bars" className={cn("flex flex-col gap-2", className)} {...props}>
-      <div className="relative flex gap-2" style={{ height }}>
+      {/* With a target, the bars leave a right gutter for its tag, so the tag never sits on a bar. */}
+      <div className={cn("relative flex gap-2", target !== undefined && "pr-24")} style={{ height }}>
         {items.map((item, i) => {
           const hl = i === highlight;
           return (
@@ -50,11 +51,11 @@ export function ProgressBars({ items, highlight, target, delta, height = 180, cl
         })}
         {target !== undefined ? (
           <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 z-10 border-t border-foreground" style={{ bottom: `${target}%` }}>
-            <ChartTag className="absolute right-0 -translate-y-1/2">Target {target}%</ChartTag>
+            <ChartTag className="absolute right-0 w-22 -translate-y-1/2 justify-center">Target {target}%</ChartTag>
           </div>
         ) : null}
       </div>
-      <div className="flex gap-2">
+      <div className={cn("flex gap-2", target !== undefined && "pr-24")}>
         {items.map((item, i) => (
           <span key={i} className="flex flex-1 items-center justify-center gap-1.5 truncate text-xs text-muted-foreground">
             {item.marker ? (

@@ -30,7 +30,7 @@ export function Preview({
       )}
     >
       {mode ? (
-        <span className="absolute top-3 left-3 font-mono text-xs uppercase text-muted-foreground">{mode}</span>
+        <span className="absolute top-3 left-4 text-xs font-medium text-muted-foreground capitalize">{mode}</span>
       ) : null}
       {children}
     </div>

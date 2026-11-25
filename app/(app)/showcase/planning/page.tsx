@@ -7,6 +7,7 @@ import { PageHeader } from "@/components/showcase/page-header";
 import { CapacityBar } from "@/registry/dither/charts/capacity-bar";
 import { Icon } from "@/registry/dither/lib/icon";
 import { cn } from "@/registry/dither/lib/utils";
+import { Badge } from "@/registry/dither/ui/badge";
 import { Button } from "@/registry/dither/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/registry/dither/ui/tabs";
 
@@ -66,7 +67,7 @@ export default function Planning() {
               {days.map((d, i) => (
                 <span key={d} className={cn("border-b border-l px-2 py-2 font-mono text-xs text-muted-foreground", i === 2 && "font-medium text-foreground")}>
                   {d}
-                  {i === 2 ? <span className="ml-1.5 rounded-hairline bg-foreground px-1 text-[10px] text-primary-foreground uppercase">Today</span> : null}
+                  {i === 2 ? <Badge variant="tag" className="ml-1.5 h-5 px-2">Today</Badge> : null}
                 </span>
               ))}
               <div className="relative" style={{ height: hours.length * HOUR }}>

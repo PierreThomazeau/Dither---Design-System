@@ -123,21 +123,21 @@ export function ChartTag({ className, ...props }: React.ComponentProps<"span">) 
   return (
     <span
       data-slot="chart-tag"
-      className={cn("inline-flex h-4 items-center rounded-hairline bg-foreground px-1.5 font-mono text-[10px] leading-none font-medium whitespace-nowrap text-primary-foreground uppercase", className)}
+      className={cn("inline-flex h-5 items-center rounded-full bg-foreground px-2 text-[11px] leading-none font-medium whitespace-nowrap text-primary-foreground tabular-nums", className)}
       {...props}
     />
   );
 }
 
-/** Delta chip: surface, 1px border, rounded 6px, a 6px coloured square + mono text. */
+/** Delta chip: a surface pill with a 1px border, a small coloured dot and tabular text. */
 export function DeltaChip({ tone = chartTone.positive, className, children, ...props }: React.ComponentProps<"span"> & { tone?: string }) {
   return (
     <span
       data-slot="delta-chip"
-      className={cn("inline-flex h-5 items-center gap-1.5 rounded-micro border bg-surface px-1.5 font-mono text-[11px] whitespace-nowrap text-foreground tabular shadow-2xs", className)}
+      className={cn("inline-flex h-5 items-center gap-1.5 rounded-full border bg-surface px-2 text-[11px] font-medium whitespace-nowrap text-foreground tabular-nums", className)}
       {...props}
     >
-      <span className={cn("size-1.5 rounded-[1px]", tone)} />
+      <span className={cn("size-1.5 rounded-full", tone)} />
       {children}
     </span>
   );
@@ -145,19 +145,19 @@ export function DeltaChip({ tone = chartTone.positive, className, children, ...p
 
 /** SVG version of the black tag, for Recharts labels. Width is estimated from the text length. */
 export function SvgTag({ x, y, text, anchor = "middle" }: { x: number; y: number; text: string; anchor?: "start" | "middle" | "end" }) {
-  const w = text.length * 6.2 + 10;
-  const h = 16;
+  const w = text.length * 5.8 + 16;
+  const h = 20;
   const left = anchor === "start" ? x : anchor === "end" ? x - w : x - w / 2;
   return (
     <g>
-      <rect x={left} y={y - h / 2} width={w} height={h} rx={4} style={{ fill: "var(--foreground)" }} />
+      <rect x={left} y={y - h / 2} width={w} height={h} rx={h / 2} style={{ fill: "var(--foreground)" }} />
       <text
         x={left + w / 2}
         y={y + 3.5}
         textAnchor="middle"
-        style={{ fill: "var(--primary-foreground)", fontFamily: "var(--dither-font-mono)", fontSize: 10, fontWeight: 500 }}
+        style={{ fill: "var(--primary-foreground)", fontFamily: "var(--dither-font-sans)", fontSize: 11, fontWeight: 500 }}
       >
-        {text.toUpperCase()}
+        {text}
       </text>
     </g>
   );

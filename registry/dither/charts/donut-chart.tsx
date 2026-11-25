@@ -60,7 +60,7 @@ export function DonutChart({ segments, value, caption, format = (n) => `${n}`, l
         {value ? (
           <div className="absolute inset-0 flex flex-col items-center justify-center">
             <span className="font-heading text-2xl leading-8 font-semibold tracking-tight tabular">{value}</span>
-            {caption ? <span className="font-mono text-[10px] text-muted-foreground uppercase">{caption}</span> : null}
+            {caption ? <span className="text-xs text-muted-foreground">{caption}</span> : null}
           </div>
         ) : null}
       </div>

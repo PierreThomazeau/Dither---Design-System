@@ -35,7 +35,7 @@ const grammar = [
 ];
 
 function Eyebrow({ children }: { children: React.ReactNode }) {
-  return <p className="font-mono text-xs tracking-wide text-muted-foreground uppercase">{children}</p>;
+  return <p className="text-sm font-medium text-muted-foreground">{children}</p>;
 }
 
 export default function HomePage() {

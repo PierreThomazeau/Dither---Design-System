@@ -46,7 +46,7 @@ export function SiteFooter() {
         </div>
         {columns.map((c) => (
           <nav key={c.title} aria-label={c.title} className="flex flex-col gap-2 text-sm">
-            <span className="font-mono text-xs text-muted-foreground uppercase">{c.title}</span>
+            <span className="font-medium text-foreground">{c.title}</span>
             {c.links.map(([label, href]) => (
               <Link key={href} href={href} className="w-fit text-muted-foreground hover:text-foreground">
                 {label}

@@ -38,7 +38,7 @@ function Inset({ children, className }: { children: ReactNode; className?: strin
 function ColorPanel({ mode }: { mode: Mode }) {
   return (
     <div className={cn(mode, "rounded-[calc(var(--radius-surface)-4px)] border bg-surface p-4 text-foreground shadow-xs")}>
-      <p className="mb-3 font-mono text-xs uppercase text-muted-foreground">{mode}</p>
+      <p className="mb-3 text-xs font-medium text-muted-foreground capitalize">{mode}</p>
       <ul className="grid gap-1">
         {colorEntries.map(([name, value]) => (
           <li key={name} className="flex items-center gap-3 rounded-control px-1 py-1">
@@ -67,7 +67,7 @@ export default function TokensPage() {
   return (
     <main className="mx-auto flex w-full max-w-6xl flex-col gap-16 px-4 py-12 md:py-16">
       <header className="flex flex-col gap-3">
-        <p className="font-mono text-xs uppercase tracking-wide text-muted-foreground">Dither / Foundations</p>
+        <p className="text-sm font-medium text-muted-foreground">Dither / Foundations</p>
         <h1 className="text-4xl font-semibold tracking-tight md:text-5xl">Tokens</h1>
         <p className="max-w-2xl text-muted-foreground">
           Exported from the Figma variables on {tokens.$meta.exported}. Every component reads these CSS variables, never raw
@@ -138,7 +138,7 @@ export default function TokensPage() {
         <div className="grid gap-4 md:grid-cols-2">
           {(["inset", "gap"] as const).map((group) => (
             <Inset key={group} className="flex flex-col gap-2">
-              <p className="mb-1 font-mono text-xs uppercase text-muted-foreground">{group}</p>
+              <p className="mb-1 text-xs font-medium text-muted-foreground capitalize">{group}</p>
               {Object.entries(tokens.space[group]).map(([name, px]) => (
                 <div key={name} className="flex items-center gap-3">
                   <code className="w-20 shrink-0 font-mono text-xs text-muted-foreground">{name}</code>

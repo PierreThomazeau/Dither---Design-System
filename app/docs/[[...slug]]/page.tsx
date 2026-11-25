@@ -27,7 +27,7 @@ export default async function Page(props: PageProps<"/docs/[[...slug]]">) {
 
   return (
     <DocsPage toc={page.data.toc} full={page.data.full}>
-      <p className="font-mono text-xs uppercase tracking-wide text-muted-foreground">
+      <p className="text-sm font-medium text-muted-foreground capitalize">
         {appName} / {section.replace(/-/g, " ")}
       </p>
       <DocsTitle>{page.data.title}</DocsTitle>

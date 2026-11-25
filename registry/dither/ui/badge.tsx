@@ -5,7 +5,7 @@ import { Slot } from "radix-ui";
 import { cn } from "@/registry/dither/lib/utils";
 
 const badgeVariants = cva(
-  "inline-flex h-5 w-fit shrink-0 items-center justify-center gap-1 overflow-hidden rounded-micro border border-transparent px-1.5 text-xs font-medium whitespace-nowrap [&_svg]:size-3 [&_svg]:shrink-0",
+  "inline-flex h-6 w-fit shrink-0 items-center justify-center gap-1.5 overflow-hidden rounded-full border border-transparent px-2.5 text-xs font-medium whitespace-nowrap [&_svg]:size-3 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
@@ -16,8 +16,8 @@ const badgeVariants = cva(
         positive: "bg-positive/10 text-positive",
         destructive: "bg-destructive/10 text-destructive",
         informative: "bg-informative/10 text-informative",
-        /* Annotation tag (grammar 7): black, mono, uppercase. */
-        tag: "rounded-hairline bg-foreground font-mono tracking-wide text-primary-foreground uppercase",
+        /* Annotation tag (grammar 7): a black pill. */
+        tag: "bg-foreground text-primary-foreground",
       },
     },
     defaultVariants: { variant: "default" },

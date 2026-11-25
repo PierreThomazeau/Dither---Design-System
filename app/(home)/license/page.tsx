@@ -11,7 +11,7 @@ export default function LicensePage() {
   return (
     <main className="mx-auto flex w-full max-w-3xl flex-col gap-10 px-4 py-16">
       <header className="flex flex-col gap-3">
-        <p className="font-mono text-xs tracking-wide text-muted-foreground uppercase">Dither / License</p>
+        <p className="text-sm font-medium text-muted-foreground">Dither / License</p>
         <h1 className="text-4xl font-semibold tracking-tight">License</h1>
         <p className="text-muted-foreground">Dither is free and open source, released under the MIT license.</p>
       </header>

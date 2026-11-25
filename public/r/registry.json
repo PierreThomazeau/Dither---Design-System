@@ -854,7 +854,8 @@
       "registryDependencies": [
         "utils",
         "@dither/icon",
-        "@dither/theme"
+        "@dither/theme",
+        "@dither/badge"
       ],
       "files": [
         {

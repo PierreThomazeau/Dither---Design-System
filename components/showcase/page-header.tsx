@@ -4,6 +4,7 @@ import { CheckmarkCircle01Icon } from "@hugeicons/core-free-icons";
 import { ProgressiveBlur } from "@/components/showcase/progressive-blur";
 import { Icon } from "@/registry/dither/lib/icon";
 import { Avatar, AvatarFallback, AvatarGroup } from "@/registry/dither/ui/avatar";
+import { Badge } from "@/registry/dither/ui/badge";
 
 /**
  * Screen title row: title, sync status, presence, live badge and actions.
@@ -42,10 +43,10 @@ export function PageHeader({
         </AvatarGroup>
       ) : null}
       {live ? (
-        <span className="inline-flex h-6 items-center gap-1.5 rounded-full border px-2 text-xs font-medium">
+        <Badge variant="outline">
           <span className="size-1.5 animate-pulse rounded-full bg-destructive motion-reduce:animate-none" />
           Live
-        </span>
+        </Badge>
       ) : null}
       {actions ? <div className="flex items-center gap-2">{actions}</div> : null}
       {/* Opaque, the same background as the top bar; the blur lives in a sibling layer under it. */}

@@ -49,7 +49,7 @@ export async function ComponentPreview({
       </Preview>
       {source ? (
         <details className="group mt-2 rounded-surface border bg-surface">
-          <summary className="flex h-control cursor-pointer list-none items-center justify-between px-4 font-mono text-xs text-muted-foreground uppercase select-none hover:text-foreground">
+          <summary className="flex h-control cursor-pointer list-none items-center justify-between px-5 text-sm font-medium text-muted-foreground select-none hover:text-foreground">
             Code
             <span className="transition-transform group-open:rotate-180" aria-hidden="true">
               ▾

@@ -23,7 +23,7 @@ function SourceCard({ index, title, meta, icon, href, className, ...props }: Sou
   const content = (
     <>
       {index !== undefined ? (
-        <span className="flex size-5 shrink-0 items-center justify-center rounded-hairline bg-background-muted font-mono text-xs text-muted-foreground tabular">
+        <span className="flex size-5 shrink-0 items-center justify-center rounded-full bg-background-muted text-xs tabular-nums text-muted-foreground tabular">
           {index}
         </span>
       ) : null}

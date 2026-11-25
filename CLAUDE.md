@@ -20,6 +20,8 @@
 - **Lighter borders (Pierre):** `--border` #e6e6e6 → #efefef (light), #404040 → #222222 (dark); border-strong unchanged.
 - **No shadows on controls (Pierre):** every outline button / button group / toggle / field / period button has a 1px border and no shadow; the showcase top bar uses the same bordered outline buttons and a bordered breadcrumb chip. Surfaces (cards, alerts, popovers) keep shadow-xs.
 - **Polish round (Pierre):** ChartSpotlight removed (no hover dither on charts). `DitherPattern` (now `lib/dither-pattern.tsx`, client) scales its pattern back when the SVG is stretched (dots same size in donut / gauges as elsewhere); organic tile twinkles (1 dot in 5, `.dither-twinkle` / CSS inside the mask SVG, off under reduced motion). Skeleton = organic tile + `bg-dither-sweep` band animated by `animate-dither-sweep`. ProgressiveBlur only shows once `<main>` has scrolled. Chat composer pickers on a bordered surface pill. OrganicDither pointer = fading noisy wake that stirs the texture (listens on the DitherFill wrapper's parent). Showcase index cards show previews `public/showcase/<slug>-{light,dark}.webp` (720×450, regenerate with a Playwright capture of each screen at 1440×900 after visual changes).
+- **Less "generated" look (Pierre):** no mono uppercase labels outside data: eyebrows, preview Light/Dark labels, footer titles, select / command group headings, chart captions are Manrope, sentence case. Badge is a pill (h-6, rounded-full); `tag` = black pill, no mono/uppercase. ChartTag / SvgTag / DeltaChip are pills in Manrope with tabular numbers. Hand-made chips replaced by `Badge` (docs meta chips, Live, showcase numbers, kanban tag, planning Today, gauge alert → ChartTag). ProgressBars with a target keep a right gutter (pr-24) for the tag.
+- **Logo (Pierre):** `components/site/logo.tsx` draws Pierre's mark (cross with open centre over a 50% square frame) in currentColor; source files `public/brand/dither-logo-{dark,light}.svg`; favicon `app/icon.svg` switches with prefers-color-scheme.
 - Next (not started): Figma for the remaining ~45 components (overlays, blocks, AI blocks, charts). Single-example docs pages remain (Badge, Separator, Tooltip, Dialog, Drawer, several blocks, all charts).
 
 ## Commands
@@ -153,7 +155,7 @@ export function DitherPattern({ id = "dither", variant = "regular" }: { id?: str
    - Card header: title `text-lg semibold`, subtitle `text-sm muted-foreground`, an outline `sm` button on the right (period selector).
    - Gridlines dotted (`stroke-dasharray="1 3"`, `border` color). Axis labels `font-mono text-xs muted-foreground`.
    - Tracks and remaining totals in **dither**. Values as solid shapes. **One highlighted series in `chart-1`**, the others neutral (`foreground` at 85% or `border-strong`).
-   - Annotations as **black tags**: `bg-foreground text-primary-foreground font-mono text-xs rounded-[4px] px-1.5`, uppercase (`TARGET 70%`, `TODAY`, `ALERT 90%`, `BREAK-EVEN 1.0x`, `SATURATION 16%`). Target lines: solid 1px `foreground`.
+   - Annotations as **black tags** (now pills in Manrope, sentence case, per Pierre: `Target 70%`, `Today`, `Alert 90%`, `Break-even 1.0x`, `Saturation 16%`). Target lines: solid 1px `foreground`.
    - Delta chip: `surface`, 1px border, `rounded-[6px]`, a 6px colored square + mono text (`+12 pts`).
    - Legends use 10px squares (`rounded-[2px]`); the dither entry uses a mini dither swatch.
    - Charts stretch to their container width.

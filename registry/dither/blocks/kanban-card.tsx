@@ -3,6 +3,7 @@ import { Attachment01Icon, Calendar03Icon, Comment01Icon } from "@hugeicons/core
 
 import { Icon } from "@/registry/dither/lib/icon";
 import { cn } from "@/registry/dither/lib/utils";
+import { Badge } from "@/registry/dither/ui/badge";
 
 type Priority = "low" | "medium" | "high";
 
@@ -40,7 +41,7 @@ function KanbanCard({ id, title, tag, priority = "medium", subtasks, comments, f
           <PriorityBars priority={priority} />
           {id}
         </span>
-        {tag ? <span className="inline-flex h-5 items-center rounded-micro border px-1.5 text-xs font-medium">{tag}</span> : null}
+        {tag ? <Badge variant="outline">{tag}</Badge> : null}
       </div>
       <p className="text-sm font-medium">{title}</p>
       {subtasks ? (

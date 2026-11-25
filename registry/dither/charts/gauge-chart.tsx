@@ -1,5 +1,6 @@
 import * as React from "react";
 
+import { ChartTag } from "@/registry/dither/charts/chart-kit";
 import { DitherPattern } from "@/registry/dither/lib/dither";
 import { cn } from "@/registry/dither/lib/utils";
 
@@ -45,12 +46,9 @@ export function GaugeChart({ value, alert, display, caption, minLabel, maxLabel,
         {alert !== undefined ? <line x1={ax1} y1={ay1} x2={ax2} y2={ay2} style={{ stroke: "var(--foreground)" }} strokeWidth={1.5} /> : null}
       </svg>
       {alert !== undefined ? (
-        <span
-          className="absolute inline-flex h-4 -translate-y-full items-center rounded-hairline bg-foreground px-1.5 font-mono text-[10px] font-medium whitespace-nowrap text-primary-foreground"
-          style={{ left: `${(ax2 / 200) * 100}%`, top: `${(ay2 / 112) * 100}%` }}
-        >
-          ALERT {alert}%
-        </span>
+        <ChartTag className="absolute -translate-y-full" style={{ left: `${(ax2 / 200) * 100}%`, top: `${(ay2 / 112) * 100}%` }}>
+          Alert {alert}%
+        </ChartTag>
       ) : null}
       <div className="absolute inset-x-0 bottom-1 flex flex-col items-center">
         <span className="font-heading text-4xl leading-none font-semibold tracking-tight tabular">{display ?? `${Math.round(v)}%`}</span>

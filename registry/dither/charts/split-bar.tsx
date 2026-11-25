@@ -21,8 +21,8 @@ export function SplitBar({ data, format = (n) => `${n}`, negativeLabel = "Reduce
   return (
     <div data-slot="split-bar" className={cn("grid grid-cols-[auto_1fr_1fr] items-center gap-x-0 gap-y-2", className)} {...props}>
       <span />
-      <span className="pr-2 text-left font-mono text-[10px] text-muted-foreground uppercase">{negativeLabel}</span>
-      <span className="pl-2 text-right font-mono text-[10px] text-muted-foreground uppercase">{positiveLabel}</span>
+      <span className="pr-2 text-left text-xs text-muted-foreground">{negativeLabel}</span>
+      <span className="pl-2 text-right text-xs text-muted-foreground">{positiveLabel}</span>
       {data.map((d) => {
         const w = `${(Math.abs(d.value) / max) * 100}%`;
         const neg = d.value < 0;

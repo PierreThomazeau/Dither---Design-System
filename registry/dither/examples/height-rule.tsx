@@ -24,7 +24,7 @@ export default function HeightRule() {
         const toggleSize = size === "xs" ? "sm" : size;
         return (
           <div key={size} className="flex flex-col gap-2">
-            <p className="font-mono text-xs text-muted-foreground uppercase">
+            <p className="text-xs font-medium text-muted-foreground">
               {size} · {px}px
             </p>
             <div className="relative flex flex-wrap items-center gap-2" data-height-row={px}>
