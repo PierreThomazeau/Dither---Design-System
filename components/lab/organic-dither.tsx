@@ -9,8 +9,8 @@ export interface OrganicDitherProps extends React.ComponentProps<"canvas"> {
   shape?: OrganicShape;
   /** Grid cell in px (6 = the Dither grid). */
   cell?: number;
-  /** Dot side range in px: dense areas get bigger dots (squares almost touch at full density). */
-  dot?: [number, number];
+  /** Dot side in px, the same everywhere (2 = the Dither dot). */
+  dot?: number;
   /** Noise scale (higher = smaller clumps). */
   scale?: number;
   seed?: number;
@@ -35,7 +35,7 @@ function readColor(el: HTMLElement, fallback?: string) {
 export function OrganicDither({
   shape = "cloud",
   cell = 6,
-  dot = [2, 4],
+  dot = 2,
   scale = 3,
   seed = 7,
   speed = 1,
@@ -45,7 +45,6 @@ export function OrganicDither({
   ...props
 }: OrganicDitherProps) {
   const ref = React.useRef<HTMLCanvasElement>(null);
-  const [d0, d1] = dot;
 
   React.useEffect(() => {
     const canvas = ref.current;
@@ -67,13 +66,14 @@ export function OrganicDither({
     const draw = (t: number) => {
       ctx.clearRect(0, 0, w, h);
       ctx.fillStyle = fill;
-      const cols = Math.ceil(w / cell);
+      const cols = Math.ceil(w / cell) + 1;
       const rows = Math.ceil(h / cell);
       const aspect = w / h;
       const r = Math.max(56, Math.min(w, h) * 0.32);
       for (let row = 0; row < rows; row++) {
         for (let col = 0; col < cols; col++) {
-          const x = col * cell;
+          // Staggered grid, as in the regular tile: odd rows shift by half a cell.
+          const x = col * cell + (row & 1 ? cell / 2 : 0);
           const y = row * cell;
           let dens = density(shape, { u: (x + cell / 2) / w, v: (y + cell / 2) / h, aspect, t, seed, scale });
           if (p.k > 0.01) {
@@ -83,9 +83,7 @@ export function OrganicDither({
             if (dist < r) dens *= 1 - p.k * (1 - (dist / r) ** 2);
           }
           if (dens <= bayer(col, row)) continue;
-          const s = Math.round((d0 + (d1 - d0) * dens * dens) * 2) / 2;
-          const o = (cell - s) / 2;
-          ctx.fillRect(x + o, y + o, s, s);
+          ctx.fillRect(x, y, dot, dot);
         }
       }
     };
@@ -161,7 +159,7 @@ export function OrganicDither({
       host.removeEventListener("pointermove", onMove);
       host.removeEventListener("pointerleave", onLeave);
     };
-  }, [shape, cell, d0, d1, scale, seed, speed, interactive, color]);
+  }, [shape, cell, dot, scale, seed, speed, interactive, color]);
 
   return <canvas ref={ref} aria-hidden="true" className={cn("pointer-events-none absolute inset-0 size-full", className)} {...props} />;
 }

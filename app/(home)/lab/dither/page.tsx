@@ -29,8 +29,8 @@ export default function OrganicDitherLab() {
         <Label>Dither / Lab / Proposal</Label>
         <h1 className="text-4xl font-semibold tracking-tight">Organic dither</h1>
         <p className="text-muted-foreground">
-          Same pixel grid (2px squares on 6px), but each cell&apos;s density comes from a noise field instead of a repeating tile.
-          The texture clumps, frays and drifts slowly. Move the pointer over a panel: it clears a soft hole.
+          Same dots and same grid as before (2px squares on 6px, odd rows offset by 3px): a full area is exactly the regular tile. A noise field decides which dots stay, so the density
+          clumps, frays and drifts slowly instead of fading in a straight line. Move the pointer over a panel: it clears a soft hole.
         </p>
       </header>
 
