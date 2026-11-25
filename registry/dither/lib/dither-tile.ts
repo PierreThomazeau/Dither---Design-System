@@ -122,16 +122,16 @@ export interface OrganicTile {
  * `cell` is the grid step, `dot` the [sparse, dense] dot sides, `period` the number of noise
  * cells across the tile (more = smaller clumps).
  */
-export function organicTile({ size = 96, cell = 4, dot = [1.5, 2.5], period = 3, seed = 7 }: { size?: number; cell?: number; dot?: [number, number]; period?: number; seed?: number } = {}): OrganicTile {
+export function organicTile({ size = 96, cell = 4, dot = [1.25, 2], period = 3, seed = 7 }: { size?: number; cell?: number; dot?: [number, number]; period?: number; seed?: number } = {}): OrganicTile {
   const dots: OrganicTileDot[] = [];
   const n = Math.round(size / cell);
   for (let row = 0; row < n; row++) {
     for (let col = 0; col < n; col++) {
       const v = periodicFbm((col / n) * period, (row / n) * period, period, seed);
       // Keep a floor of sparse dots everywhere so tracks always read, clumps on top.
-      const dens = 0.18 + band(v, 0.36, 0.7) * 0.82;
+      const dens = 0.14 + band(v, 0.4, 0.75) * 0.42;
       if (dens <= bayer(col, row)) continue;
-      const s = Math.round((dot[0] + (dot[1] - dot[0]) * dens * dens) * 2) / 2;
+      const s = Math.round((dot[0] + (dot[1] - dot[0]) * Math.min(1, dens * 1.8)) * 4) / 4;
       const o = (cell - s) / 2;
       dots.push({ x: col * cell + o, y: row * cell + o, size: s });
     }

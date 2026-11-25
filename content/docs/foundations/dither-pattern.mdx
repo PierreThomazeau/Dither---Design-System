@@ -52,7 +52,7 @@ gradient of custom properties (`{ stops: ["transparent", "--brand", "--chart-3"]
 
 Never cut the texture with a hard edge: `fade` (`top`, `bottom`, `left`, `right`, `corner`, `edges`) masks it out
 softly, and `glow` adds blurred colour blobs under the dots (`glow={["--brand", "--chart-3"]}`): dither and colour
-in blur, as on the landing hero and the AI glow.
+in blur. Colour is reserved for surfaces that carry it (the AI glow); neutral surfaces only fade.
 
 ## Tile variants
 
@@ -61,8 +61,8 @@ Data marks (remaining capacity, chart tracks, forecast bands) use the static **`
 dots so a track never looks empty. `bg-dither-organic` in CSS, `<DitherPattern variant="organic" />` in SVG.
 The regular, fine and bayer tiles stay for tiny swatches (legends) and skeletons.
 
-In charts, `ChartCard` adds a pointer spotlight: a blurred `chart-1` light and the organic dither tinted in
-`chart-1` follow the cursor under the plot.
+In charts, `ChartCard` adds a pointer spotlight: a faint, neutral organic dither gathers under the cursor,
+behind the plot.
 
 | Variant | Spec |
 |---|---|

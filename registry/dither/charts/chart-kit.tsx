@@ -55,7 +55,7 @@ export interface ChartCardProps extends Omit<React.ComponentProps<"div">, "title
 
 /**
  * Card header: title text-lg semibold, subtitle muted, period button on the right. Legend at the bottom.
- * A pointer spotlight (blurred chart-1 light + organic dither) follows the cursor under the plot.
+ * A neutral organic dither spotlight follows the cursor under the plot.
  */
 export function ChartCard({ title, subtitle, action, legend, className, children, ...props }: ChartCardProps) {
   return (
