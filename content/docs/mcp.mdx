@@ -1,0 +1,45 @@
+---
+title: MCP server
+description: "Let AI assistants browse, read and install Dither components."
+---
+
+Dither ships a [Model Context Protocol](https://modelcontextprotocol.io) server, so assistants like Claude, Cursor or VS Code can find the right component, read its source and install it with the correct command.
+
+## Dither MCP endpoint
+
+The site exposes a stateless MCP endpoint over HTTP at `/mcp`.
+
+| Tool | What it does |
+|---|---|
+| `list_components` | Lists registry items, filtered by `kind` (`ui`, `block`, `chart`, `lib`, `theme`) or a text `query`. |
+| `get_component` | Returns an item's metadata, dependencies and source files. |
+| `get_install_command` | Returns `npx shadcn add @dither/<name>` and the `components.json` registry entry. |
+| `get_tokens` | Returns the design tokens (colours light / dark, radius, heights, spacing, type, dither). |
+
+### Claude Code
+
+```bash
+claude mcp add --transport http dither https://<your-dither-domain>/mcp
+```
+
+### Cursor, VS Code and other clients
+
+```json title=".cursor/mcp.json"
+{
+  "mcpServers": {
+    "dither": { "url": "https://<your-dither-domain>/mcp" }
+  }
+}
+```
+
+## shadcn MCP
+
+The shadcn CLI also has an MCP server that works with any registry declared in `components.json`. With the `@dither` registry configured (see [Installation](/docs/installation)):
+
+```bash
+npx shadcn@latest mcp init --client claude
+```
+
+## llms.txt
+
+The docs are also available as plain text for language models: [`/llms.txt`](/llms.txt) (index) and [`/llms-full.txt`](/llms-full.txt) (every page).

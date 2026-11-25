@@ -3,6 +3,7 @@
   "pages": [
     "index",
     "installation",
+    "mcp",
     "---Foundations---",
     "foundations/tokens",
     "foundations/dither-pattern",

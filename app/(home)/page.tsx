@@ -1,43 +1,221 @@
 import Link from "next/link";
-import { HugeiconsIcon } from "@hugeicons/react";
-import { ArrowRight01Icon } from "@hugeicons/core-free-icons";
+import { ArrowRight01Icon, DollarCircleIcon, Share08Icon, Copy01Icon, Archive02Icon } from "@hugeicons/core-free-icons";
 
-import { appDescription } from "@/lib/shared";
+import { faqs, plans } from "@/components/site/plans";
 import { LogoMark } from "@/components/site/logo";
+import { appDescription } from "@/lib/shared";
+import registry from "@/registry.json";
+import { StatCard } from "@/registry/dither/blocks/stat-card";
+import { Timeline, TimelineItem } from "@/registry/dither/blocks/timeline";
+import { UsageMeter } from "@/registry/dither/blocks/usage-meter";
+import { ChartCard, ChartLegend } from "@/registry/dither/charts/chart-kit";
+import { ProgressBars } from "@/registry/dither/charts/progress-bars";
+import { AiGlow } from "@/registry/dither/lib/ai-glow";
+import { DitherFill } from "@/registry/dither/lib/dither";
+import { Icon } from "@/registry/dither/lib/icon";
+import { cn } from "@/registry/dither/lib/utils";
+import { Badge } from "@/registry/dither/ui/badge";
+import { Button } from "@/registry/dither/ui/button";
+import { ButtonGroup, ButtonGroupSeparator } from "@/registry/dither/ui/button-group";
+import { Switch } from "@/registry/dither/ui/switch";
+import { Tabs, TabsList, TabsTrigger } from "@/registry/dither/ui/tabs";
 
-/** Placeholder landing — the real marketing site comes in batch 8. */
+const counts = {
+  primitives: registry.items.filter((i) => i.type === "registry:ui").length,
+  blocks: registry.items.filter((i) => i.type === "registry:block" && i.files[0].path.includes("/blocks/")).length,
+  charts: registry.items.filter((i) => i.files[0]?.path.includes("/charts/") && i.name !== "chart-kit").length,
+};
+
+const grammar = [
+  { title: "Tactile primary", text: "Gradient overlay and inner shadows. Nothing bleeds outside the box." },
+  { title: "Two-tone surfaces", text: "A muted shell around a raised panel: cards, popovers, composers." },
+  { title: "One height per size", text: "Buttons, inputs, selects, tabs: 32 · 36 · 40 · 44." },
+  { title: "Mono for data", text: "Numbers, IDs and timestamps in Geist Mono with tabular figures." },
+  { title: "Dither for the absent", text: "Remaining capacity, forecast ranges, empty states, skeletons." },
+  { title: "Light and dark", text: "Every component, block and screen, from the first commit." },
+];
+
+function Eyebrow({ children }: { children: React.ReactNode }) {
+  return <p className="font-mono text-xs tracking-wide text-muted-foreground uppercase">{children}</p>;
+}
+
 export default function HomePage() {
   return (
-    <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-10 px-4 py-16 md:py-24">
-      <section className="relative overflow-hidden rounded-display bg-background-muted p-1">
-        <div className="relative overflow-hidden rounded-[calc(var(--radius-display)-4px)] border bg-surface px-6 py-16 shadow-xs md:px-16 md:py-24">
-          <span className="bg-dither-gradient absolute inset-0" aria-hidden="true" />
-          <div className="relative flex max-w-2xl flex-col gap-6">
-            <span className="inline-flex w-fit items-center gap-2 rounded-hairline bg-foreground px-1.5 font-mono text-xs uppercase text-primary-foreground">
-              v0.1 · Setup
-            </span>
-            <h1 className="flex items-center gap-4 font-heading text-5xl font-semibold tracking-tight md:text-7xl">
-              <LogoMark className="size-10 md:size-14" />
-              Dither
-            </h1>
-            <p className="text-lg text-muted-foreground">{appDescription}</p>
-            <div className="flex flex-wrap gap-2">
-              <Link
-                href="/docs"
-                className="inline-flex h-control items-center gap-2 rounded-control bg-primary bg-linear-to-b from-white/8 to-white/0 px-4 text-sm font-medium text-primary-foreground shadow-button-primary"
-              >
-                Read the docs
-                <HugeiconsIcon icon={ArrowRight01Icon} size={16} strokeWidth={1.5} />
+    <main className="flex flex-1 flex-col">
+      {/* Hero */}
+      <section className="relative isolate overflow-hidden">
+        <DitherFill variant="gradient" gradientHeight={420} className="inset-auto top-0 left-0 -z-10 h-[420px] w-full" />
+        <div className="mx-auto flex w-full max-w-6xl flex-col items-start gap-6 px-4 pt-20 pb-16 md:pt-28">
+          <Badge variant="tag">v0.1 · {counts.primitives + counts.blocks + counts.charts} components</Badge>
+          <h1 className="flex max-w-3xl flex-wrap items-center gap-x-4 font-heading text-5xl leading-[1.05] font-semibold tracking-tight md:text-7xl">
+            <LogoMark className="size-10 md:size-14" />
+            The design system with a texture.
+          </h1>
+          <p className="max-w-2xl text-lg text-muted-foreground">{appDescription} Copy the code, own it, ship it.</p>
+          <div className="flex flex-wrap items-center gap-2">
+            <Button asChild size="lg">
+              <Link href="/docs">
+                Get started
+                <Icon icon={ArrowRight01Icon} />
               </Link>
-              <Link
-                href="/tokens"
-                className="inline-flex h-control items-center rounded-control border bg-surface px-4 text-sm font-medium shadow-xs hover:bg-hover"
-              >
-                Browse tokens
-              </Link>
-            </div>
+            </Button>
+            <Button asChild size="lg" variant="outline">
+              <Link href="/showcase">See the showcase</Link>
+            </Button>
+          </div>
+          <code className="inline-flex h-control items-center gap-3 rounded-control border bg-surface px-4 font-mono text-sm shadow-xs">
+            <span className="text-muted-foreground">$</span>
+            npx shadcn add @dither/button
+          </code>
+        </div>
+      </section>
+
+      {/* Bento of live components */}
+      <section aria-label="Live components" className="mx-auto grid w-full max-w-6xl gap-4 px-4 md:grid-cols-6">
+        <div className="md:col-span-4">
+          <ChartCard
+            title="Lead performance"
+            subtitle="Items shipped vs. committed · Sprint 24"
+            action="Sprint 24"
+            legend={<ChartLegend items={[{ label: "Highlighted lead" }, { label: "Other leads", tone: "bg-border-strong" }, { label: "Remaining", kind: "dither" }]} />}
+          >
+            <ProgressBars
+              highlight={2}
+              target={70}
+              delta="+12 pts"
+              items={[
+                { label: "Inès", marker: "I", value: 62 },
+                { label: "Hugo", marker: "H", value: 48 },
+                { label: "Léa", marker: "L", value: 87 },
+                { label: "Malik", marker: "M", value: 34 },
+              ]}
+            />
+          </ChartCard>
+        </div>
+        <div className="flex flex-col gap-4 md:col-span-2">
+          <StatCard label="Revenue" value="€482.9k" delta="+12.4%" caption="vs last month" trend="up" icon={<Icon icon={DollarCircleIcon} />} sparkline={[12, 14, 13, 16, 15, 18, 17, 21, 20, 24]} />
+          <div className="flex flex-col gap-4 rounded-surface border bg-surface p-5 shadow-xs">
+            <UsageMeter label="API calls" max={10000} segments={[{ label: "Production", value: 4200 }, { label: "Staging", value: 2040 }]} caption="62% used" />
+            <Switch variant="box" placement="end" label="Weekly digest" description="Every Monday at 9:00." defaultChecked />
           </div>
         </div>
+        <div className="flex flex-col items-start gap-4 rounded-surface border bg-surface p-5 shadow-xs md:col-span-3">
+          <Tabs defaultValue="week">
+            <TabsList>
+              <TabsTrigger value="day">Day</TabsTrigger>
+              <TabsTrigger value="week">Week</TabsTrigger>
+              <TabsTrigger value="month">Month</TabsTrigger>
+            </TabsList>
+          </Tabs>
+          <ButtonGroup aria-label="Report actions">
+            <Button variant="ghost" size="sm"><Icon icon={Share08Icon} />Share</Button>
+            <ButtonGroupSeparator />
+            <Button variant="ghost" size="sm"><Icon icon={Copy01Icon} />Duplicate</Button>
+            <ButtonGroupSeparator />
+            <Button variant="ghost" size="sm"><Icon icon={Archive02Icon} />Archive</Button>
+          </ButtonGroup>
+          <div className="flex flex-wrap gap-2">
+            <Button>Save changes</Button>
+            <Button variant="outline">Cancel</Button>
+            <Button variant="secondary">Draft</Button>
+          </div>
+        </div>
+        <div className="relative isolate flex flex-col gap-3 overflow-hidden rounded-surface border bg-surface p-5 shadow-xs md:col-span-3">
+          <AiGlow direction="to-b" className="bottom-1/2" />
+          <p className="text-sm font-semibold">Agent run</p>
+          <Timeline>
+            <TimelineItem status="success" title="Read invoices" description="invoices_2026.csv · 248 rows" time="09:12" />
+            <TimelineItem status="success" title="Compared plans" time="09:12" />
+            <TimelineItem status="warning" title="Usage at 90%" description="API calls on the Pro plan." time="09:13" />
+          </Timeline>
+        </div>
+      </section>
+
+      {/* Numbers */}
+      <section className="mx-auto mt-16 grid w-full max-w-6xl grid-cols-2 gap-px overflow-hidden rounded-surface border bg-border md:grid-cols-4">
+        {[
+          [String(counts.primitives), "UI primitives"],
+          [String(counts.blocks), "Product & AI blocks"],
+          [String(counts.charts), "Signature charts"],
+          ["12", "Showcase screens"],
+        ].map(([n, label]) => (
+          <div key={label} className="flex flex-col gap-1 bg-surface p-6">
+            <span className="font-heading text-4xl font-semibold tracking-tight tabular">{n}</span>
+            <span className="text-sm text-muted-foreground">{label}</span>
+          </div>
+        ))}
+      </section>
+
+      {/* Grammar */}
+      <section className="mx-auto mt-20 flex w-full max-w-6xl flex-col gap-8 px-4">
+        <div className="flex flex-col gap-2">
+          <Eyebrow>Design grammar</Eyebrow>
+          <h2 className="max-w-2xl text-3xl font-semibold tracking-tight md:text-4xl">Starts from shadcn/ui. Ends up somewhere else.</h2>
+        </div>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {grammar.map((g, i) => (
+            <div key={g.title} className="flex flex-col gap-1 rounded-surface bg-background-muted p-1">
+              <div className="relative isolate h-20 overflow-hidden rounded-[calc(var(--radius-surface)-4px)] border bg-surface shadow-xs">
+                <DitherFill variant={(["regular", "fine", "bayer", "gradient"] as const)[i % 4]} gradientHeight={80} />
+              </div>
+              <div className="flex flex-col gap-1 px-3 pt-2 pb-3">
+                <h3 className="text-sm font-semibold">{g.title}</h3>
+                <p className="text-sm text-muted-foreground">{g.text}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Pricing teaser */}
+      <section className="mx-auto mt-20 flex w-full max-w-6xl flex-col gap-8 px-4">
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <div className="flex flex-col gap-2">
+            <Eyebrow>Pricing</Eyebrow>
+            <h2 className="text-3xl font-semibold tracking-tight md:text-4xl">Free foundations. Pro when you need it.</h2>
+          </div>
+          <Button asChild variant="outline">
+            <Link href="/pricing">Compare plans</Link>
+          </Button>
+        </div>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {plans.map((p) => (
+            <Link
+              key={p.id}
+              href="/pricing"
+              className={cn(
+                "flex flex-col gap-2 rounded-surface border bg-surface p-5 shadow-xs outline-none hover:border-border-strong focus-visible:shadow-focus",
+                p.highlight && "border-brand/40 ring-1 ring-brand/20",
+              )}
+            >
+              <span className="text-sm font-semibold">{p.name}</span>
+              <span className="flex items-baseline gap-1.5">
+                <span className="font-heading text-3xl font-semibold tracking-tight tabular">{p.price}</span>
+                <span className="text-xs text-muted-foreground">{p.cadence}</span>
+              </span>
+              <span className="text-sm text-muted-foreground">{p.description}</span>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* FAQ teaser */}
+      <section className="mx-auto mt-20 grid w-full max-w-6xl gap-8 px-4 md:grid-cols-[1fr_2fr]">
+        <div className="flex flex-col gap-2">
+          <Eyebrow>FAQ</Eyebrow>
+          <h2 className="text-3xl font-semibold tracking-tight">Questions</h2>
+          <Link href="/pricing#faq" className="text-sm text-muted-foreground underline-offset-4 hover:underline">
+            All questions →
+          </Link>
+        </div>
+        <dl className="flex flex-col divide-y rounded-surface border bg-surface px-5 shadow-xs">
+          {faqs.slice(0, 3).map((f) => (
+            <div key={f.q} className="flex flex-col gap-1 py-4">
+              <dt className="text-sm font-semibold">{f.q}</dt>
+              <dd className="text-sm text-muted-foreground">{f.a.replace(/`/g, "")}</dd>
+            </div>
+          ))}
+        </dl>
       </section>
     </main>
   );
