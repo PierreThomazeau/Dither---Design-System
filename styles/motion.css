@@ -1,0 +1,49 @@
+/* Dither motion tokens: liquid easing, durations and keyframes.
+   Everything here is disabled under prefers-reduced-motion (see the end of the file). */
+
+:root {
+  /* Overshoots a little, then settles: the "liquid" feel. */
+  --ease-liquid: cubic-bezier(0.34, 1.56, 0.64, 1);
+  /* Fast out, soft landing. */
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-liquid: 460ms;
+}
+
+/* Switch thumb: stretches while travelling, then settles (two names so the animation restarts on each toggle). */
+@keyframes liquid-stretch-on {
+  0% { scale: 1 1; }
+  35% { scale: 1.55 0.82; }
+  70% { scale: 0.92 1.06; }
+  100% { scale: 1 1; }
+}
+@keyframes liquid-stretch-off {
+  0% { scale: 1 1; }
+  35% { scale: 1.55 0.82; }
+  70% { scale: 0.92 1.06; }
+  100% { scale: 1 1; }
+}
+
+/* Check marks, radio dots, selected chips. */
+@keyframes liquid-pop {
+  0% { scale: 0.4; opacity: 0; }
+  60% { scale: 1.18; opacity: 1; }
+  100% { scale: 1; }
+}
+
+/* The dither tile crawls by one period, so the loop is seamless (fine tile = 4 x 8). */
+@keyframes dither-drift {
+  from { mask-position: 0 0, 0 0; -webkit-mask-position: 0 0, 0 0; }
+  to { mask-position: 0 0, 4px 8px; -webkit-mask-position: 0 0, 4px 8px; }
+}
+
+@utility animate-dither-drift {
+  animation: dither-drift 1.4s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+  }
+}

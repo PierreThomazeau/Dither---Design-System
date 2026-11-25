@@ -6,6 +6,7 @@
 @import "../styles/theme.css";
 @import "../styles/scopes.css";
 @import "../styles/dither.css";
+@import "../styles/motion.css";
 
 /* `dark:` applies under .dark, except inside a forced .light scope (docs previews). */
 @custom-variant dark (&:where(.dark, .dark *):not(:where(.light, .light *)));

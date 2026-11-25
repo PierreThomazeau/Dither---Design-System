@@ -31,6 +31,11 @@
           "path": "styles/dither.css",
           "type": "registry:file",
           "target": "styles/dither/dither.css"
+        },
+        {
+          "path": "styles/motion.css",
+          "type": "registry:file",
+          "target": "styles/dither/motion.css"
         }
       ]
     },
@@ -49,6 +54,10 @@
         },
         {
           "path": "registry/dither/lib/dither.tsx",
+          "type": "registry:lib"
+        },
+        {
+          "path": "registry/dither/lib/dither-field.tsx",
           "type": "registry:lib"
         }
       ]
@@ -226,10 +235,12 @@
       "description": "Segmented or line tabs in four sizes.",
       "dependencies": [
         "radix-ui",
-        "class-variance-authority"
+        "class-variance-authority",
+        "motion"
       ],
       "registryDependencies": [
-        "utils"
+        "utils",
+        "@dither/motion"
       ],
       "files": [
         {
@@ -1403,6 +1414,18 @@
         {
           "path": "registry/dither/ui/table.tsx",
           "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "motion",
+      "type": "registry:lib",
+      "title": "Motion presets",
+      "description": "Liquid springs and easing tokens.",
+      "files": [
+        {
+          "path": "registry/dither/lib/motion.ts",
+          "type": "registry:lib"
         }
       ]
     }

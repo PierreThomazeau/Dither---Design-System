@@ -1,6 +1,7 @@
 import * as React from "react";
 
 import { ditherTile, type DitherVariant } from "@/registry/dither/lib/dither-tile";
+import { DitherField } from "@/registry/dither/lib/dither-field";
 import { cn } from "@/registry/dither/lib/utils";
 
 export type { DitherVariant } from "@/registry/dither/lib/dither-tile";
@@ -33,6 +34,8 @@ export function DitherPattern({ id, variant = "regular", gradientHeight }: Dithe
 
 export interface DitherFillProps extends React.ComponentProps<"svg"> {
   variant?: DitherVariant;
+  /** Dots move away from the pointer (canvas, client-side). Static under reduced motion. */
+  interactive?: boolean;
   /** Gradient variant: height over which the density fades out (match the element height). */
   gradientHeight?: number;
 }
@@ -41,8 +44,9 @@ export interface DitherFillProps extends React.ComponentProps<"svg"> {
  * A self-contained SVG that fills its positioned parent with the texture.
  * Use for empty states, skeletons, remaining capacity.
  */
-export function DitherFill({ variant = "regular", gradientHeight, className, ...props }: DitherFillProps) {
+export function DitherFill({ variant = "regular", gradientHeight, interactive = false, className, ...props }: DitherFillProps) {
   const id = `dither-${React.useId().replace(/[^a-zA-Z0-9-]/g, "")}`;
+  if (interactive) return <DitherField variant={variant} gradientHeight={gradientHeight} className={className} />;
   return (
     <svg aria-hidden="true" className={cn("pointer-events-none absolute inset-0 size-full", className)} {...props}>
       <defs>

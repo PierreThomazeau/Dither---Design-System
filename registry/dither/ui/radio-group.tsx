@@ -29,7 +29,7 @@ function RadioGroupItem({ className, id, label, description, variant, placement,
       )}
       {...props}
     >
-      <RadioGroupPrimitive.Indicator data-slot="radio-group-indicator" className="size-1.5 rounded-full bg-brand-foreground" />
+      <RadioGroupPrimitive.Indicator data-slot="radio-group-indicator" className="size-1.5 rounded-full bg-brand-foreground animate-[liquid-pop_var(--duration-liquid)_var(--ease-out-soft)]" />
     </RadioGroupPrimitive.Item>
   );
 

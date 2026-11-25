@@ -1,6 +1,7 @@
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 
+import { DitherFill } from "@/registry/dither/lib/dither";
 import { cn } from "@/registry/dither/lib/utils";
 
 /**
@@ -49,7 +50,9 @@ function Card({
       {...props}
     >
       {dither && variant === "inset" ? (
-        <span aria-hidden="true" className="bg-dither-fine pointer-events-none absolute inset-0 -z-10 rounded-[inherit] opacity-60" />
+        <span aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 overflow-hidden rounded-[inherit] opacity-70">
+          <DitherFill interactive variant="fine" />
+        </span>
       ) : null}
       {children}
     </div>

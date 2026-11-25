@@ -1,0 +1,48 @@
+---
+title: Motion
+description: "Liquid springs, a living primary button and a dither that moves out of the way."
+---
+
+Dither moves like a liquid: things stretch a little when they travel, overshoot a little when they land, then settle. Every animation stops when the user asks for reduced motion.
+
+<ComponentPreview name="motion-liquid" />
+
+## Where it shows
+
+| Component | Motion |
+|---|---|
+| Switch | The thumb stretches while it travels; a trailing drop merges with it through a gooey SVG filter. |
+| Tabs | The active pill (or underline) slides between triggers on a spring and stretches on the way. |
+| Button (primary) | On hover, the dither lights up under the cursor and crawls; on press, the button squashes and springs back. |
+| Checkbox, Radio, Chip | The mark pops in with a small overshoot. |
+| Dialog, Popover, Menus, Select, Tooltip, Sheet | Open with the liquid easing. |
+
+## Interactive dither
+
+`DitherFill interactive` draws the same dot grid on a canvas: dots near the pointer are pushed away and spring back. It listens on its parent, so it works under content.
+
+<ComponentPreview name="dither-field-demo" stacked />
+
+```tsx
+import { DitherFill } from "@/lib/dither";
+
+<div className="relative h-40 overflow-hidden rounded-surface border">
+  <DitherFill interactive variant="regular" />
+</div>
+```
+
+Props of `DitherField` (used by `DitherFill interactive`): `variant`, `gradientHeight`, `radius` (px, default 72), `strength` (default 1).
+
+## Tokens
+
+```css
+--ease-liquid: cubic-bezier(0.34, 1.56, 0.64, 1);  /* overshoot, then settle */
+--ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);   /* fast out, soft landing */
+--duration-liquid: 460ms;
+```
+
+In React, use the springs from `lib/motion.ts` (`liquidSpring`, `softSpring`) with [motion](https://motion.dev).
+
+## Reduced motion
+
+`styles/motion.css` turns animations and transitions off under `prefers-reduced-motion`; the interactive dither draws a static grid; the Tabs indicator jumps instead of sliding.

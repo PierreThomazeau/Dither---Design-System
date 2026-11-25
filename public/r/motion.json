@@ -1,0 +1,14 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "motion",
+  "title": "Motion presets",
+  "description": "Liquid springs and easing tokens.",
+  "files": [
+    {
+      "path": "registry/dither/lib/motion.ts",
+      "content": "/**\n * Motion presets shared by Dither components (motion/react).\n * The \"liquid\" spring overshoots slightly and settles fast; use it for indicators and blobs.\n */\nexport const liquidSpring = { type: \"spring\", stiffness: 520, damping: 32, mass: 0.9 } as const;\n\n/** Softer spring for larger surfaces (panels, cards). */\nexport const softSpring = { type: \"spring\", stiffness: 260, damping: 30, mass: 1 } as const;\n\n/** CSS easing tokens defined in styles/motion.css. */\nexport const ease = {\n  liquid: \"var(--ease-liquid)\",\n  outSoft: \"var(--ease-out-soft)\",\n} as const;\n",
+      "type": "registry:lib"
+    }
+  ],
+  "type": "registry:lib"
+}

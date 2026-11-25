@@ -30,7 +30,7 @@ function Chip({ selected = false, onSelectedChange, onRemove, icon, className, c
       data-selected={selected || undefined}
       className={cn(
         "inline-flex h-7 items-center gap-1 rounded-full border bg-surface text-xs font-medium shadow-2xs transition-colors [&_svg]:size-3",
-        "data-selected:border-primary data-selected:bg-primary data-selected:text-primary-foreground",
+        "data-selected:border-primary data-selected:bg-primary data-selected:text-primary-foreground data-selected:animate-[liquid-pop_var(--duration-liquid)_var(--ease-out-soft)]",
         onRemove ? "pr-1 pl-2.5" : "px-2.5",
         className,
       )}

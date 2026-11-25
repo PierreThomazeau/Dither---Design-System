@@ -29,7 +29,7 @@ function Checkbox({ className, id, label, description, variant, placement, inval
       )}
       {...props}
     >
-      <CheckboxPrimitive.Indicator data-slot="checkbox-indicator" className="group flex items-center justify-center">
+      <CheckboxPrimitive.Indicator data-slot="checkbox-indicator" className="group flex items-center justify-center animate-[liquid-pop_var(--duration-liquid)_var(--ease-out-soft)]">
         <Icon icon={Tick02Icon} size={12} strokeWidth={2.5} className="group-data-[state=indeterminate]:hidden" />
         <Icon icon={MinusSignIcon} size={12} strokeWidth={2.5} className="hidden group-data-[state=indeterminate]:block" />
       </CheckboxPrimitive.Indicator>

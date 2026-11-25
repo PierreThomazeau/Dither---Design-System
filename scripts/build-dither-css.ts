@@ -35,6 +35,27 @@ for (const variant of DITHER_VARIANTS) {
 `;
 }
 
+// Cursor glow: the fine dither, visible only inside a radial spot at (--x, --y).
+// Set --x / --y (px or %) from a pointer handler; --glow-r sets the radius.
+{
+  const tile = ditherTile("fine");
+  const dots = uri(ditherTileSvg("fine"));
+  const spot = "radial-gradient(circle var(--glow-r, 72px) at var(--x, 50%) var(--y, 50%), #000 0%, #000 35%, transparent 100%)";
+  css += `
+@utility bg-dither-glow {
+  background-color: var(--dither-color, var(--border-strong));
+  -webkit-mask-image: ${spot}, ${dots};
+  mask-image: ${spot}, ${dots};
+  -webkit-mask-size: 100% 100%, ${tile.width}px ${tile.height}px;
+  mask-size: 100% 100%, ${tile.width}px ${tile.height}px;
+  -webkit-mask-repeat: no-repeat, repeat;
+  mask-repeat: no-repeat, repeat;
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+}
+`;
+}
+
 const out = fileURLToPath(new URL("../styles/dither.css", import.meta.url));
 writeFileSync(out, css);
 console.log(`wrote ${out}`);

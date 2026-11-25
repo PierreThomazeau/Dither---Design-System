@@ -23,7 +23,7 @@ const emptyVariants = cva(
 function Empty({ className, variant, children, ...props }: React.ComponentProps<"div"> & VariantProps<typeof emptyVariants>) {
   return (
     <div data-slot="empty" data-variant={variant ?? "default"} className={cn(emptyVariants({ variant }), className)} {...props}>
-      {variant === "dither" ? <DitherFill variant="gradient" gradientHeight={96} className="inset-auto top-0 left-0 -z-10 h-24 w-full" /> : null}
+      {variant === "dither" ? <DitherFill interactive variant="gradient" gradientHeight={96} className="inset-auto top-0 left-0 -z-10 h-24 w-full" /> : null}
       {children}
     </div>
   );

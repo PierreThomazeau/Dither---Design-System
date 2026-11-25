@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { Slot } from "radix-ui";
@@ -7,8 +9,10 @@ import { Spinner } from "@/registry/dither/ui/spinner";
 
 const buttonVariants = cva(
   [
-    "relative inline-flex shrink-0 items-center justify-center gap-2 rounded-control text-sm font-medium whitespace-nowrap outline-none select-none",
-    "transition-[background-color,background-image,box-shadow,color,border-color] duration-150",
+    "group/button relative isolate inline-flex shrink-0 items-center justify-center gap-2 overflow-hidden rounded-control text-sm font-medium whitespace-nowrap outline-none select-none",
+    /* Liquid press: squash on press, overshoot back on release. */
+    "transition-[background-color,background-image,box-shadow,color,border-color,scale] duration-(--duration-liquid) ease-(--ease-liquid)",
+    "active:scale-x-[1.03] active:scale-y-[0.94]",
     "disabled:pointer-events-none disabled:opacity-50 aria-busy:pointer-events-none",
     "[&_svg]:pointer-events-none [&_svg]:shrink-0",
     "focus-visible:shadow-focus aria-invalid:shadow-focus-destructive",
@@ -63,16 +67,36 @@ function Button({ className, variant, size, asChild = false, loading = false, di
     className: cn(buttonVariants({ variant, size }), className),
     "aria-busy": loading || undefined,
   };
+  // Primary only: the dither lights up under the cursor (CSS vars, no re-render).
+  const glow = (variant ?? "default") === "default";
+  const onPointerMove = (e: React.PointerEvent<HTMLElement>) => {
+    props.onPointerMove?.(e as React.PointerEvent<HTMLButtonElement>);
+    if (!glow) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    e.currentTarget.style.setProperty("--x", `${e.clientX - rect.left}px`);
+    e.currentTarget.style.setProperty("--y", `${e.clientY - rect.top}px`);
+  };
+
   if (asChild) {
     // Slot needs exactly one child element.
     return (
-      <Slot.Root {...shared} {...props}>
+      <Slot.Root {...shared} {...props} onPointerMove={onPointerMove}>
         {children}
       </Slot.Root>
     );
   }
   return (
-    <button {...shared} disabled={disabled || loading} {...props}>
+    <button {...shared} disabled={disabled || loading} {...props} onPointerMove={onPointerMove}>
+      {glow ? (
+        <span
+          aria-hidden="true"
+          className={cn(
+            "bg-dither-glow pointer-events-none absolute inset-0 -z-10 opacity-0 transition-opacity duration-300",
+            "[--dither-color:color-mix(in_oklab,var(--primary-foreground)_55%,transparent)] [--glow-r:56px]",
+            "group-hover/button:animate-dither-drift group-hover/button:opacity-100 group-active/button:[--glow-r:140px]",
+          )}
+        />
+      ) : null}
       {loading ? <Spinner /> : null}
       {children}
     </button>

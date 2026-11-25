@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { Logo } from "@/components/site/logo";
+import { DitherFill } from "@/registry/dither/lib/dither";
 import { gitConfig, version } from "@/lib/shared";
 
 const columns = [
@@ -34,7 +35,9 @@ const columns = [
 export function SiteFooter() {
   return (
     <footer className="relative isolate mt-16 overflow-hidden border-t">
-      <span aria-hidden="true" className="bg-dither-fine absolute inset-x-0 bottom-0 -z-10 h-24 opacity-60" />
+      <div aria-hidden="true" className="absolute inset-x-0 bottom-0 -z-10 h-24 opacity-70">
+        <DitherFill interactive variant="fine" />
+      </div>
       <div className="mx-auto grid w-full max-w-6xl gap-10 px-4 py-12 md:grid-cols-[1.5fr_repeat(3,1fr)]">
         <div className="flex flex-col gap-3">
           <Logo />

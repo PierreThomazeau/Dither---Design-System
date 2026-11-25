@@ -206,7 +206,7 @@ export default function TokensPage() {
                 {DITHER_VARIANTS.map((variant) => (
                   <figure key={variant} className="flex flex-col gap-1.5">
                     <div className="relative h-28 overflow-hidden rounded-control border">
-                      <DitherFill variant={variant} />
+                      <DitherFill interactive variant={variant} />
                     </div>
                     <figcaption className="font-mono text-xs text-muted-foreground">
                       {mode} · {variant}

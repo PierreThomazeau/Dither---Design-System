@@ -47,6 +47,7 @@ import CommandDialog from "./command-dialog";
 import ContextWindowDemo from "./context-window-demo";
 import ContextWindowFull from "./context-window-full";
 import DialogDemo from "./dialog-demo";
+import DitherFieldDemo from "./dither-field-demo";
 import DrawerDemo from "./drawer-demo";
 import DropdownMenuCheckboxes from "./dropdown-menu-checkboxes";
 import DropdownMenuDemo from "./dropdown-menu-demo";
@@ -61,6 +62,7 @@ import KanbanCardDemo from "./kanban-card-demo";
 import KbdDemo from "./kbd-demo";
 import MessageDemo from "./message-demo";
 import MessageVariants from "./message-variants";
+import MotionLiquid from "./motion-liquid";
 import OnboardingChecklistDemo from "./onboarding-checklist-demo";
 import PopoverDemo from "./popover-demo";
 import PopoverInset from "./popover-inset";
@@ -147,6 +149,7 @@ export const examples: Record<string, ComponentType> = {
   "context-window-demo": ContextWindowDemo,
   "context-window-full": ContextWindowFull,
   "dialog-demo": DialogDemo,
+  "dither-field-demo": DitherFieldDemo,
   "drawer-demo": DrawerDemo,
   "dropdown-menu-checkboxes": DropdownMenuCheckboxes,
   "dropdown-menu-demo": DropdownMenuDemo,
@@ -161,6 +164,7 @@ export const examples: Record<string, ComponentType> = {
   "kbd-demo": KbdDemo,
   "message-demo": MessageDemo,
   "message-variants": MessageVariants,
+  "motion-liquid": MotionLiquid,
   "onboarding-checklist-demo": OnboardingChecklistDemo,
   "popover-demo": PopoverDemo,
   "popover-inset": PopoverInset,
