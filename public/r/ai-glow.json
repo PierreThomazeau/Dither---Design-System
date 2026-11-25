@@ -5,12 +5,13 @@
   "description": "Indigo → pink dithered wash for AI surfaces.",
   "registryDependencies": [
     "utils",
-    "@dither/theme"
+    "@dither/theme",
+    "@dither/dither"
   ],
   "files": [
     {
       "path": "registry/dither/lib/ai-glow.tsx",
-      "content": "import * as React from \"react\";\n\nimport { cn } from \"@/registry/dither/lib/utils\";\n\n/**\n * Copilot / AI surface header (grammar 8): a subtle indigo → pink wash with the dither\n * texture tinted by the same gradient. Never a flat purple block.\n * Put it as the first child of a `relative isolate overflow-hidden` element.\n *\n * Pink: `chart-3` in light mode, `chart-5` in dark mode (the palette's pink-most tones).\n */\nfunction AiGlow({\n  className,\n  direction = \"to-r\",\n}: {\n  className?: string;\n  /** Gradient direction: indigo at the start, pink at the end. */\n  direction?: \"to-r\" | \"to-l\" | \"to-b\";\n}) {\n  const dir = { \"to-r\": \"bg-linear-to-r\", \"to-l\": \"bg-linear-to-l\", \"to-b\": \"bg-linear-to-b\" }[direction];\n  return (\n    <span aria-hidden=\"true\" data-slot=\"ai-glow\" className={cn(\"pointer-events-none absolute inset-0 -z-10\", className)}>\n      <span className={cn(\"absolute inset-0 from-transparent via-brand/6 to-chart-3/12 dark:to-chart-5/12\", dir)} />\n      <span\n        className={cn(\n          \"bg-dither-fine absolute inset-0 from-transparent via-brand/45 [--dither-color:transparent] to-chart-3/70 opacity-80 dark:to-chart-5/60\",\n          dir,\n        )}\n      />\n    </span>\n  );\n}\n\nexport { AiGlow };\n",
+      "content": "import * as React from \"react\";\n\nimport { DitherFill } from \"@/registry/dither/lib/dither\";\nimport { cn } from \"@/registry/dither/lib/utils\";\n\n/**\n * Copilot / AI surface header (grammar 8): a subtle indigo → pink wash with an organic\n * dither cloud tinted by the same gradient. Never a flat purple block.\n * Put it as the first child of a `relative isolate overflow-hidden` element.\n *\n * Pink: `chart-3` in light mode, `chart-5` in dark mode (the palette's pink-most tones).\n */\nfunction AiGlow({\n  className,\n  direction = \"to-r\",\n}: {\n  className?: string;\n  /** Gradient direction: indigo at the start, pink at the end. */\n  direction?: \"to-r\" | \"to-l\" | \"to-b\";\n}) {\n  const dir = { \"to-r\": \"bg-linear-to-r\", \"to-l\": \"bg-linear-to-l\", \"to-b\": \"bg-linear-to-b\" }[direction];\n  return (\n    <span aria-hidden=\"true\" data-slot=\"ai-glow\" className={cn(\"pointer-events-none absolute inset-0 -z-10\", className)}>\n      <span className={cn(\"absolute inset-0 from-transparent via-brand/6 to-chart-3/12 dark:to-chart-5/12\", dir)} />\n      <span className=\"absolute inset-0 opacity-35 [--ai-pink:var(--chart-3)] dark:[--ai-pink:var(--chart-5)]\">\n        <DitherFill shape=\"cloud\" scale={2.4} seed={5} dot={[1.5, 2.5]} tint={{ stops: [\"transparent\", \"--brand\", \"--ai-pink\"], direction }} />\n      </span>\n    </span>\n  );\n}\n\nexport { AiGlow };\n",
       "type": "registry:lib"
     }
   ],

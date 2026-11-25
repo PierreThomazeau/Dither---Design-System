@@ -1,5 +1,5 @@
 /**
- * Organic dither — proposal (lab). Pure functions, no DOM.
+ * Organic dither field. Pure functions, no DOM.
  *
  * Instead of a fixed tile (regular grid, linear gradient), every cell of a pixel grid gets a
  * density between 0 and 1 from a *shape* (cloud, scatter, halo, flow) modulated by fractal
@@ -111,13 +111,13 @@ export function density(shape: OrganicShape, { u, v, aspect, t, seed, scale }: F
       return Math.max(fall, tail);
     }
     case "halo": {
-      // A soft blob around the centre with a granular, noisy rim (content sits in the middle).
-      const dx = (u - 0.5) * aspect;
-      const dy = v - 0.5;
-      const r = Math.sqrt(dx * dx * 0.35 + dy * dy * 1.6);
+      // A granular frame around the content: the centre stays empty whatever the box size
+      // (distance measured in box-relative units), the dots gather towards the edges and corners.
+      const dx = (u - 0.5) * 2;
+      const dy = (v - 0.5) * 2;
+      const r = Math.sqrt(dx * dx + dy * dy);
       const n = fbm(nx * 1.2 + drift, ny * 1.2 - drift, seed);
-      const ring = 1 - Math.abs(r - 0.44) * 3;
-      return band(ring + (n - 0.5) * 1.1, 0.25, 0.85);
+      return band(r + (n - 0.5) * 0.55, 0.78, 1.12);
     }
     case "flow": {
       // Warped bands, like a topographic field: stripes that thin and swell.

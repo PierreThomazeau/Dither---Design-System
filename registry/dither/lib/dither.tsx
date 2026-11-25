@@ -2,9 +2,11 @@ import * as React from "react";
 
 import { ditherTile, type DitherVariant } from "@/registry/dither/lib/dither-tile";
 import { DitherField } from "@/registry/dither/lib/dither-field";
+import { OrganicDither, type OrganicDitherProps, type OrganicShape } from "@/registry/dither/lib/organic-dither";
 import { cn } from "@/registry/dither/lib/utils";
 
 export type { DitherVariant } from "@/registry/dither/lib/dither-tile";
+export type { OrganicShape } from "@/registry/dither/lib/organic-dither";
 
 const DOT_FILL = "var(--dither-color, var(--border-strong))";
 
@@ -38,14 +40,33 @@ export interface DitherFillProps extends React.ComponentProps<"svg"> {
   interactive?: boolean;
   /** Gradient variant: height over which the density fades out (match the element height). */
   gradientHeight?: number;
+  /**
+   * Organic texture (canvas): density from a noise field instead of the tile.
+   * cloud = masses and holes, scatter = dense on top with a ragged edge, halo = around the
+   * content, flow = warped bands. Takes over `variant` / `interactive` when set.
+   */
+  shape?: OrganicShape;
+  /** Organic only: noise scale (higher = smaller clumps). */
+  scale?: number;
+  /** Organic only: seed, to vary neighbouring panels. */
+  seed?: number;
+  /** Organic only: gradient tint (see OrganicDither). */
+  tint?: OrganicDitherProps["tint"];
+  /** Organic only: dot side range in px, [sparse, dense]. */
+  dot?: [number, number];
 }
 
+const DEFAULT_SCALE: Record<OrganicShape, number> = { cloud: 2.4, scatter: 3, halo: 3.2, flow: 1.6 };
+
 /**
- * A self-contained SVG that fills its positioned parent with the texture.
- * Use for empty states, skeletons, remaining capacity.
+ * Fills its positioned parent with the texture.
+ * - `shape`: organic texture (surfaces: heroes, cards, empty states, AI headers).
+ * - otherwise the regular tile as SVG (data marks: tracks, remaining capacity), or the
+ *   repelling dot field with `interactive`.
  */
-export function DitherFill({ variant = "regular", gradientHeight, interactive = false, className, ...props }: DitherFillProps) {
+export function DitherFill({ variant = "regular", gradientHeight, interactive = false, shape, scale, seed, tint, dot, className, ...props }: DitherFillProps) {
   const id = `dither-${React.useId().replace(/[^a-zA-Z0-9-]/g, "")}`;
+  if (shape) return <OrganicDither shape={shape} scale={scale ?? DEFAULT_SCALE[shape]} seed={seed} tint={tint} dot={dot} className={className} />;
   if (interactive) return <DitherField variant={variant} gradientHeight={gradientHeight} className={className} />;
   return (
     <svg aria-hidden="true" className={cn("pointer-events-none absolute inset-0 size-full", className)} {...props}>

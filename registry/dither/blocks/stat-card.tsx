@@ -52,8 +52,8 @@ function StatCard({
     >
       {variant === "gradient" ? (
         <DitherFill
-          variant="gradient"
-          gradientHeight={80}
+          shape="scatter"
+          scale={2}
           className="inset-auto top-0 right-0 -z-10 h-20 w-1/2 [mask-image:linear-gradient(to_left,black,transparent)]"
         />
       ) : null}

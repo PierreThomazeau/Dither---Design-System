@@ -29,7 +29,7 @@ export default function ShowcaseIndex() {
               className="group flex h-full flex-col gap-1 rounded-surface bg-background-muted p-1 outline-none focus-visible:shadow-focus"
             >
               <div className="relative isolate h-36 overflow-hidden rounded-[calc(var(--radius-surface)-4px)] border bg-surface shadow-xs">
-                <DitherFill interactive variant={i % 3 === 0 ? "gradient" : i % 3 === 1 ? "fine" : "bayer"} gradientHeight={144} />
+                <DitherFill shape={(["scatter", "cloud", "flow", "halo"] as const)[i % 4]} seed={i + 1} />
                 <span className="absolute top-3 left-3 rounded-hairline bg-foreground px-1.5 font-mono text-[10px] text-primary-foreground uppercase">
                   {String(i + 1).padStart(2, "0")}
                 </span>

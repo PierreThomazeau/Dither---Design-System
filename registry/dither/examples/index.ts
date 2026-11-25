@@ -48,6 +48,7 @@ import ContextWindowDemo from "./context-window-demo";
 import ContextWindowFull from "./context-window-full";
 import DialogDemo from "./dialog-demo";
 import DitherFieldDemo from "./dither-field-demo";
+import DitherOrganic from "./dither-organic";
 import DrawerDemo from "./drawer-demo";
 import DropdownMenuCheckboxes from "./dropdown-menu-checkboxes";
 import DropdownMenuDemo from "./dropdown-menu-demo";
@@ -150,6 +151,7 @@ export const examples: Record<string, ComponentType> = {
   "context-window-full": ContextWindowFull,
   "dialog-demo": DialogDemo,
   "dither-field-demo": DitherFieldDemo,
+  "dither-organic": DitherOrganic,
   "drawer-demo": DrawerDemo,
   "dropdown-menu-checkboxes": DropdownMenuCheckboxes,
   "dropdown-menu-demo": DropdownMenuDemo,

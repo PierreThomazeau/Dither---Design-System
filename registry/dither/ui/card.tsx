@@ -51,7 +51,7 @@ function Card({
     >
       {dither && variant === "inset" ? (
         <span aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 overflow-hidden rounded-[inherit] opacity-70">
-          <DitherFill interactive variant="fine" />
+          <DitherFill shape="cloud" />
         </span>
       ) : null}
       {children}

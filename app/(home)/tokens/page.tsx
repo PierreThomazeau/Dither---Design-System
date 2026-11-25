@@ -198,18 +198,28 @@ export default function TokensPage() {
         </Inset>
       </Section>
 
-      <Section id="dither" title="Dither" description="The signature texture, in --border-strong. Light and dark.">
+      <Section id="dither" title="Dither" description="The signature texture, in --border-strong: organic shapes for surfaces, the tile for data marks. Light and dark.">
         <div className="rounded-surface bg-background-muted p-1">
           <div className="grid gap-1 md:grid-cols-2">
             {(["light", "dark"] as const).map((mode) => (
               <div key={mode} className={cn(mode, "grid grid-cols-2 gap-3 rounded-[calc(var(--radius-surface)-4px)] border bg-surface p-4 text-foreground shadow-xs")}>
-                {DITHER_VARIANTS.map((variant) => (
-                  <figure key={variant} className="flex flex-col gap-1.5">
+                {(["cloud", "scatter", "halo", "flow"] as const).map((shape) => (
+                  <figure key={shape} className="flex flex-col gap-1.5">
                     <div className="relative h-28 overflow-hidden rounded-control border">
-                      <DitherFill interactive variant={variant} />
+                      <DitherFill shape={shape} />
                     </div>
                     <figcaption className="font-mono text-xs text-muted-foreground">
-                      {mode} · {variant}
+                      {mode} · {shape}
+                    </figcaption>
+                  </figure>
+                ))}
+                {DITHER_VARIANTS.map((variant) => (
+                  <figure key={variant} className="flex flex-col gap-1.5">
+                    <div className="relative h-20 overflow-hidden rounded-control border">
+                      <DitherFill variant={variant} />
+                    </div>
+                    <figcaption className="font-mono text-xs text-muted-foreground">
+                      {mode} · tile · {variant}
                     </figcaption>
                   </figure>
                 ))}

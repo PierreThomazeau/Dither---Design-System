@@ -1,9 +1,9 @@
 ---
 title: Dither pattern
-description: "The pixel texture that gives Dither its name, as an SVG pattern and a CSS utility."
+description: "The pixel texture that gives Dither its name: organic on surfaces, a regular tile for data marks."
 status: stable
-variants: 4
-props: 3
+variants: 8
+props: 7
 registry: dither
 ---
 
@@ -25,7 +25,35 @@ import { DitherFill } from "@/lib/dither";
 npx shadcn add @dither/dither
 ```
 
-## Variants
+## Organic shapes
+
+Surfaces (heroes, cards, empty states, AI headers, footer) use the **organic** texture: the same pixel grid,
+but each cell's density comes from a noise field, so the dots gather in masses, fray at the edges and leave
+holes, and the densest areas get bigger dots (2 → 4px). It drifts slowly, the pointer clears a soft hole,
+it pauses off-screen and stays still under reduced motion.
+
+<ComponentPreview name="dither-organic" />
+
+| Shape | Look | Used by |
+|---|---|---|
+| `cloud` | Soft masses and holes, slow warp | Card `dither`, footer, AI glow |
+| `scatter` | Dense on top, ragged edge, loose grain below | Landing hero, Stat Card `gradient`, onboarding |
+| `halo` | A granular frame around the content, the centre always empty | Empty `dither` |
+| `flow` | Warped bands, like contour lines | Chart and showcase backdrops |
+
+```tsx
+<div className="relative h-40 overflow-hidden rounded-surface border">
+  <DitherFill shape="scatter" />
+</div>
+```
+
+`scale` (higher = smaller clumps) and `seed` vary neighbouring panels; `tint` paints the dots with a
+gradient of custom properties (`{ stops: ["transparent", "--brand", "--chart-3"], direction: "to-r" }`).
+
+## Tile variants
+
+Data marks (remaining capacity, chart tracks, legends, skeletons) keep the regular tile: it reads as a
+value, where noise would read as data.
 
 | Variant | Spec |
 |---|---|
@@ -52,7 +80,20 @@ An SVG `<pattern>` to put in the `<defs>` of any SVG (charts, tracks, forecast b
 
 ### DitherFill
 
-A self-contained SVG that fills its positioned parent. Accepts every `<svg>` prop plus `variant`.
+Fills its positioned parent: the organic canvas when `shape` is set, otherwise the tile as SVG
+(or the repelling dot field with `interactive`).
+
+<TypeTable
+  type={{
+    shape: { type: '"cloud" | "scatter" | "halo" | "flow"', description: "Organic texture (canvas)." },
+    scale: { type: "number", description: "Organic: noise scale, higher = smaller clumps.", default: "per shape" },
+    seed: { type: "number", description: "Organic: varies the field.", default: "7" },
+    dot: { type: "[number, number]", description: "Organic: dot side range in px, sparse → dense.", default: "[2, 4]" },
+    tint: { type: '{ stops: string[]; direction?: "to-r" | "to-l" | "to-b" }', description: "Organic: gradient of custom properties instead of --dither-color." },
+    variant: { type: '"regular" | "fine" | "bayer" | "gradient"', default: '"regular"', description: "Tile variant when no shape." },
+    interactive: { type: "boolean", default: "false", description: "Tile only: dots pushed away by the pointer." },
+  }}
+/>
 
 ## Examples
 

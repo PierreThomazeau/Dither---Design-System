@@ -12,7 +12,7 @@ const emptyVariants = cva(
         default: "",
         outline: "rounded-surface border bg-surface",
         muted: "rounded-surface bg-background-muted",
-        /** Brand texture: a dither gradient fading out behind the media, never under the text. */
+        /** Brand texture: an organic dither halo around the content, empty in the middle. */
         dither: "rounded-surface border bg-surface",
       },
     },
@@ -23,7 +23,7 @@ const emptyVariants = cva(
 function Empty({ className, variant, children, ...props }: React.ComponentProps<"div"> & VariantProps<typeof emptyVariants>) {
   return (
     <div data-slot="empty" data-variant={variant ?? "default"} className={cn(emptyVariants({ variant }), className)} {...props}>
-      {variant === "dither" ? <DitherFill interactive variant="gradient" gradientHeight={96} className="inset-auto top-0 left-0 -z-10 h-24 w-full" /> : null}
+      {variant === "dither" ? <DitherFill shape="halo" className="-z-10" /> : null}
       {children}
     </div>
   );

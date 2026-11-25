@@ -26,7 +26,7 @@ const templates = [
 export default function Onboarding() {
   return (
     <div className="relative isolate flex min-h-dvh flex-col bg-background text-foreground">
-      <DitherFill variant="gradient" gradientHeight={320} className="inset-auto top-0 left-0 -z-10 h-80 w-full" />
+      <DitherFill shape="scatter" className="inset-auto top-0 left-0 -z-10 h-80 w-full" />
       <header className="flex h-16 items-center gap-3 px-6">
         <span className="flex size-7 items-center justify-center rounded-full bg-foreground text-primary-foreground">
           <LogoMark className="size-3.5" />

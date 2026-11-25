@@ -59,6 +59,14 @@
         {
           "path": "registry/dither/lib/dither-field.tsx",
           "type": "registry:lib"
+        },
+        {
+          "path": "registry/dither/lib/organic-field.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "registry/dither/lib/organic-dither.tsx",
+          "type": "registry:lib"
         }
       ]
     },
@@ -471,7 +479,8 @@
       "description": "Default and inset (two-tone) cards.",
       "registryDependencies": [
         "utils",
-        "@dither/theme"
+        "@dither/theme",
+        "@dither/dither"
       ],
       "files": [
         {
@@ -878,7 +887,8 @@
       "description": "Indigo \u2192 pink dithered wash for AI surfaces.",
       "registryDependencies": [
         "utils",
-        "@dither/theme"
+        "@dither/theme",
+        "@dither/dither"
       ],
       "files": [
         {
