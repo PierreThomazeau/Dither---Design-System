@@ -23,9 +23,8 @@ const columns = [
     ],
   },
   {
-    title: "Company",
+    title: "Project",
     links: [
-      ["Pricing", "/pricing"],
       ["License", "/license"],
       ["GitHub", `https://github.com/${gitConfig.user}/${gitConfig.repo}`],
     ],

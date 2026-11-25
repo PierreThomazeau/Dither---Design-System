@@ -12,7 +12,6 @@ export function baseOptions(): BaseLayoutProps {
       { text: "Docs", url: "/docs", active: "nested-url" },
       { text: "Tokens", url: "/tokens" },
       { text: "Showcase", url: "/showcase", active: "nested-url" },
-      { text: "Pricing", url: "/pricing" },
     ],
     githubUrl: `https://github.com/${gitConfig.user}/${gitConfig.repo}`,
   };

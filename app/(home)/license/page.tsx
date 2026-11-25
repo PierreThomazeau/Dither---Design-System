@@ -1,19 +1,11 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+
+import { gitConfig } from "@/lib/shared";
 
 export const metadata: Metadata = {
   title: "License",
-  description: "Free components are MIT licensed. Pro components are licensed per seat for unlimited end products.",
+  description: "Dither is free and released under the MIT license.",
 };
-
-function Section({ title, children }: { title: string; children: React.ReactNode }) {
-  return (
-    <section className="flex flex-col gap-3">
-      <h2 className="text-xl font-semibold tracking-tight">{title}</h2>
-      <div className="flex flex-col gap-3 text-sm leading-6 text-muted-foreground [&_li]:ml-4 [&_li]:list-disc [&_strong]:text-foreground">{children}</div>
-    </section>
-  );
-}
 
 export default function LicensePage() {
   return (
@@ -21,56 +13,47 @@ export default function LicensePage() {
       <header className="flex flex-col gap-3">
         <p className="font-mono text-xs tracking-wide text-muted-foreground uppercase">Dither / License</p>
         <h1 className="text-4xl font-semibold tracking-tight">License</h1>
-        <p className="text-muted-foreground">A plain-language summary of how you can use Dither. Draft, to be reviewed before the Pro release.</p>
+        <p className="text-muted-foreground">Dither is free and open source, released under the MIT license.</p>
       </header>
 
-      <div className="grid gap-3 sm:grid-cols-2">
-        <div className="flex flex-col gap-1 rounded-surface border bg-surface p-5 shadow-xs">
-          <span className="font-mono text-xs text-muted-foreground uppercase">Free</span>
-          <span className="text-lg font-semibold">MIT</span>
-          <span className="text-sm text-muted-foreground">Tokens, dither texture, UI primitives, chart kit.</span>
-        </div>
-        <div className="flex flex-col gap-1 rounded-surface border bg-surface p-5 shadow-xs">
-          <span className="font-mono text-xs text-muted-foreground uppercase">Pro</span>
-          <span className="text-lg font-semibold">Commercial, per seat</span>
-          <span className="text-sm text-muted-foreground">Blocks, signature charts, showcase screens, Figma library.</span>
-        </div>
-      </div>
-
-      <Section title="Free components">
-        <p>
-          Free components are released under the <strong>MIT license</strong>. Use, change and redistribute them, in personal and commercial work, as long as the
-          copyright notice stays in the source files. Dither primitives are based on shadcn/ui, also MIT.
-        </p>
-      </Section>
-
-      <Section title="What a Pro license allows">
+      <section className="flex flex-col gap-3 text-sm leading-6 text-muted-foreground [&_li]:ml-4 [&_li]:list-disc [&_strong]:text-foreground">
+        <h2 className="text-xl font-semibold tracking-tight text-foreground">In short</h2>
         <ul>
-          <li>Use Pro components in <strong>unlimited end products</strong>: your own apps, sites and internal tools, and those you build for clients.</li>
-          <li>Change the code however you like.</li>
-          <li>Ship end products to as many users as you want, free or paid.</li>
-          <li>One seat per person who installs or edits Pro components. Team covers up to 10 people.</li>
+          <li>Use Dither in <strong>personal and commercial</strong> projects, for you or your clients.</li>
+          <li>Change, copy and redistribute the code.</li>
+          <li>Keep the copyright and license notice in the source files.</li>
+          <li>The software is provided as is, without warranty.</li>
         </ul>
-      </Section>
+        <p>Dither primitives are based on shadcn/ui, also MIT licensed.</p>
+      </section>
 
-      <Section title="What it doesn’t allow">
-        <ul>
-          <li>Reselling or redistributing Dither itself, as a UI kit, template, theme, component library or Figma file, free or paid.</li>
-          <li>Building a product whose main value is Dither components (a competing kit or a site builder exposing them).</li>
-          <li>Sharing your registry token or license key outside your seats.</li>
-        </ul>
-      </Section>
+      <section className="flex flex-col gap-3">
+        <h2 className="text-xl font-semibold tracking-tight">MIT License</h2>
+        <pre className="overflow-x-auto rounded-surface border bg-surface p-5 font-mono text-xs leading-5 whitespace-pre-wrap text-muted-foreground shadow-xs">
+{`Copyright (c) 2026 Pierre Thomazeau
 
-      <Section title="Updates and refunds">
-        <p>
-          Pro yearly and Team include 12 months of updates; you keep what you installed after that. Pro lifetime includes updates for the life of the product. Refunds
-          are available within 14 days of purchase.
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.`}
+        </pre>
+        <p className="text-sm text-muted-foreground">
+          The same text is in the <a className="underline underline-offset-4" href={`https://github.com/${gitConfig.user}/${gitConfig.repo}/blob/main/LICENSE`}>LICENSE</a> file of the repository.
         </p>
-      </Section>
-
-      <p className="text-sm text-muted-foreground">
-        Questions? See the <Link href="/pricing#faq" className="underline underline-offset-4">FAQ</Link>.
-      </p>
+      </section>
     </main>
   );
 }

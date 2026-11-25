@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { ArrowRight01Icon, DollarCircleIcon, Share08Icon, Copy01Icon, Archive02Icon } from "@hugeicons/core-free-icons";
+import { ArrowDown01Icon, ArrowRight01Icon, DollarCircleIcon, Share08Icon, Copy01Icon, Archive02Icon } from "@hugeicons/core-free-icons";
 
-import { faqs, plans } from "@/components/site/plans";
+import { faqs } from "@/components/site/faq";
 import { LogoMark } from "@/components/site/logo";
 import { appDescription } from "@/lib/shared";
 import registry from "@/registry.json";
@@ -13,7 +13,6 @@ import { ProgressBars } from "@/registry/dither/charts/progress-bars";
 import { AiGlow } from "@/registry/dither/lib/ai-glow";
 import { DitherFill } from "@/registry/dither/lib/dither";
 import { Icon } from "@/registry/dither/lib/icon";
-import { cn } from "@/registry/dither/lib/utils";
 import { Badge } from "@/registry/dither/ui/badge";
 import { Button } from "@/registry/dither/ui/button";
 import { ButtonGroup, ButtonGroupSeparator } from "@/registry/dither/ui/button-group";
@@ -51,7 +50,7 @@ export default function HomePage() {
             <LogoMark className="size-10 md:size-14" />
             The design system with a texture.
           </h1>
-          <p className="max-w-2xl text-lg text-muted-foreground">{appDescription} Copy the code, own it, ship it.</p>
+          <p className="max-w-2xl text-lg text-muted-foreground">{appDescription} Free and open source: copy the code, own it, ship it.</p>
           <div className="flex flex-wrap items-center gap-2">
             <Button asChild size="lg">
               <Link href="/docs">
@@ -167,55 +166,36 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Pricing teaser */}
-      <section className="mx-auto mt-20 flex w-full max-w-6xl flex-col gap-8 px-4">
-        <div className="flex flex-wrap items-end justify-between gap-4">
-          <div className="flex flex-col gap-2">
-            <Eyebrow>Pricing</Eyebrow>
-            <h2 className="text-3xl font-semibold tracking-tight md:text-4xl">Free foundations. Pro when you need it.</h2>
-          </div>
-          <Button asChild variant="outline">
-            <Link href="/pricing">Compare plans</Link>
-          </Button>
-        </div>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {plans.map((p) => (
-            <Link
-              key={p.id}
-              href="/pricing"
-              className={cn(
-                "flex flex-col gap-2 rounded-surface border bg-surface p-5 shadow-xs outline-none hover:border-border-strong focus-visible:shadow-focus",
-                p.highlight && "border-brand/40 ring-1 ring-brand/20",
-              )}
-            >
-              <span className="text-sm font-semibold">{p.name}</span>
-              <span className="flex items-baseline gap-1.5">
-                <span className="font-heading text-3xl font-semibold tracking-tight tabular">{p.price}</span>
-                <span className="text-xs text-muted-foreground">{p.cadence}</span>
-              </span>
-              <span className="text-sm text-muted-foreground">{p.description}</span>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      {/* FAQ teaser */}
-      <section className="mx-auto mt-20 grid w-full max-w-6xl gap-8 px-4 md:grid-cols-[1fr_2fr]">
+      {/* FAQ */}
+      <section id="faq" className="mx-auto mt-20 grid w-full max-w-6xl scroll-mt-24 gap-8 px-4 md:grid-cols-[1fr_2fr]">
         <div className="flex flex-col gap-2">
           <Eyebrow>FAQ</Eyebrow>
           <h2 className="text-3xl font-semibold tracking-tight">Questions</h2>
-          <Link href="/pricing#faq" className="text-sm text-muted-foreground underline-offset-4 hover:underline">
-            All questions →
-          </Link>
+          <p className="text-sm text-muted-foreground">
+            Dither is free and <Link href="/license" className="underline underline-offset-4">MIT licensed</Link>.
+          </p>
         </div>
-        <dl className="flex flex-col divide-y rounded-surface border bg-surface px-5 shadow-xs">
-          {faqs.slice(0, 3).map((f) => (
-            <div key={f.q} className="flex flex-col gap-1 py-4">
-              <dt className="text-sm font-semibold">{f.q}</dt>
-              <dd className="text-sm text-muted-foreground">{f.a.replace(/`/g, "")}</dd>
-            </div>
+        <div className="flex flex-col divide-y rounded-surface border bg-surface shadow-xs">
+          {faqs.map((f) => (
+            <details key={f.q} className="group px-5">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-4 text-sm font-semibold outline-none focus-visible:underline">
+                {f.q}
+                <Icon icon={ArrowDown01Icon} className="shrink-0 text-muted-foreground transition-transform group-open:rotate-180" />
+              </summary>
+              <p className="pb-4 text-sm text-muted-foreground">
+                {f.a.split(/(`[^`]+`)/).map((part, i) =>
+                  part.startsWith("`") ? (
+                    <code key={i} className="rounded-hairline bg-background-muted px-1 font-mono text-[0.85em]">
+                      {part.slice(1, -1)}
+                    </code>
+                  ) : (
+                    part
+                  ),
+                )}
+              </p>
+            </details>
           ))}
-        </dl>
+        </div>
       </section>
     </main>
   );
