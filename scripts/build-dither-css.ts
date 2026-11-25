@@ -58,6 +58,29 @@ for (const variant of DITHER_VARIANTS) {
 `;
 }
 
+// Skeleton sweep: the organic tile, seen through a soft band that travels left → right.
+// Animate with `animate-dither-sweep` (styles/motion.css); off under reduced motion.
+{
+  const tile = ditherTile("organic");
+  const dots = uri(ditherTileSvg("organic"));
+  const band = "linear-gradient(90deg, transparent 0%, #000 40%, #000 60%, transparent 100%)";
+  css += `
+@utility bg-dither-sweep {
+  background-color: var(--dither-color, var(--border-strong));
+  -webkit-mask-image: ${band}, ${dots};
+  mask-image: ${band}, ${dots};
+  -webkit-mask-size: 50% 100%, ${tile.width}px ${tile.height}px;
+  mask-size: 50% 100%, ${tile.width}px ${tile.height}px;
+  -webkit-mask-repeat: no-repeat, repeat;
+  mask-repeat: no-repeat, repeat;
+  -webkit-mask-position: -100% 0, 0 0;
+  mask-position: -100% 0, 0 0;
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+}
+`;
+}
+
 const out = fileURLToPath(new URL("../styles/dither.css", import.meta.url));
 writeFileSync(out, css);
 console.log(`wrote ${out}`);

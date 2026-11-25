@@ -3,7 +3,7 @@
 import * as React from "react";
 
 import { cn } from "@/registry/dither/lib/utils";
-import { bayer, density, type OrganicShape } from "@/registry/dither/lib/organic-field";
+import { bayer, density, fbm, type OrganicShape } from "@/registry/dither/lib/organic-field";
 
 export type { OrganicShape } from "@/registry/dither/lib/organic-field";
 
@@ -42,8 +42,9 @@ function readColor(el: HTMLElement, fallback?: string) {
 
 /**
  * Organic dither: a pixel grid whose density follows a noise field instead of a repeating tile
- * (masses, holes, ragged edges; dense areas get bigger dots). Drifts slowly, the pointer clears a
- * soft hole, pauses off-screen, static under reduced motion. Fills its `relative` parent.
+ * (masses, holes, ragged edges; dense areas get bigger dots). Drifts slowly; the pointer leaves an
+ * organic wake (noisy edge, the texture thins out and regrows as grain, then heals). Pauses off-screen,
+ * static under reduced motion. Fills its `relative` parent.
  * Use it for surfaces (heroes, cards, empty states, AI headers). For data marks (tracks,
  * remaining capacity, legends) keep the regular tile: <DitherPattern> / bg-dither-*.
  */
@@ -66,7 +67,9 @@ export function OrganicDither({
 
   React.useEffect(() => {
     const canvas = ref.current;
-    const host = canvas?.parentElement;
+    // Listen where the pointer actually lands: DitherFill wraps the canvas in a pointer-events-none
+    // layer, so use that layer's parent (the surface the texture decorates).
+    const host = (canvas?.closest("[data-slot=dither-fill]")?.parentElement ?? canvas?.parentElement) as HTMLElement | null;
     const ctx = canvas?.getContext("2d");
     if (!canvas || !host || !ctx) return;
 
@@ -78,8 +81,9 @@ export function OrganicDither({
     let last = 0;
     let visible = true;
     const start = performance.now();
-    // Eased pointer + hole strength, so the hole opens and closes softly.
-    const p = { x: -999, y: -999, tx: -999, ty: -999, k: 0, tk: 0 };
+    // Pointer trail: each point fades out; together they draw an organic wake, not a round hole.
+    const trail: { x: number; y: number; life: number }[] = [];
+    let lastPt = { x: -999, y: -999 };
 
     const paintTint = () => {
       if (!tint) return;
@@ -98,17 +102,29 @@ export function OrganicDither({
       const cols = Math.ceil(w / cell);
       const rows = Math.ceil(h / cell);
       const aspect = w / h;
-      const r = Math.max(56, Math.min(w, h) * 0.32);
+      const r = Math.max(56, Math.min(w, h) * 0.3);
+      const active = trail.length > 0;
       for (let row = 0; row < rows; row++) {
         for (let col = 0; col < cols; col++) {
           const x = col * cell;
           const y = row * cell;
           let dens = density(shape, { u: (x + cell / 2) / w, v: (y + cell / 2) / h, aspect, t, seed, scale });
-          if (p.k > 0.01) {
-            const dx = x - p.x;
-            const dy = y - p.y;
-            const dist = Math.sqrt(dx * dx + dy * dy);
-            if (dist < r) dens *= 1 - p.k * (1 - (dist / r) ** 2);
+          if (active) {
+            // Influence of the wake, with a noisy radius so its edge frays like the texture.
+            let infl = 0;
+            for (const pt of trail) {
+              const dx = x - pt.x;
+              const dy = y - pt.y;
+              const d2 = dx * dx + dy * dy;
+              if (d2 < r * r * 2.6) infl = Math.max(infl, pt.life * (1 - Math.sqrt(d2) / (r * 1.6)));
+            }
+            if (infl > 0.02) {
+              const wobble = fbm(x * 0.02 + t * 0.4, y * 0.02, seed + 31);
+              const k = Math.min(1, Math.max(0, infl * (0.6 + wobble * 0.9)));
+              // Inside the wake the texture is stirred: it thins out and regrows as loose grain.
+              const grain = fbm(x * 0.05 - t * 0.8, y * 0.05 + t * 0.5, seed + 53) * 0.55;
+              dens = dens * (1 - k) + grain * k * (1 - k * 0.6);
+            }
           }
           if (dens <= bayer(col, row)) continue;
           const s = Math.round((d0 + (d1 - d0) * dens * dens) * 2) / 2;
@@ -122,14 +138,13 @@ export function OrganicDither({
     const loop = (now: number) => {
       raf = 0;
       if (!visible) return;
-      p.x += (p.tx - p.x) * 0.18;
-      p.y += (p.ty - p.y) * 0.18;
-      p.k += (p.tk - p.k) * 0.12;
+      for (const pt of trail) pt.life *= 0.965;
+      while (trail.length && trail[0].life < 0.03) trail.shift();
       if (now - last > 33) {
         last = now;
         draw(((now - start) / 1000) * speed);
       }
-      const moving = speed > 0 || Math.abs(p.tk - p.k) > 0.01 || Math.abs(p.tx - p.x) > 0.5;
+      const moving = speed > 0 || trail.length > 0;
       if (moving) raf = requestAnimationFrame(loop);
     };
     const wake = () => {
@@ -150,18 +165,16 @@ export function OrganicDither({
 
     const onMove = (e: PointerEvent) => {
       const rect = canvas.getBoundingClientRect();
-      p.tx = e.clientX - rect.left;
-      p.ty = e.clientY - rect.top;
-      if (p.k < 0.01) {
-        p.x = p.tx;
-        p.y = p.ty;
-      }
-      p.tk = 1;
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      if (Math.hypot(x - lastPt.x, y - lastPt.y) < 10) return;
+      lastPt = { x, y };
+      trail.push({ x, y, life: 1 });
+      if (trail.length > 28) trail.shift();
       wake();
     };
     const onLeave = () => {
-      p.tk = 0;
-      wake();
+      lastPt = { x: -999, y: -999 };
     };
 
     resize();

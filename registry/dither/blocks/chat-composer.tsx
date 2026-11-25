@@ -64,8 +64,9 @@ const pill =
 const iconBtn =
   "inline-flex size-8 shrink-0 items-center justify-center rounded-full text-muted-foreground outline-none transition-colors hover:bg-hover hover:text-foreground focus-visible:shadow-focus";
 
+/* Pickers sit on the AI dither: a solid surface pill keeps them readable. */
 const picker =
-  "inline-flex h-7 items-center gap-1.5 rounded-control px-2 text-xs font-medium outline-none hover:bg-surface/70 focus-visible:shadow-focus data-[state=open]:bg-surface/70 [&_svg]:size-3.5";
+  "inline-flex h-7 items-center gap-1.5 rounded-control border bg-surface px-2.5 text-xs font-medium text-foreground outline-none hover:bg-hover focus-visible:shadow-focus data-[state=open]:bg-hover [&_svg]:size-3.5";
 
 /**
  * Two-tone AI composer: a raised surface (text, attach, tools, voice, send) inside a muted shell

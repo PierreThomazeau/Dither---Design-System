@@ -53,3 +53,22 @@
   from { transform: translate3d(0, 0, 0) scale(1); }
   to { transform: translate3d(6%, 8%, 0) scale(1.12); }
 }
+
+/* Organic dither micro animation: about one dot in five fades in and out (DitherPattern). */
+.dither-twinkle {
+  animation-name: dither-twinkle;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+@keyframes dither-twinkle {
+  50% { opacity: 0.12; }
+}
+
+/* Skeleton: a denser organic band sweeps across (bg-dither-sweep). */
+@keyframes dither-sweep {
+  from { -webkit-mask-position: -100% 0, 0 0; mask-position: -100% 0, 0 0; }
+  to { -webkit-mask-position: 200% 0, 0 0; mask-position: 200% 0, 0 0; }
+}
+@utility animate-dither-sweep {
+  animation: dither-sweep 1.8s var(--ease-out-soft) infinite;
+}

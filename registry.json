@@ -67,6 +67,10 @@
         {
           "path": "registry/dither/lib/organic-dither.tsx",
           "type": "registry:lib"
+        },
+        {
+          "path": "registry/dither/lib/dither-pattern.tsx",
+          "type": "registry:lib"
         }
       ]
     },
@@ -1083,10 +1087,6 @@
           "path": "registry/dither/charts/chart-tooltip.tsx",
           "type": "registry:component",
           "target": "components/charts/chart-tooltip.tsx"
-        },
-        {
-          "path": "registry/dither/charts/chart-spotlight.tsx",
-          "type": "registry:component"
         }
       ]
     },

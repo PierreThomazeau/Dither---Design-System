@@ -1,7 +1,6 @@
 import * as React from "react";
 import { ArrowDown01Icon } from "@hugeicons/core-free-icons";
 
-import { ChartSpotlight } from "@/registry/dither/charts/chart-spotlight";
 import { Icon } from "@/registry/dither/lib/icon";
 import { cn } from "@/registry/dither/lib/utils";
 
@@ -55,12 +54,10 @@ export interface ChartCardProps extends Omit<React.ComponentProps<"div">, "title
 
 /**
  * Card header: title text-lg semibold, subtitle muted, period button on the right. Legend at the bottom.
- * A neutral organic dither spotlight follows the cursor under the plot.
  */
 export function ChartCard({ title, subtitle, action, legend, className, children, ...props }: ChartCardProps) {
   return (
-    <div data-slot="chart-card" className={cn("group/chart relative isolate flex w-full min-w-0 flex-col gap-5 overflow-hidden rounded-surface border bg-surface p-5 shadow-xs", className)} {...props}>
-      <ChartSpotlight />
+    <div data-slot="chart-card" className={cn("flex w-full min-w-0 flex-col gap-5 rounded-surface border bg-surface p-5 shadow-xs", className)} {...props}>
       <div className="flex items-start justify-between gap-3">
         <div className="flex min-w-0 flex-col gap-0.5">
           <span className="text-lg leading-7 font-semibold tracking-tight">{title}</span>

@@ -61,8 +61,8 @@ Data marks (remaining capacity, chart tracks, forecast bands) use the static **`
 dots so a track never looks empty. `bg-dither-organic` in CSS, `<DitherPattern variant="organic" />` in SVG.
 The regular, fine and bayer tiles stay for tiny swatches (legends) and skeletons.
 
-In charts, `ChartCard` adds a pointer spotlight: a faint, neutral organic dither gathers under the cursor,
-behind the plot.
+The organic tile twinkles: about one dot in five fades in and out (off under reduced motion). `<DitherPattern>`
+scales itself back when its SVG is stretched (a 100-unit donut drawn at 180px), so dots are the same size in every chart.
 
 | Variant | Spec |
 |---|---|
