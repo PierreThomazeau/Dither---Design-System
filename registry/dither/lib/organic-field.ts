@@ -7,43 +7,13 @@
  * texture stays pixel-crisp but its density moves in clumps, wisps and holes.
  */
 
+import { band, bayer, hash, smooth } from "@/registry/dither/lib/dither-tile";
+
+export { bayer };
+
 export type OrganicShape = "cloud" | "scatter" | "halo" | "flow";
 
 export const ORGANIC_SHAPES: readonly OrganicShape[] = ["cloud", "scatter", "halo", "flow"];
-
-/** 8×8 Bayer matrix, normalised thresholds in (0, 1). */
-const BAYER_8 = (() => {
-  const m4 = [
-    [0, 8, 2, 10],
-    [12, 4, 14, 6],
-    [3, 11, 1, 9],
-    [15, 7, 13, 5],
-  ];
-  const out: number[][] = [];
-  for (let y = 0; y < 8; y++) {
-    out.push([]);
-    for (let x = 0; x < 8; x++) {
-      const q = (y >> 2) * 2 + (x >> 2); // quadrant 0..3 → 0, 2, 3, 1
-      const base = [0, 2, 3, 1][q];
-      out[y].push((4 * m4[y % 4][x % 4] + base + 0.5) / 64);
-    }
-  }
-  return out;
-})();
-
-export function bayer(col: number, row: number) {
-  return BAYER_8[row & 7][col & 7];
-}
-
-/** Integer hash → [0, 1). Deterministic, seedable. */
-function hash(x: number, y: number, seed: number) {
-  let h = (x * 374761393 + y * 668265263 + seed * 2147483647) | 0;
-  h = Math.imul(h ^ (h >>> 13), 1274126177);
-  h ^= h >>> 16;
-  return (h >>> 0) / 4294967296;
-}
-
-const smooth = (t: number) => t * t * (3 - 2 * t);
 
 /** 2D value noise in [0, 1]. */
 export function valueNoise(x: number, y: number, seed = 1) {
@@ -71,9 +41,6 @@ export function fbm(x: number, y: number, seed = 1) {
   return sum / 0.9375;
 }
 
-const clamp01 = (v: number) => (v < 0 ? 0 : v > 1 ? 1 : v);
-/** Contrast curve: below lo = empty, above hi = full, dithered in between. */
-const band = (v: number, lo: number, hi: number) => smooth(clamp01((v - lo) / (hi - lo)));
 
 export interface FieldInput {
   /** Normalised position, 0..1 across the element. */

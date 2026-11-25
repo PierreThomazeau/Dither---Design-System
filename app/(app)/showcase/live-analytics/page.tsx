@@ -70,7 +70,7 @@ export default function LiveAnalytics() {
                     <span className="font-mono text-xs text-muted-foreground tabular">{p.visitors}</span>
                   </div>
                   <span className="relative h-1.5 overflow-hidden rounded-full">
-                    <span className="bg-dither-fine absolute inset-0" />
+                    <span className="bg-dither-organic absolute inset-0" />
                     <span className="absolute inset-y-0 left-0 rounded-full bg-chart-1" style={{ width: `${p.share * 3}%` }} />
                   </span>
                 </li>

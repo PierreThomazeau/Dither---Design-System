@@ -41,7 +41,7 @@ export function HeatmapChart({ values, rowLabels, columnLabels = {}, thresholds 
               <span
                 key={c}
                 title={`${rowLabels[r]} · ${v}${unit ? ` ${unit}` : ""}`}
-                className={cn("aspect-square w-full max-w-6 justify-self-center rounded-[4px]", l === 0 ? "bg-dither-fine" : LEVELS[l])}
+                className={cn("aspect-square w-full max-w-6 justify-self-center rounded-[4px]", l === 0 ? "bg-dither-organic" : LEVELS[l])}
               />
             );
           })}

@@ -36,7 +36,7 @@ export function ColumnChart({ data, highlight = data.length - 1, delta, height =
             const hl = i === highlight;
             return (
               <div key={d.label} className="relative h-full flex-1" role="img" aria-label={`${d.label}: ${d.actual} of ${d.planned}`}>
-                <span aria-hidden="true" className="bg-dither-fine absolute inset-x-0 bottom-0 rounded-t-[6px]" style={{ height: `${(d.planned / max) * 100}%` }} />
+                <span aria-hidden="true" className="bg-dither-organic absolute inset-x-0 bottom-0 rounded-t-[6px]" style={{ height: `${(d.planned / max) * 100}%` }} />
                 <span
                   className={cn("absolute inset-x-[10%] bottom-0 rounded-t-[6px]", hl ? "bg-chart-1" : "bg-foreground/85")}
                   style={{ height: `${(d.actual / max) * 100}%` }}

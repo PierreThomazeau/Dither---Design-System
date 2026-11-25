@@ -30,7 +30,7 @@ export function ResponseCurve({ data, saturation, current, formatX = (n) => `${n
       <ResponsiveContainer width="100%" height="100%">
         <LineChart data={data} margin={{ top: 16, right: 8, bottom: 0, left: 0 }}>
           <defs>
-            <DitherPattern id={id} variant="fine" />
+            <DitherPattern id={id} variant="organic" />
           </defs>
           <CartesianGrid {...gridProps} />
           <XAxis type="number" dataKey="x" domain={[0, maxX]} tick={axisTick} tickLine={false} axisLine={false} tickFormatter={formatX} />

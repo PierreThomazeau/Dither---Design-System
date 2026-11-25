@@ -50,10 +50,19 @@ it pauses off-screen and stays still under reduced motion.
 `scale` (higher = smaller clumps) and `seed` vary neighbouring panels; `tint` paints the dots with a
 gradient of custom properties (`{ stops: ["transparent", "--brand", "--chart-3"], direction: "to-r" }`).
 
+Never cut the texture with a hard edge: `fade` (`top`, `bottom`, `left`, `right`, `corner`, `edges`) masks it out
+softly, and `glow` adds blurred colour blobs under the dots (`glow={["--brand", "--chart-3"]}`): dither and colour
+in blur, as on the landing hero and the AI glow.
+
 ## Tile variants
 
-Data marks (remaining capacity, chart tracks, legends, skeletons) keep the regular tile: it reads as a
-value, where noise would read as data.
+Data marks (remaining capacity, chart tracks, forecast bands) use the static **`organic`** tile: a seamless
+96px tile from periodic noise, with the same clumps as the canvas texture but still, and always a floor of sparse
+dots so a track never looks empty. `bg-dither-organic` in CSS, `<DitherPattern variant="organic" />` in SVG.
+The regular, fine and bayer tiles stay for tiny swatches (legends) and skeletons.
+
+In charts, `ChartCard` adds a pointer spotlight: a blurred `chart-1` light and the organic dither tinted in
+`chart-1` follow the cursor under the plot.
 
 | Variant | Spec |
 |---|---|
@@ -61,6 +70,7 @@ value, where noise would read as data.
 | `fine` | 1.5px squares on a 4px grid, odd rows offset by 2px |
 | `bayer` | 4×4 ordered dither, 4px cells, threshold 0.32 |
 | `gradient` | 4×4 ordered dither, density fading 0.68 → 0.06 top to bottom |
+| `organic` | Seamless 96px tile from periodic noise, 4px grid, 1.5 → 2.5px dots |
 
 The dots use `--dither-color`, which defaults to `--border-strong`, so the texture follows light and dark.
 
@@ -89,8 +99,10 @@ Fills its positioned parent: the organic canvas when `shape` is set, otherwise t
     scale: { type: "number", description: "Organic: noise scale, higher = smaller clumps.", default: "per shape" },
     seed: { type: "number", description: "Organic: varies the field.", default: "7" },
     dot: { type: "[number, number]", description: "Organic: dot side range in px, sparse → dense.", default: "[2, 4]" },
+    fade: { type: '"none" | "top" | "bottom" | "left" | "right" | "corner" | "edges"', default: '"none"', description: "Organic: soft edge instead of a cut." },
+    glow: { type: "string[]", description: "Organic: blurred colour blobs under the dots (custom property names)." },
     tint: { type: '{ stops: string[]; direction?: "to-r" | "to-l" | "to-b" }', description: "Organic: gradient of custom properties instead of --dither-color." },
-    variant: { type: '"regular" | "fine" | "bayer" | "gradient"', default: '"regular"', description: "Tile variant when no shape." },
+    variant: { type: '"regular" | "fine" | "bayer" | "gradient" | "organic"', default: '"regular"', description: "Tile variant when no shape." },
     interactive: { type: "boolean", default: "false", description: "Tile only: dots pushed away by the pointer." },
   }}
 />

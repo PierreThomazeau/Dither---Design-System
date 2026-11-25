@@ -10,7 +10,7 @@
 import { writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 
-import { DITHER_VARIANTS, ditherTile, ditherTileSvg } from "../registry/dither/lib/dither-tile.ts";
+import { DITHER_VARIANTS, ditherTile, ditherTileSvg, organicTile } from "../registry/dither/lib/dither-tile.ts";
 
 const uri = (svg: string) => `url("data:image/svg+xml,${encodeURIComponent(svg).replace(/'/g, "%27")}")`;
 
@@ -35,19 +35,21 @@ for (const variant of DITHER_VARIANTS) {
 `;
 }
 
-// Cursor glow: the fine dither, visible only inside a radial spot at (--x, --y).
+// Cursor glow: a small organic dither (clumps, 1 → 2px dots), visible only inside a soft radial
+// spot at (--x, --y) that fades out from the centre (no hard core, no visible grid).
 // Set --x / --y (px or %) from a pointer handler; --glow-r sets the radius.
 {
-  const tile = ditherTile("fine");
-  const dots = uri(ditherTileSvg("fine"));
-  const spot = "radial-gradient(circle var(--glow-r, 72px) at var(--x, 50%) var(--y, 50%), #000 0%, #000 35%, transparent 100%)";
+  const tile = organicTile({ size: 72, cell: 3, dot: [1, 2], period: 3, seed: 3 });
+  const rects = tile.dots.map((d) => `<rect x='${d.x}' y='${d.y}' width='${d.size}' height='${d.size}'/>`).join("");
+  const dots = uri(`<svg xmlns='http://www.w3.org/2000/svg' width='${tile.size}' height='${tile.size}' fill='#000'>${rects}</svg>`);
+  const spot = "radial-gradient(circle var(--glow-r, 64px) at var(--x, 50%) var(--y, 50%), #000 0%, rgb(0 0 0 / 0.35) 45%, transparent 85%)";
   css += `
 @utility bg-dither-glow {
   background-color: var(--dither-color, var(--border-strong));
   -webkit-mask-image: ${spot}, ${dots};
   mask-image: ${spot}, ${dots};
-  -webkit-mask-size: 100% 100%, ${tile.width}px ${tile.height}px;
-  mask-size: 100% 100%, ${tile.width}px ${tile.height}px;
+  -webkit-mask-size: 100% 100%, ${tile.size}px ${tile.size}px;
+  mask-size: 100% 100%, ${tile.size}px ${tile.size}px;
   -webkit-mask-repeat: no-repeat, repeat;
   mask-repeat: no-repeat, repeat;
   -webkit-mask-composite: source-in;

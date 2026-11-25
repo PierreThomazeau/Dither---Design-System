@@ -34,7 +34,7 @@ export function ScatterChart({ data, zone, formatX = (n) => `${n}`, formatY = (n
       <ResponsiveContainer width="100%" height="100%">
         <RScatterChart margin={{ top: 16, right: 20, bottom: 0, left: 4 }}>
           <defs>
-            <DitherPattern id={id} variant="fine" />
+            <DitherPattern id={id} variant="organic" />
           </defs>
           <CartesianGrid {...gridProps} vertical />
           <XAxis type="number" dataKey="x" tick={axisTick} tickLine={false} axisLine={false} tickFormatter={formatX} />

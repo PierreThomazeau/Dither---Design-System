@@ -48,7 +48,7 @@ export function CapacityBar({ total, segments, display, caption, format = (n) =>
         </div>
         <div role="meter" aria-valuemin={0} aria-valuemax={total} aria-valuenow={used} aria-label="Capacity used" className="flex h-3 gap-1">
           {cols.map((c) => (
-            <span key={c.label} className={cn("h-full rounded-[3px]", c.free ? "bg-dither-fine" : c.tone)} style={{ width: `${(c.value / total) * 100}%` }} />
+            <span key={c.label} className={cn("h-full rounded-[3px]", c.free ? "bg-dither-organic" : c.tone)} style={{ width: `${(c.value / total) * 100}%` }} />
           ))}
         </div>
       </div>

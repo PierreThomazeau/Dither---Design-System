@@ -37,7 +37,7 @@ function ContextWindow({ max, segments, title = "Context window", className, ...
         aria-label="Tokens used"
         className="relative flex h-1.5 gap-0.5 overflow-hidden rounded-full"
       >
-        <span aria-hidden="true" className="bg-dither-fine absolute inset-0" />
+        <span aria-hidden="true" className="bg-dither-organic absolute inset-0" />
         {segments.map((s, i) => (
           <span key={s.label} className={cn("relative h-full first:rounded-l-full", SEGMENT_COLORS[i % SEGMENT_COLORS.length])} style={{ width: `${(s.tokens / max) * 100}%` }} />
         ))}

@@ -53,13 +53,13 @@
   --dither-radius-hairline: 4px;
   --dither-radius-micro: 6px;
   --dither-radius-min: 12px;
-  --dither-radius-control: 12px;
-  --dither-radius-control-min: 16px;
-  --dither-radius-field: 20px;
-  --dither-radius-surface: 24px;
-  --dither-radius-body: 28px;
-  --dither-radius-sheet: 32px;
-  --dither-radius-display: 40px;
+  --dither-radius-control: 9999px;
+  --dither-radius-control-min: 20px;
+  --dither-radius-field: 24px;
+  --dither-radius-surface: 32px;
+  --dither-radius-body: 36px;
+  --dither-radius-sheet: 40px;
+  --dither-radius-display: 48px;
   --dither-radius-full: 9999px;
   --radius: var(--dither-radius-control);
 

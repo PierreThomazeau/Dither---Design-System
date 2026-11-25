@@ -30,7 +30,7 @@ export function RankingChart({ data, max, breakEven, format = (n) => `${n.toFixe
           <React.Fragment key={d.label}>
             <span className="truncate text-sm">{d.label}</span>
             <span className="relative h-2.5" role="img" aria-label={`${d.label}: ${format(d.value)}`}>
-              <span aria-hidden="true" className="bg-dither-fine absolute inset-0 rounded-full" />
+              <span aria-hidden="true" className="bg-dither-organic absolute inset-0 rounded-full" />
               <span className={cn("absolute inset-y-0 left-0 rounded-full", tone)} style={{ width: `${(d.value / top) * 100}%` }} />
             </span>
             <span className={cn("text-right font-mono text-xs tabular", below && "text-destructive")}>{format(d.value)}</span>

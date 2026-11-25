@@ -138,7 +138,7 @@ export default function TeamOverview() {
                     </span>
                   </div>
                   <span className="relative h-1.5 overflow-hidden rounded-full">
-                    <span className="bg-dither-fine absolute inset-0" />
+                    <span className="bg-dither-organic absolute inset-0" />
                     <span className="absolute inset-y-0 left-0 rounded-full bg-foreground" style={{ width: `${(s.done / s.total) * 100}%` }} />
                   </span>
                 </div>

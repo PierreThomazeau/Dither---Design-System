@@ -42,7 +42,7 @@ function Gauge({ value, label, status = "good", display, className, ...props }: 
     >
       <svg viewBox="0 0 100 56" className={cn("w-full overflow-visible", statusClass[status])}>
         <defs>
-          <DitherPattern id={id} variant="fine" />
+          <DitherPattern id={id} variant="organic" />
           <mask id={`${id}-track`}>
             <path d={arc} fill="none" stroke="white" strokeWidth={stroke} strokeLinecap="round" />
           </mask>

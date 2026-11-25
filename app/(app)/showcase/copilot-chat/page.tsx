@@ -77,7 +77,7 @@ export default function CopilotChat() {
         <aside className="flex flex-col gap-3">
           <InsetPanel title="Plan" subtitle="4 of 5 steps done">
             <span className="relative h-1.5 overflow-hidden rounded-full">
-              <span className="bg-dither-fine absolute inset-0" />
+              <span className="bg-dither-organic absolute inset-0" />
               <span className="absolute inset-y-0 left-0 w-4/5 rounded-full bg-foreground" />
             </span>
             <AgentSteps>

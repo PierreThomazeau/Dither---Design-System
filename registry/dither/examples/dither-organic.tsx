@@ -7,7 +7,7 @@ export default function DitherOrganic() {
     <div className="grid w-full grid-cols-2 gap-3">
       {shapes.map((shape) => (
         <figure key={shape} className="flex flex-col gap-1.5">
-          <div className="relative h-28 overflow-hidden rounded-control border bg-surface">
+          <div className="relative h-28 overflow-hidden rounded-control-min border bg-surface">
             <DitherFill shape={shape} />
           </div>
           <figcaption className="font-mono text-xs text-muted-foreground">{shape}</figcaption>

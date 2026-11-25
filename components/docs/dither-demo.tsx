@@ -8,7 +8,7 @@ export function DitherVariantsDemo() {
     <div className="grid w-full grid-cols-2 gap-3">
       {DITHER_VARIANTS.map((variant) => (
         <figure key={variant} className="flex flex-col gap-1.5">
-          <div className="relative h-20 overflow-hidden rounded-control border bg-surface">
+          <div className="relative h-20 overflow-hidden rounded-control-min border bg-surface">
             <DitherFill variant={variant} />
           </div>
           <figcaption className="font-mono text-xs text-muted-foreground">{variant}</figcaption>

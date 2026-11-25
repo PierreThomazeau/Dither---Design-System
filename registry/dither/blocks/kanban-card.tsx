@@ -46,7 +46,7 @@ function KanbanCard({ id, title, tag, priority = "medium", subtasks, comments, f
       {subtasks ? (
         <div className="flex items-center gap-2">
           <span className="relative h-1 flex-1 overflow-hidden rounded-full">
-            <span aria-hidden="true" className="bg-dither-fine absolute inset-0" />
+            <span aria-hidden="true" className="bg-dither-organic absolute inset-0" />
             <span className="absolute inset-y-0 left-0 rounded-full bg-foreground" style={{ width: `${(subtasks.done / subtasks.total) * 100}%` }} />
           </span>
           <span className="font-mono text-xs text-muted-foreground tabular">

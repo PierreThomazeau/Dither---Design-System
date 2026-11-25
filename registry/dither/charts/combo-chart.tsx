@@ -44,7 +44,7 @@ export function ComboChart({
       <ResponsiveContainer width="100%" height="100%">
         <ComposedChart data={rows} margin={{ top: 12, right: 0, bottom: 0, left: 0 }} barCategoryGap="28%">
           <defs>
-            <DitherPattern id={id} variant="fine" />
+            <DitherPattern id={id} variant="organic" />
           </defs>
           <CartesianGrid {...gridProps} />
           <XAxis dataKey="label" tick={axisTick} tickLine={false} axisLine={false} />

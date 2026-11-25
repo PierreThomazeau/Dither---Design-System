@@ -41,7 +41,7 @@ export function Choice({
         placement === "end" && "flex-row-reverse justify-between",
         description ? "items-start" : "items-center",
         variant === "box" && [
-          "rounded-control border bg-surface p-3 shadow-xs transition-colors",
+          "rounded-control-min border bg-surface p-3 shadow-xs transition-colors",
           "has-data-[state=checked]:border-brand has-data-[state=checked]:bg-brand/5",
           "data-invalid:border-destructive data-invalid:bg-destructive/5",
         ],

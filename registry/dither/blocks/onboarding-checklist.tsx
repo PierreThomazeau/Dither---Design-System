@@ -37,7 +37,7 @@ function OnboardingChecklist({ title, steps, actions, className, ...props }: Onb
           aria-valuenow={done}
           className="relative h-1.5 overflow-hidden rounded-full"
         >
-          <span aria-hidden="true" className="bg-dither-fine absolute inset-0" />
+          <span aria-hidden="true" className="bg-dither-organic absolute inset-0" />
           <span className="absolute inset-y-0 left-0 rounded-full bg-positive transition-[width]" style={{ width: `${(done / steps.length) * 100}%` }} />
         </div>
       </div>

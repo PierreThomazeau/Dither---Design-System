@@ -23,7 +23,7 @@ export function ChartTooltipContent({
 }) {
   if (!active || !payload?.length) return null;
   return (
-    <div className="min-w-32 rounded-control border bg-surface px-3 py-2 text-xs shadow-chart-tooltip">
+    <div className="min-w-32 rounded-control-min border bg-surface px-3 py-2 text-xs shadow-chart-tooltip">
       {label !== undefined ? <div className="mb-1 font-mono text-muted-foreground">{label}</div> : null}
       <ul className="flex flex-col gap-1">
         {payload

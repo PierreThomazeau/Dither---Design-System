@@ -35,7 +35,7 @@ export function GaugeChart({ value, alert, display, caption, minLabel, maxLabel,
     <div data-slot="gauge-chart" className={cn("relative mx-auto w-full max-w-72", className)} role="meter" aria-valuemin={0} aria-valuemax={100} aria-valuenow={v} {...props}>
       <svg viewBox="0 0 200 112" className="w-full overflow-visible">
         <defs>
-          <DitherPattern id={id} variant="fine" />
+          <DitherPattern id={id} variant="organic" />
           <mask id={`${id}-m`}>
             <path d={arc} fill="none" stroke="white" strokeWidth={22} />
           </mask>

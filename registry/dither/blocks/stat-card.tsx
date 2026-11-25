@@ -51,11 +51,7 @@ function StatCard({
       {...props}
     >
       {variant === "gradient" ? (
-        <DitherFill
-          shape="scatter"
-          scale={2}
-          className="inset-auto top-0 right-0 -z-10 h-20 w-1/2 [mask-image:linear-gradient(to_left,black,transparent)]"
-        />
+        <DitherFill shape="scatter" scale={2} fade="corner" className="inset-auto top-0 right-0 -z-10 h-24 w-2/3" />
       ) : null}
       <div className="flex items-center justify-between gap-2">
         <span className="text-sm text-muted-foreground">{label}</span>

@@ -34,7 +34,7 @@ export function Histogram({ bins, start, step, core, median, format = (n) => `${
               <span
                 key={i}
                 title={`${format(start + i * step)}–${format(start + (i + 1) * step)}: ${count}`}
-                className={cn("flex-1 rounded-t-[3px]", inCore ? "bg-chart-1" : "bg-dither-fine")}
+                className={cn("flex-1 rounded-t-[3px]", inCore ? "bg-chart-1" : "bg-dither-organic")}
                 style={{ height: `${(count / max) * 100}%` }}
               />
             );

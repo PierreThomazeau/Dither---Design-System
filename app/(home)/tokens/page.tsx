@@ -96,7 +96,7 @@ export default function TokensPage() {
           <div className="grid grid-cols-4 gap-3 sm:grid-cols-6 lg:grid-cols-11">
             {Object.entries(tokens.palette.woodsmoke).map(([step, hex]) => (
               <div key={step} className="flex flex-col gap-1.5">
-                <span className="aspect-square rounded-control border" style={{ background: hex }} />
+                <span className="aspect-square rounded-control-min border" style={{ background: hex }} />
                 <span className="text-xs font-medium">{step}</span>
                 <code className="font-mono text-xs text-muted-foreground">{hex}</code>
               </div>
@@ -181,7 +181,7 @@ export default function TokensPage() {
         <Inset className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-5">
           {["2xs", "xs", "sm", "md", "lg", "xl", "2xl", "popover", "tabs-active"].map((name) => (
             <div key={name} className="flex flex-col gap-2">
-              <span className="h-16 rounded-control border bg-surface" style={{ boxShadow: `var(--dither-shadow-${name})` }} />
+              <span className="h-16 rounded-control-min border bg-surface" style={{ boxShadow: `var(--dither-shadow-${name})` }} />
               <code className="font-mono text-xs text-muted-foreground">shadow-{name}</code>
             </div>
           ))}
@@ -205,7 +205,7 @@ export default function TokensPage() {
               <div key={mode} className={cn(mode, "grid grid-cols-2 gap-3 rounded-[calc(var(--radius-surface)-4px)] border bg-surface p-4 text-foreground shadow-xs")}>
                 {(["cloud", "scatter", "halo", "flow"] as const).map((shape) => (
                   <figure key={shape} className="flex flex-col gap-1.5">
-                    <div className="relative h-28 overflow-hidden rounded-control border">
+                    <div className="relative h-28 overflow-hidden rounded-control-min border">
                       <DitherFill shape={shape} />
                     </div>
                     <figcaption className="font-mono text-xs text-muted-foreground">
@@ -215,7 +215,7 @@ export default function TokensPage() {
                 ))}
                 {DITHER_VARIANTS.map((variant) => (
                   <figure key={variant} className="flex flex-col gap-1.5">
-                    <div className="relative h-20 overflow-hidden rounded-control border">
+                    <div className="relative h-20 overflow-hidden rounded-control-min border">
                       <DitherFill variant={variant} />
                     </div>
                     <figcaption className="font-mono text-xs text-muted-foreground">

@@ -43,7 +43,7 @@ export default function HomePage() {
     <main className="flex flex-1 flex-col">
       {/* Hero */}
       <section className="relative isolate overflow-hidden">
-        <DitherFill shape="scatter" className="inset-auto top-0 left-0 -z-10 h-[420px] w-full" />
+        <DitherFill shape="scatter" fade="bottom" glow={["--brand", "--chart-3"]} className="inset-auto top-0 left-0 -z-10 h-[480px] w-full" />
         <div className="mx-auto flex w-full max-w-6xl flex-col items-start gap-6 px-4 pt-20 pb-16 md:pt-28">
           <Badge variant="tag">v0.1 · {counts.primitives + counts.blocks + counts.charts} components</Badge>
           <h1 className="flex max-w-3xl flex-wrap items-center gap-x-4 font-heading text-5xl leading-[1.05] font-semibold tracking-tight md:text-7xl">

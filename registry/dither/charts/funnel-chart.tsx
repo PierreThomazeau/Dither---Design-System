@@ -28,7 +28,7 @@ export function FunnelChart({ stages, format = compact, height = 160, className,
           return (
             <div key={s.label} className="relative h-full flex-1" role="img" aria-label={`${s.label}: ${format(s.value)}`}>
               {i > 0 ? (
-                <span aria-hidden="true" className="bg-dither-fine absolute inset-x-0 rounded-t-[6px]" style={{ bottom: `${(s.value / top) * 100}%`, height: `${((prev - s.value) / top) * 100}%` }} />
+                <span aria-hidden="true" className="bg-dither-organic absolute inset-x-0 rounded-t-[6px]" style={{ bottom: `${(s.value / top) * 100}%`, height: `${((prev - s.value) / top) * 100}%` }} />
               ) : null}
               <span className={cn("absolute inset-x-0 bottom-0 rounded-[6px]", last ? "bg-chart-1" : "bg-foreground/85")} style={{ height: `max(${(s.value / top) * 100}%, 4px)` }} />
               <span className="absolute left-0 -translate-y-[calc(100%+4px)] font-mono text-xs font-medium tabular" style={{ bottom: `${(prev / top) * 100}%` }}>

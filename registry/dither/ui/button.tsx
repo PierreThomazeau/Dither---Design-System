@@ -67,7 +67,7 @@ function Button({ className, variant, size, asChild = false, loading = false, di
     className: cn(buttonVariants({ variant, size }), className),
     "aria-busy": loading || undefined,
   };
-  // Primary only: the dither lights up under the cursor (CSS vars, no re-render).
+  // Primary only: a soft light and an organic dither follow the cursor (CSS vars, no re-render).
   const glow = (variant ?? "default") === "default";
   const onPointerMove = (e: React.PointerEvent<HTMLElement>) => {
     props.onPointerMove?.(e as React.PointerEvent<HTMLButtonElement>);
@@ -75,6 +75,7 @@ function Button({ className, variant, size, asChild = false, loading = false, di
     const rect = e.currentTarget.getBoundingClientRect();
     e.currentTarget.style.setProperty("--x", `${e.clientX - rect.left}px`);
     e.currentTarget.style.setProperty("--y", `${e.clientY - rect.top}px`);
+    e.currentTarget.style.setProperty("--glow-r", `${Math.max(32, Math.min(64, rect.width * 0.3))}px`);
   };
 
   if (asChild) {
@@ -90,12 +91,19 @@ function Button({ className, variant, size, asChild = false, loading = false, di
       {glow ? (
         <span
           aria-hidden="true"
-          className={cn(
-            "bg-dither-glow pointer-events-none absolute inset-0 -z-10 opacity-0 transition-opacity duration-300",
-            "[--dither-color:color-mix(in_oklab,var(--primary-foreground)_55%,transparent)] [--glow-r:56px]",
-            "group-hover/button:animate-dither-drift group-hover/button:opacity-100 group-active/button:[--glow-r:140px]",
-          )}
-        />
+          className="pointer-events-none absolute inset-0 -z-10 opacity-0 transition-opacity duration-300 group-hover/button:opacity-100"
+        >
+          {/* Soft light under the cursor, with a hint of brand: colour in blur, no edge. */}
+          <span
+            className="absolute inset-0 transition-[background-size] duration-(--duration-liquid) ease-(--ease-liquid)"
+            style={{
+              backgroundImage:
+                "radial-gradient(circle var(--glow-r, 64px) at var(--x, 50%) var(--y, 50%), color-mix(in oklab, var(--brand) 45%, transparent), transparent 75%), radial-gradient(circle calc(var(--glow-r, 64px) * 0.6) at var(--x, 50%) var(--y, 50%), color-mix(in oklab, var(--primary-foreground) 16%, transparent), transparent 75%)",
+            }}
+          />
+          {/* Organic dither inside the same spot, fading out from the centre. */}
+          <span className="bg-dither-glow absolute inset-0 [--dither-color:color-mix(in_oklab,var(--primary-foreground)_30%,transparent)]" />
+        </span>
       ) : null}
       {loading ? <Spinner /> : null}
       {children}

@@ -34,7 +34,7 @@ export function ForecastChart({ data, today, format = (n) => `${n}`, height = 22
       <ResponsiveContainer width="100%" height="100%">
         <ComposedChart data={data} margin={{ top: 12, right: 8, bottom: 0, left: 0 }}>
           <defs>
-            <DitherPattern id={id} variant="fine" />
+            <DitherPattern id={id} variant="organic" />
           </defs>
           <CartesianGrid {...gridProps} />
           <XAxis dataKey="label" tick={axisTick} tickLine={false} axisLine={false} interval="preserveStartEnd" minTickGap={24} />

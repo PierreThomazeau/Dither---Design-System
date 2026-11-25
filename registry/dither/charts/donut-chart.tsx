@@ -51,7 +51,7 @@ export function DonutChart({ segments, value, caption, format = (n) => `${n}`, l
       <div className="relative shrink-0" style={{ width: size, height: size }}>
         <svg viewBox="0 0 100 100" className="size-full -rotate-90" role="img" aria-label={segments.map((s) => `${s.label} ${Math.round((s.value / total) * 100)}%`).join(", ")}>
           <defs>
-            <DitherPattern id={id} variant="fine" />
+            <DitherPattern id={id} variant="organic" />
           </defs>
           {arcs.map((a) => (
             <circle key={a.label} cx="50" cy="50" r={r} fill="none" stroke={a.color} strokeWidth={12} strokeDasharray={a.dash} strokeDashoffset={a.offset} />

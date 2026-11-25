@@ -1070,7 +1070,8 @@
       "registryDependencies": [
         "utils",
         "@dither/icon",
-        "@dither/theme"
+        "@dither/theme",
+        "@dither/dither"
       ],
       "files": [
         {
@@ -1082,6 +1083,10 @@
           "path": "registry/dither/charts/chart-tooltip.tsx",
           "type": "registry:component",
           "target": "components/charts/chart-tooltip.tsx"
+        },
+        {
+          "path": "registry/dither/charts/chart-spotlight.tsx",
+          "type": "registry:component"
         }
       ]
     },

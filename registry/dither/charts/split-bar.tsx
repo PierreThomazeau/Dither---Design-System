@@ -31,7 +31,7 @@ export function SplitBar({ data, format = (n) => `${n}`, negativeLabel = "Reduce
           <React.Fragment key={d.label}>
             <span className="pr-3 text-sm">{d.label}</span>
             <span className="relative h-3 border-r border-foreground" role={neg ? "img" : undefined} aria-label={neg ? `${d.label}: ${label}` : undefined}>
-              <span aria-hidden="true" className="bg-dither-fine absolute inset-y-0.5 right-0 left-0" />
+              <span aria-hidden="true" className="bg-dither-organic absolute inset-y-0.5 right-0 left-0" />
               {neg ? (
                 <>
                   <span className="absolute inset-y-0 right-0 rounded-l-[3px] bg-destructive" style={{ width: w }} />
@@ -42,7 +42,7 @@ export function SplitBar({ data, format = (n) => `${n}`, negativeLabel = "Reduce
               ) : null}
             </span>
             <span className="relative h-3" role={!neg ? "img" : undefined} aria-label={!neg ? `${d.label}: ${label}` : undefined}>
-              <span aria-hidden="true" className="bg-dither-fine absolute inset-y-0.5 right-0 left-0" />
+              <span aria-hidden="true" className="bg-dither-organic absolute inset-y-0.5 right-0 left-0" />
               {!neg ? (
                 <>
                   <span className="absolute inset-y-0 left-0 rounded-r-[3px] bg-positive" style={{ width: w }} />

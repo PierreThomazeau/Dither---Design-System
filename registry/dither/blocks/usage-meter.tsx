@@ -60,7 +60,7 @@ function UsageMeter({
         aria-label={typeof label === "string" ? label : undefined}
         className="relative flex h-2 w-full gap-0.5 overflow-hidden rounded-full"
       >
-        <span aria-hidden="true" className="bg-dither-fine absolute inset-0" />
+        <span aria-hidden="true" className="bg-dither-organic absolute inset-0" />
         {segments.map((s, i) => (
           <span
             key={s.label}
