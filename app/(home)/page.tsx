@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowDown01Icon, DollarCircleIcon, Share08Icon, Copy01Icon, Archive02Icon } from "@hugeicons/core-free-icons";
+import { ArrowDown01Icon, ArrowRight01Icon, DollarCircleIcon, Share08Icon, Copy01Icon, Archive02Icon } from "@hugeicons/core-free-icons";
 
 import { faqs } from "@/components/site/faq";
 import { LogoMark } from "@/components/site/logo";
@@ -12,7 +12,6 @@ import { ChartCard, ChartLegend } from "@/registry/dither/charts/chart-kit";
 import { ProgressBars } from "@/registry/dither/charts/progress-bars";
 import { AiGlow } from "@/registry/dither/lib/ai-glow";
 import { DitherFill } from "@/registry/dither/lib/dither";
-import { AnimatedIcon } from "@/registry/dither/lib/animated-icon";
 import { Icon } from "@/registry/dither/lib/icon";
 import { Badge } from "@/registry/dither/ui/badge";
 import { Button } from "@/registry/dither/ui/button";
@@ -56,7 +55,7 @@ export default function HomePage() {
             <Button asChild size="lg">
               <Link href="/docs">
                 Get started
-                <AnimatedIcon name="arrow-right" />
+                <Icon icon={ArrowRight01Icon} />
               </Link>
             </Button>
             <Button asChild size="lg" variant="outline">

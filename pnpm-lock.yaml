@@ -14,9 +14,6 @@ importers:
       '@hugeicons/react':
         specifier: 1.1.10
         version: 1.1.10(react@19.3.1)
-      '@unlocalhosted/dither-icons':
-        specifier: 0.2.6
-        version: 0.2.6(react@19.3.1)
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
@@ -1925,11 +1922,6 @@ packages:
 
   '@ungap/structured-clone@1.4.0':
     resolution: {integrity: sha512-1mEZtMKPM09vDmQt5y7YvmN2+DFTP7Tg0EWXdic8/C6VRnpb33e4ghisCIE3WZjsE2N8mf+QV1Zqh7ZFYLWInQ==}
-
-  '@unlocalhosted/dither-icons@0.2.6':
-    resolution: {integrity: sha512-4a7U+NWn/BvMQZXmivMzFpmGtiTBn5cpdqx00KO6MO3E23jx6YJdvQ0nxNAxqj9v9VZ7zq4gSeJ/SrdxQrK2Ww==}
-    peerDependencies:
-      react: '>=18'
 
   '@unrs/resolver-binding-android-arm-eabi@1.13.0':
     resolution: {integrity: sha512-60E5mvmIiW+i1E/HYeSX4iE4A8s9NJSGYPu7UM0DJght1c2tTkWwuyDyAwzsEXhKM/XbbndfnTiXdfrf27d2hw==}
@@ -6501,10 +6493,6 @@ snapshots:
       '@typescript/old': typescript@6.0.3
 
   '@ungap/structured-clone@1.4.0': {}
-
-  '@unlocalhosted/dither-icons@0.2.6(react@19.3.1)':
-    dependencies:
-      react: 19.3.1
 
   '@unrs/resolver-binding-android-arm-eabi@1.13.0':
     optional: true

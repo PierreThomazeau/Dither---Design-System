@@ -3,11 +3,10 @@
 import * as React from "react";
 import Link from "next/link";
 import { useTheme } from "next-themes";
-import { ArrowLeft01Icon, SidebarLeft01Icon, SidebarRight01Icon, UnfoldMoreIcon } from "@hugeicons/core-free-icons";
+import { ArrowLeft01Icon, Moon02Icon, Notification02Icon, SidebarLeft01Icon, SidebarRight01Icon, Sun03Icon, UnfoldMoreIcon } from "@hugeicons/core-free-icons";
 import type { IconSvgElement } from "@hugeicons/react";
 
 import { LogoMark } from "@/components/site/logo";
-import { AnimatedIcon } from "@/registry/dither/lib/animated-icon";
 import { Icon } from "@/registry/dither/lib/icon";
 import { cn } from "@/registry/dither/lib/utils";
 import { Avatar, AvatarFallback } from "@/registry/dither/ui/avatar";
@@ -51,7 +50,7 @@ function NavLink({ item }: { item: NavItem }) {
       href="#"
       aria-current={item.active ? "page" : undefined}
       className={cn(
-        "di-trigger flex h-control-xs items-center gap-2.5 rounded-control px-2.5 text-sm text-muted-foreground outline-none hover:bg-hover hover:text-foreground focus-visible:shadow-focus",
+        "flex h-control-xs items-center gap-2.5 rounded-control px-2.5 text-sm text-muted-foreground outline-none hover:bg-hover hover:text-foreground focus-visible:shadow-focus",
         item.active && "bg-surface font-medium text-foreground shadow-xs dark:bg-background-muted",
       )}
     >
@@ -71,7 +70,7 @@ function ThemeToggle() {
   const dark = mounted && resolvedTheme === "dark";
   return (
     <Button variant="outline" size="icon-sm" aria-label={dark ? "Switch to light mode" : "Switch to dark mode"} onClick={() => setTheme(dark ? "light" : "dark")}>
-      <AnimatedIcon name={dark ? "sun" : "moon"} />
+      <Icon icon={dark ? Sun03Icon : Moon02Icon} />
     </Button>
   );
 }
@@ -122,7 +121,7 @@ export function AppShell({ workspace, actions = [], sections, user, breadcrumb, 
             <span className="truncate text-xs text-muted-foreground">{user.role}</span>
           </span>
           <Button variant="ghost" size="icon-xs" aria-label="Notifications">
-            <AnimatedIcon name="bell" />
+            <Icon icon={Notification02Icon} />
           </Button>
         </div>
       </aside>

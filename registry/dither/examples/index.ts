@@ -1,8 +1,6 @@
 /* Docs examples, rendered by <ComponentPreview name="..." />. Keep in sync with the files in this folder. */
 import type { ComponentType } from "react";
 
-import AnimatedIconsGallery from "./animated-icons-gallery";
-import AnimatedIconsMaterials from "./animated-icons-materials";
 import ActivityHeatmapDemo from "./activity-heatmap-demo";
 import AgentStepCard from "./agent-step-card";
 import AgentStepDemo from "./agent-step-demo";
@@ -107,8 +105,6 @@ import UsageMeterDemo from "./usage-meter-demo";
 import WorkloadTileDemo from "./workload-tile-demo";
 
 export const examples: Record<string, ComponentType> = {
-  "animated-icons-gallery": AnimatedIconsGallery,
-  "animated-icons-materials": AnimatedIconsMaterials,
   "activity-heatmap-demo": ActivityHeatmapDemo,
   "agent-step-card": AgentStepCard,
   "agent-step-demo": AgentStepDemo,

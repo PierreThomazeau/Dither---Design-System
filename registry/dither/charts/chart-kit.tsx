@@ -77,7 +77,7 @@ export function PeriodButton({ className, children, ...props }: React.ComponentP
     <button
       type="button"
       className={cn(
-        "di-trigger inline-flex h-control-sm shrink-0 items-center gap-1.5 rounded-control border bg-surface px-3 text-sm font-medium outline-none hover:bg-hover focus-visible:shadow-focus",
+        "inline-flex h-control-sm shrink-0 items-center gap-1.5 rounded-control border bg-surface px-3 text-sm font-medium outline-none hover:bg-hover focus-visible:shadow-focus",
         className,
       )}
       {...props}

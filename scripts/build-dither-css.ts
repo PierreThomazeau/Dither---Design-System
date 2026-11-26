@@ -58,28 +58,6 @@ for (const variant of DITHER_VARIANTS) {
 `;
 }
 
-// Mask-only organic grain for icon fills (AnimatedIcon "dither" material): denser than the track
-// tile (3px grid, higher floor) so a 48px silhouette reads as a dithered surface, still twinkling.
-// No background is painted: the mask turns the element's own fill (currentColor) into dots.
-{
-  const tile = organicTile({ size: 48, cell: 3, dot: [1.25, 1.75], period: 2, seed: 11, floor: 0.42, amp: 0.4 });
-  const rects = tile.dots
-    .map((d) => `<rect x='${d.x}' y='${d.y}' width='${d.size}' height='${d.size}'${d.twinkle !== undefined ? ` class='t' style='animation-delay:-${d.twinkle}s'` : ""}/>`)
-    .join("");
-  const style = "<style>.t{animation:t 3.6s ease-in-out infinite}@keyframes t{50%{opacity:.12}}@media (prefers-reduced-motion:reduce){.t{animation:none}}</style>";
-  const dots = uri(`<svg xmlns='http://www.w3.org/2000/svg' width='${tile.size}' height='${tile.size}' fill='#000'>${style}${rects}</svg>`);
-  css += `
-@utility mask-dither-organic {
-  -webkit-mask-image: ${dots};
-  mask-image: ${dots};
-  -webkit-mask-size: ${tile.size}px ${tile.size}px;
-  mask-size: ${tile.size}px ${tile.size}px;
-  -webkit-mask-repeat: repeat;
-  mask-repeat: repeat;
-}
-`;
-}
-
 // Skeleton sweep: the organic tile, seen through a soft band that travels left → right.
 // Animate with `animate-dither-sweep` (styles/motion.css); off under reduced motion.
 {
