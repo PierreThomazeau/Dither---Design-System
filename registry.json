@@ -75,6 +75,25 @@
       ]
     },
     {
+      "name": "animated-icon",
+      "type": "registry:lib",
+      "title": "Animated Icon",
+      "description": "Dither Icons (@unlocalhosted/dither-icons, MIT) set up the Dither way: line / solid / dither materials, Dither grain, di-trigger playback.",
+      "registryDependencies": [
+        "utils",
+        "@dither/theme"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/lib/animated-icon.tsx",
+          "type": "registry:lib"
+        }
+      ],
+      "dependencies": [
+        "@unlocalhosted/dither-icons"
+      ]
+    },
+    {
       "name": "icon",
       "type": "registry:lib",
       "title": "Icon",
@@ -598,7 +617,8 @@
         "utils",
         "@dither/button",
         "@dither/icon",
-        "@dither/theme"
+        "@dither/theme",
+        "@dither/animated-icon"
       ],
       "files": [
         {
@@ -607,8 +627,7 @@
         }
       ],
       "dependencies": [
-        "radix-ui",
-        "@hugeicons/core-free-icons"
+        "radix-ui"
       ]
     },
     {
@@ -933,7 +952,8 @@
         "utils",
         "@dither/ai-glow",
         "@dither/icon",
-        "@dither/dropdown-menu"
+        "@dither/dropdown-menu",
+        "@dither/animated-icon"
       ],
       "files": [
         {

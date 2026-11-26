@@ -1,10 +1,9 @@
 "use client";
 
 import * as React from "react";
-import { Cancel01Icon } from "@hugeicons/core-free-icons";
 import { Slot } from "radix-ui";
 
-import { Icon } from "@/registry/dither/lib/icon";
+import { AnimatedIcon } from "@/registry/dither/lib/animated-icon";
 import { cn } from "@/registry/dither/lib/utils";
 import { Button } from "@/registry/dither/ui/button";
 
@@ -158,7 +157,7 @@ function SidePanelClose({ className, ...props }: React.ComponentProps<typeof But
   const { setOpen } = useSidePanel();
   return (
     <Button variant="ghost" size="icon-sm" aria-label="Close panel" className={className} onClick={() => setOpen(false)} {...props}>
-      <Icon icon={Cancel01Icon} />
+      <AnimatedIcon name="close" />
     </Button>
   );
 }

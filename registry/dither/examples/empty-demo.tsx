@@ -1,5 +1,6 @@
-import { ArrowUpRight01Icon, Folder01Icon } from "@hugeicons/core-free-icons";
+import { ArrowUpRight01Icon } from "@hugeicons/core-free-icons";
 
+import { AnimatedIcon } from "@/registry/dither/lib/animated-icon";
 import { Icon } from "@/registry/dither/lib/icon";
 import { Button } from "@/registry/dither/ui/button";
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/registry/dither/ui/empty";
@@ -8,7 +9,7 @@ export default function EmptyDemo() {
   return (
     <Empty>
       <EmptyHeader>
-        <EmptyMedia variant="icon"><Icon icon={Folder01Icon} /></EmptyMedia>
+        <EmptyMedia variant="icon"><AnimatedIcon name="folder" size={20} /></EmptyMedia>
         <EmptyTitle>No projects yet</EmptyTitle>
         <EmptyDescription>You haven&apos;t created any projects yet. Start by creating your first one.</EmptyDescription>
       </EmptyHeader>

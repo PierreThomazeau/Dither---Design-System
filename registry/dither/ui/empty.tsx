@@ -5,7 +5,7 @@ import { DitherFill } from "@/registry/dither/lib/dither";
 import { cn } from "@/registry/dither/lib/utils";
 
 const emptyVariants = cva(
-  "relative isolate flex min-w-0 flex-1 flex-col items-center justify-center gap-5 overflow-hidden p-6 text-center text-balance md:p-10",
+  "di-trigger relative isolate flex min-w-0 flex-1 flex-col items-center justify-center gap-5 overflow-hidden p-6 text-center text-balance md:p-10",
   {
     variants: {
       variant: {

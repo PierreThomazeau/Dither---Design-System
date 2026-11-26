@@ -8,6 +8,7 @@
     "foundations/tokens",
     "foundations/dither-pattern",
     "foundations/motion",
+    "foundations/icons",
     "---Components---",
     "...components",
     "---Blocks---",

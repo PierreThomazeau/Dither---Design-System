@@ -1,20 +1,10 @@
 "use client";
 
 import * as React from "react";
-import {
-  Attachment01Icon,
-  AiBrain01Icon,
-  ArrowDown01Icon,
-  ArrowUp02Icon,
-  GridViewIcon,
-  Message01Icon,
-  Mic01Icon,
-  Search02Icon,
-  SparklesIcon,
-  StopIcon,
-} from "@hugeicons/core-free-icons";
+import { Attachment01Icon, AiBrain01Icon, ArrowDown01Icon, GridViewIcon, Message01Icon, Mic01Icon, Search02Icon, SparklesIcon, StopIcon } from "@hugeicons/core-free-icons";
 
 import { AiGlow } from "@/registry/dither/lib/ai-glow";
+import { AnimatedIcon } from "@/registry/dither/lib/animated-icon";
 import { Icon } from "@/registry/dither/lib/icon";
 import { cn } from "@/registry/dither/lib/utils";
 import {
@@ -169,7 +159,7 @@ function ChatComposer({
                 disabled={!canSend}
                 className="inline-flex size-8 items-center justify-center rounded-full bg-primary bg-linear-to-b from-white/8 to-white/0 text-primary-foreground shadow-button-primary outline-none transition-opacity hover:from-white/14 focus-visible:shadow-[var(--dither-shadow-button-primary),var(--dither-shadow-focus)] disabled:opacity-40"
               >
-                <Icon icon={ArrowUp02Icon} strokeWidth={2} />
+                <AnimatedIcon name="arrow-up" />
               </button>
             )}
           </div>

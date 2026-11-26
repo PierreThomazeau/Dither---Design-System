@@ -9,7 +9,7 @@ import { Spinner } from "@/registry/dither/ui/spinner";
 
 const buttonVariants = cva(
   [
-    "group/button relative isolate inline-flex shrink-0 items-center justify-center gap-2 overflow-hidden rounded-control text-sm font-medium whitespace-nowrap outline-none select-none",
+    "di-trigger group/button relative isolate inline-flex shrink-0 items-center justify-center gap-2 overflow-hidden rounded-control text-sm font-medium whitespace-nowrap outline-none select-none",
     /* Liquid press: squash on press, overshoot back on release. */
     "transition-[background-color,background-image,box-shadow,color,border-color,scale] duration-(--duration-liquid) ease-(--ease-liquid)",
     "active:scale-x-[1.03] active:scale-y-[0.94]",
