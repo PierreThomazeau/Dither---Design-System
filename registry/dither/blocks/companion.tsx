@@ -7,8 +7,8 @@ import { cn } from "@/registry/dither/lib/utils";
 
 /* ------------------------------------------------------------------ *
  * Companion: the 3D AI buddy of the chat.
- * A matte "squircle" body (superellipsoid) in the page's background
- * colour, with a square LED screen;
+ * A satin (matte) chrome "squircle" body (superellipsoid) tinted with
+ * the page's background colour, with a square LED screen;
  * the face is drawn crisp, shrunk to 80×80 dots and dithered in 1 bit
  * (Bayer 4×4), so it speaks the same dither language as the rest of
  * the system. Every expression is a set of numbers that glide toward
@@ -64,6 +64,8 @@ export interface CompanionProps extends Omit<React.ComponentProps<"div">, "child
   /** Eyes follow the pointer anywhere on the page. */
   followPointer?: boolean;
   onPhaseChange?: (phase: CompanionPhase) => void;
+  /** Click (or Enter / Space) makes it spin. */
+  spinOnClick?: boolean;
   /** Imperative events: bounce, spin, bravo, blink, yawn. */
   controlRef?: React.Ref<CompanionHandle>;
 }
@@ -182,24 +184,40 @@ function mountCompanion(THREE: typeof Three, host: HTMLDivElement, live: { curre
   camera.position.set(0, 3.2, 9.6);
   camera.lookAt(0, 2.15, 0);
 
-  /* Soft neutral studio for a matte body: white top, light grey floor, two soft light bands (seamless in x). */
+  /* Neutral studio for a satin (matte) chrome: grey waves, no colour, so the body only takes the background tint.
+     Painted in an equirect canvas, seamless in x. */
   {
-    const W = 512, H = 256;
+    const W = 1024, H = 512;
     const c = document.createElement("canvas");
     c.width = W;
     c.height = H;
     const g = c.getContext("2d")!;
     const sky = g.createLinearGradient(0, 0, 0, H);
     sky.addColorStop(0, "#ffffff");
-    sky.addColorStop(0.45, "#f2f2f2");
-    sky.addColorStop(0.55, "#d6d6d6");
-    sky.addColorStop(1, "#bdbdbd");
+    sky.addColorStop(0.38, "#e4e4e4");
+    sky.addColorStop(0.5, "#5a5a5a");
+    sky.addColorStop(0.6, "#9a9a9a");
+    sky.addColorStop(1, "#d0d0d0");
     g.fillStyle = sky;
     g.fillRect(0, 0, W, H);
-    g.filter = "blur(12px)";
-    g.fillStyle = "#ffffff";
-    g.fillRect(0, H * 0.18, W, H * 0.08);
-    g.fillRect(0, H * 0.34, W, H * 0.04);
+    const bands: [string, number, number, number, number][] = [
+      ["#2b2b2b", 34, 0.24, 2, 0.4], ["#ffffff", 40, 0.31, 3, 1.9], ["#6e6e6e", 36, 0.45, 2, 3.1],
+      ["#ffffff", 18, 0.54, 4, 0.7], ["#3a3a3a", 34, 0.66, 1, 2.2], ["#f2f2f2", 30, 0.76, 3, 4.4], ["#ffffff", 14, 0.12, 2, 2.8],
+    ];
+    g.lineCap = "round";
+    g.filter = "blur(10px)";
+    for (const [col, w, yy, f, ph] of bands) {
+      g.strokeStyle = col;
+      g.lineWidth = w;
+      g.beginPath();
+      for (let x = -10; x <= W + 10; x += 4) {
+        const t = (x / W) * Math.PI * 2;
+        const y = yy * H + Math.sin(t * f + ph) * H * 0.07 + Math.sin(t * (f + 2) + ph * 1.7) * H * 0.03;
+        if (x < 0) g.moveTo(x, y);
+        else g.lineTo(x, y);
+      }
+      g.stroke();
+    }
     const tex = new THREE.CanvasTexture(c);
     tex.mapping = THREE.EquirectangularReflectionMapping;
     tex.colorSpace = THREE.SRGBColorSpace;
@@ -249,7 +267,7 @@ function mountCompanion(THREE: typeof Three, host: HTMLDivElement, live: { curre
   }
   bodyGeo.translate(0, 1, 0);
   const bodyMat = keep(
-    new THREE.MeshPhysicalMaterial({ color: 0xf5f5f5, metalness: 0, roughness: 0.62, clearcoat: 0.15, clearcoatRoughness: 0.6, envMapIntensity: 0.7, sheen: 0.4, sheenRoughness: 0.8 }),
+    new THREE.MeshPhysicalMaterial({ color: 0xf5f5f5, metalness: 1, roughness: 0.34, clearcoat: 0.3, clearcoatRoughness: 0.45, envMapIntensity: 1.1 }),
   );
   /* Multicolour sweep: a rainbow band that travels up the body once when an answer is done. */
   const sweepU = { uSweep: { value: -10 }, uSweepAmt: { value: 0 }, uTime: { value: 0 } };
@@ -319,8 +337,14 @@ function mountCompanion(THREE: typeof Three, host: HTMLDivElement, live: { curre
     c.set(norm.fillStyle as string);
     palette.set(name, c);
   };
+  const white = new THREE.Color(1, 1, 1);
+  const hsl = { h: 0, s: 0, l: 0 };
   const readPalette = () => {
     for (const t of [BODY_TOKEN, "--positive", "--brand", "--destructive"]) readToken(t);
+    // On a dark background the tint is near black and would melt into the screen: lift it a little.
+    const body = palette.get(BODY_TOKEN)!;
+    body.getHSL(hsl);
+    if (hsl.l < 0.35) body.lerp(white, 0.28);
   };
   readPalette();
   let nextPalette = 0.5;
@@ -651,8 +675,8 @@ function mountCompanion(THREE: typeof Three, host: HTMLDivElement, live: { curre
     sy *= 1 + breathe + extra.open * 0.015;
     root.position.y = y;
     root.scale.set(1 / Math.sqrt(sy), sy, 1 / Math.sqrt(sy));
-    extra.turn = approach(extra.turn, reduced ? 0 : extra.gx * 0.32, 5, dt);
-    spin.rotation.y = -0.28 + extra.turn + spinA;
+    extra.turn = approach(extra.turn, reduced ? 0 : extra.gx * 0.18, 5, dt);
+    spin.rotation.y = extra.turn + spinA; // facing front; turns a little with the gaze
     spin.rotation.x = reduced ? 0 : cur.lean + leanAdd + extra.gy * 0.04;
     spin.rotation.z =
       moodId === "impatient" && !reduced ? Math.pow(Math.max(0, Math.sin(clock * 1.1)), 6) * Math.sin(clock * 22) * 0.025 : 0;
@@ -749,9 +773,12 @@ function Companion({
   size = 96,
   followPointer = true,
   onPhaseChange,
+  spinOnClick = true,
   controlRef,
   className,
   style,
+  onClick,
+  onKeyDown,
   ...props
 }: CompanionProps) {
   const hostRef = React.useRef<HTMLDivElement>(null);
@@ -784,10 +811,26 @@ function Companion({
   return (
     <div
       ref={hostRef}
-      role="img"
+      role={spinOnClick ? "button" : "img"}
+      tabIndex={spinOnClick ? 0 : undefined}
       aria-label="AI companion"
       data-slot="companion"
-      className={cn("relative shrink-0 select-none", className)}
+      onClick={(e) => {
+        onClick?.(e);
+        if (spinOnClick && !e.defaultPrevented) api.current?.play("spin");
+      }}
+      onKeyDown={(e) => {
+        onKeyDown?.(e);
+        if (spinOnClick && !e.defaultPrevented && (e.key === "Enter" || e.key === " ")) {
+          e.preventDefault();
+          api.current?.play("spin");
+        }
+      }}
+      className={cn(
+        "relative shrink-0 select-none",
+        spinOnClick && "pointer-events-auto cursor-pointer rounded-surface outline-none focus-visible:shadow-focus",
+        className,
+      )}
       style={{ width: size, height: size, ...style }}
       {...props}
     />

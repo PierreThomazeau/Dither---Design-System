@@ -1,9 +1,9 @@
 ---
 title: Companion
-description: "The 3D AI buddy of the chat: a matte squircle in the page's background colour, with a dithered LED face that thinks, talks and reacts."
+description: "The 3D AI buddy of the chat: a satin chrome squircle tinted with the page's background, with a dithered LED face that thinks, talks and reacts."
 status: beta
 variants: 11
-props: 11
+props: 12
 registry: companion
 ---
 
@@ -42,13 +42,13 @@ import { CompanionAnchor, CompanionLayer } from "@/components/blocks/companion";
 
 | Status | Face | Body |
 | --- | --- | --- |
-| `idle` | Happy, eyes follow the pointer | Matte, `background-muted` |
+| `idle` | Happy, faces you, eyes follow the pointer | Satin chrome tinted `background-muted` |
 | `listening` | Looks down at what you type | Tinted `positive` |
 | `thinking` | Looks up, thought dots | Tinted `brand` |
 | `thinking` after `slowAfter` s | Bored: heavy lids, sighs | Tinted `destructive` |
 | `thinking` after 2.2 × `slowAfter` | Lazy: slumped, yawns | More `destructive` |
-| `responding` | Talks | Matte |
-| `done` | Proud, bounces, "Done" on the screen | One multicolour band sweeps up, then matte |
+| `responding` | Talks | Satin chrome |
+| `done` | Proud, bounces, "Done" on the screen | One multicolour band sweeps up, then satin chrome |
 | `error` | Sad | Tinted `destructive` |
 
 Tints are token colours mixed into the background colour, read live from CSS, so light and dark follow.
@@ -59,7 +59,7 @@ The face is drawn crisp, shrunk to 80 × 80 dots and dithered in 1 bit (Bayer 4 
 
 ## Props
 
-<TypeTable type={{"status": {"type": "\"idle\" | \"listening\" | \"thinking\" | \"responding\" | \"done\" | \"error\"", "default": "\"idle\""}, "mood": {"type": "CompanionMood", "description": "Forces an expression instead of the one derived from the status."}, "talking": {"type": "boolean", "description": "Forces the mouth to talk. Default: while responding."}, "slowAfter": {"type": "number", "default": "4", "description": "Seconds of thinking before it gets bored and turns red."}, "size": {"type": "number", "default": "96"}, "followPointer": {"type": "boolean", "default": "true"}, "onPhaseChange": {"type": "(phase: CompanionPhase) => void", "description": "Status plus \"slow\" and \"stalled\": useful for a \"still thinking\" line."}, "controlRef": {"type": "Ref<{ play(event) }>", "description": "bounce, spin, bravo, blink, yawn."}, "className": {"type": "string"}}} />
+<TypeTable type={{"status": {"type": "\"idle\" | \"listening\" | \"thinking\" | \"responding\" | \"done\" | \"error\"", "default": "\"idle\""}, "mood": {"type": "CompanionMood", "description": "Forces an expression instead of the one derived from the status."}, "talking": {"type": "boolean", "description": "Forces the mouth to talk. Default: while responding."}, "slowAfter": {"type": "number", "default": "4", "description": "Seconds of thinking before it gets bored and turns red."}, "size": {"type": "number", "default": "96"}, "followPointer": {"type": "boolean", "default": "true"}, "spinOnClick": {"type": "boolean", "default": "true", "description": "Faces front; a click (or Enter / Space) makes it spin."}, "onPhaseChange": {"type": "(phase: CompanionPhase) => void", "description": "Status plus \"slow\" and \"stalled\": useful for a \"still thinking\" line."}, "controlRef": {"type": "Ref<{ play(event) }>", "description": "bounce, spin, bravo, blink, yawn."}, "className": {"type": "string"}}} />
 
 ### CompanionLayer / CompanionAnchor
 
