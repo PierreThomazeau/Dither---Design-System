@@ -3,9 +3,9 @@ import { File02Icon, SparklesIcon } from "@hugeicons/core-free-icons";
 
 import { DitherFill } from "@/registry/dither/lib/dither";
 import { AppShell } from "@/components/showcase/app-shell";
+import { CopilotComposer } from "@/components/showcase/copilot-composer";
 import { atlas } from "@/components/showcase/nav";
 import { AgentStep, AgentSteps } from "@/registry/dither/blocks/agent-step";
-import { ChatComposer } from "@/registry/dither/blocks/chat-composer";
 import { ContextWindow } from "@/registry/dither/blocks/context-window";
 import { Bubble, Message } from "@/registry/dither/blocks/message";
 import { ReasoningBlock } from "@/registry/dither/blocks/reasoning-block";
@@ -67,7 +67,7 @@ export default function CopilotChat() {
             </div>
           </Message>
           <div className="sticky bottom-3 mt-auto flex flex-col gap-2">
-            <ChatComposer placeholder="Ask Copilot to refine, chart or share the report…" mode="Agent" />
+            <CopilotComposer />
             <div className="flex flex-wrap gap-2">
               <Button variant="outline" size="sm">Turn risks into tasks</Button>
               <Button variant="outline" size="sm">Add a velocity chart</Button>

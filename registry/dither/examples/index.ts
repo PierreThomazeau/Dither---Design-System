@@ -39,6 +39,8 @@ import ChartTreemap from "./chart-treemap";
 import ChartWaterfall from "./chart-waterfall";
 import ChatComposerDemo from "./chat-composer-demo";
 import ChatComposerMinimal from "./chat-composer-minimal";
+import CompanionComposer from "./companion-composer";
+import CompanionDemo from "./companion-demo";
 import CheckboxBox from "./checkbox-box";
 import CheckboxDemo from "./checkbox-demo";
 import ChipDemo from "./chip-demo";
@@ -143,6 +145,8 @@ export const examples: Record<string, ComponentType> = {
   "chart-waterfall": ChartWaterfall,
   "chat-composer-demo": ChatComposerDemo,
   "chat-composer-minimal": ChatComposerMinimal,
+  "companion-composer": CompanionComposer,
+  "companion-demo": CompanionDemo,
   "checkbox-box": CheckboxBox,
   "checkbox-demo": CheckboxDemo,
   "chip-demo": ChipDemo,

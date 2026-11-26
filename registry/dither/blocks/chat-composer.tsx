@@ -56,6 +56,10 @@ export interface ChatComposerProps extends Omit<React.ComponentProps<"form">, "o
   /** Shows a stop button instead of send. */
   busy?: boolean;
   onStop?: () => void;
+  /** Called on every keystroke (e.g. to put a Companion in "listening"). */
+  onValueChange?: (value: string) => void;
+  /** Sits on top of the composer, feet on its edge (e.g. `<Companion />`). */
+  companion?: React.ReactNode;
 }
 
 const pill =
@@ -86,6 +90,8 @@ function ChatComposer({
   onSubmit,
   busy = false,
   onStop,
+  onValueChange,
+  companion,
   className,
   ...props
 }: ChatComposerProps) {
@@ -99,9 +105,10 @@ function ChatComposer({
     if (!canSend) return;
     onSubmit?.(value.trim(), active);
     setValue("");
+    onValueChange?.("");
   };
 
-  return (
+  const form = (
     <form
       data-slot="chat-composer"
       className={cn("flex w-full flex-col rounded-surface bg-background-muted p-1", showFooter && "pb-0", className)}
@@ -117,7 +124,10 @@ function ChatComposer({
           rows={2}
           value={value}
           placeholder={placeholder}
-          onChange={(e) => setValue(e.target.value)}
+          onChange={(e) => {
+            setValue(e.target.value);
+            onValueChange?.(e.target.value);
+          }}
           onKeyDown={(e) => {
             if (e.key === "Enter" && !e.shiftKey && !e.nativeEvent.isComposing) {
               e.preventDefault();
@@ -228,6 +238,15 @@ function ChatComposer({
         </div>
       ) : null}
     </form>
+  );
+
+  if (!companion) return form;
+  return (
+    <div data-slot="chat-composer-stack" className="flex w-full flex-col">
+      {/* The companion's feet (and its soft floor shadow) overlap the composer's top edge. */}
+      <div className="pointer-events-none relative z-10 -mb-1.5 flex px-4">{companion}</div>
+      {form}
+    </div>
   );
 }
 

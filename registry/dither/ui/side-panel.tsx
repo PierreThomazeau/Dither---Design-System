@@ -19,6 +19,10 @@ type SidePanelContextValue = {
   open: boolean;
   setOpen: (open: boolean) => void;
   toggle: () => void;
+  /** Which content the panel shows (one panel, several views: e.g. "details" and "assistant"). */
+  view: string;
+  /** Opens the panel on `view`, or closes it if that view is already open. */
+  toggleView: (view: string) => void;
   panelId: string;
 };
 
@@ -32,16 +36,19 @@ function useSidePanel() {
 
 function SidePanelProvider({
   defaultOpen = false,
+  defaultView = "default",
   open: openProp,
   onOpenChange,
   children,
 }: {
   defaultOpen?: boolean;
+  defaultView?: string;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
   children: React.ReactNode;
 }) {
   const [uncontrolled, setUncontrolled] = React.useState(defaultOpen);
+  const [view, setView] = React.useState(defaultView);
   const open = openProp ?? uncontrolled;
   const panelId = `side-panel-${React.useId().replace(/[^a-zA-Z0-9-]/g, "")}`;
   const setOpen = React.useCallback(
@@ -51,7 +58,21 @@ function SidePanelProvider({
     },
     [openProp, onOpenChange],
   );
-  const value = React.useMemo(() => ({ open, setOpen, toggle: () => setOpen(!open), panelId }), [open, setOpen, panelId]);
+  const value = React.useMemo(
+    () => ({
+      open,
+      setOpen,
+      toggle: () => setOpen(!open),
+      view,
+      toggleView: (next: string) => {
+        if (open && view === next) return setOpen(false);
+        setView(next);
+        if (!open) setOpen(true);
+      },
+      panelId,
+    }),
+    [open, setOpen, view, panelId],
+  );
   return <SidePanelContext.Provider value={value}>{children}</SidePanelContext.Provider>;
 }
 
@@ -135,18 +156,20 @@ function SidePanelFooter({ className, ...props }: React.ComponentProps<"div">) {
   return <div data-slot="side-panel-footer" className={cn("flex items-center justify-end gap-2 border-t p-4", className)} {...props} />;
 }
 
-/** Toggles the panel. `asChild` to use your own Button. */
-function SidePanelTrigger({ asChild = false, onClick, ...props }: React.ComponentProps<"button"> & { asChild?: boolean }) {
-  const { open, toggle, panelId } = useSidePanel();
+/** Toggles the panel. `view` opens it on that view (or closes it if it is the one showing). `asChild` to use your own Button. */
+function SidePanelTrigger({ asChild = false, view, onClick, ...props }: React.ComponentProps<"button"> & { asChild?: boolean; view?: string }) {
+  const { open, toggle, toggleView, view: current, panelId } = useSidePanel();
   const Comp = asChild ? Slot.Root : "button";
   return (
     <Comp
       data-slot="side-panel-trigger"
-      aria-expanded={open}
+      aria-expanded={view ? open && current === view : open}
       aria-controls={panelId}
       onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
         onClick?.(e);
-        if (!e.defaultPrevented) toggle();
+        if (e.defaultPrevented) return;
+        if (view) toggleView(view);
+        else toggle();
       }}
       {...(asChild ? {} : { type: "button" as const })}
       {...props}

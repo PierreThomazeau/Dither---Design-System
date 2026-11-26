@@ -165,7 +165,7 @@ export default function TeamOverview() {
                 <h2 className="text-base font-semibold tracking-tight">Sprint 24 progress</h2>
                 <p className="text-sm text-muted-foreground">Ends Friday · 4 days left</p>
               </div>
-              <SidePanelTrigger asChild>
+              <SidePanelTrigger asChild view="default">
                 <Button variant="outline" size="sm">
                   Details
                 </Button>

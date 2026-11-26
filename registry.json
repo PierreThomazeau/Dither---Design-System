@@ -907,7 +907,7 @@
       "name": "ai-glow",
       "type": "registry:lib",
       "title": "AI glow",
-      "description": "Indigo \u2192 pink dithered wash for AI surfaces.",
+      "description": "Indigo → pink dithered wash for AI surfaces.",
       "registryDependencies": [
         "utils",
         "@dither/theme",
@@ -941,6 +941,28 @@
       "dependencies": [
         "@hugeicons/react",
         "@hugeicons/core-free-icons"
+      ]
+    },
+    {
+      "name": "companion",
+      "type": "registry:block",
+      "title": "Companion",
+      "description": "3D AI companion: chrome body, dithered LED face, moods and status colours.",
+      "registryDependencies": [
+        "utils"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/blocks/companion.tsx",
+          "type": "registry:component",
+          "target": "components/blocks/companion.tsx"
+        }
+      ],
+      "dependencies": [
+        "three"
+      ],
+      "devDependencies": [
+        "@types/three"
       ]
     },
     {

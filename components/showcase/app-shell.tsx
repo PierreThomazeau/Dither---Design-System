@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { useTheme } from "next-themes";
-import { ArrowLeft01Icon, Moon02Icon, Notification02Icon, SidebarLeft01Icon, SidebarRight01Icon, Sun03Icon, UnfoldMoreIcon } from "@hugeicons/core-free-icons";
+import { ArrowLeft01Icon, Moon02Icon, Notification02Icon, SidebarLeft01Icon, SidebarRight01Icon, SparklesIcon, Sun03Icon, UnfoldMoreIcon } from "@hugeicons/core-free-icons";
 import type { IconSvgElement } from "@hugeicons/react";
 
 import { LogoMark } from "@/components/site/logo";
@@ -11,7 +11,9 @@ import { Icon } from "@/registry/dither/lib/icon";
 import { cn } from "@/registry/dither/lib/utils";
 import { Avatar, AvatarFallback } from "@/registry/dither/ui/avatar";
 import { Button } from "@/registry/dither/ui/button";
-import { SidePanel, SidePanelInset, SidePanelLayout, SidePanelProvider, SidePanelTrigger } from "@/registry/dither/ui/side-panel";
+import { SidePanel, SidePanelInset, SidePanelLayout, SidePanelProvider, SidePanelTrigger, useSidePanel } from "@/registry/dither/ui/side-panel";
+
+import { AssistantPanel } from "./assistant-panel";
 
 export interface NavItem {
   label: string;
@@ -76,6 +78,27 @@ function ThemeToggle() {
 }
 
 /**
+ * One Side Panel, two views: the screen's own panel ("default") and the AI assistant. The assistant is
+ * mounted on first open and kept, so the conversation survives closing the panel.
+ */
+function ShellPanel({ panel, panelLabel }: { panel?: React.ReactNode; panelLabel: string }) {
+  const { open, view } = useSidePanel();
+  const assistant = view === "assistant" || !panel;
+  const [assistantMounted, setAssistantMounted] = React.useState(false);
+  if (open && assistant && !assistantMounted) setAssistantMounted(true);
+  return (
+    <SidePanel label={assistant ? "AI assistant" : panelLabel} width={assistant ? 400 : 380}>
+      {assistantMounted ? (
+        <div className={cn("flex min-h-0 flex-1 flex-col", !assistant && "hidden")}>
+          <AssistantPanel />
+        </div>
+      ) : null}
+      {panel && !assistant ? panel : null}
+    </SidePanel>
+  );
+}
+
+/**
  * Showcase app shell: sidebar and body on the same background (white cards sit on it), a top bar of
  * floating pills (round sidebar toggle, breadcrumb chip, actions). The top bar stays put and only the
  * content below scrolls; PageHeader sticks to the top of that scroll area.
@@ -125,7 +148,7 @@ export function AppShell({ workspace, actions = [], sections, user, breadcrumb, 
           </Button>
         </div>
       </aside>
-      <SidePanelProvider defaultOpen={panelDefaultOpen}>
+      <SidePanelProvider defaultOpen={panelDefaultOpen} defaultView={panel ? "default" : "assistant"}>
       <SidePanelLayout>
         <SidePanelInset>
           <header className="flex h-16 shrink-0 items-center gap-2 px-4 md:px-6">
@@ -149,7 +172,7 @@ export function AppShell({ workspace, actions = [], sections, user, breadcrumb, 
               {topbarRight}
               <ThemeToggle />
               {panel ? (
-                <SidePanelTrigger asChild>
+                <SidePanelTrigger asChild view="default">
                   <Button variant="outline" size="icon-sm" aria-label={`Toggle ${panelLabel.toLowerCase()} panel`}>
                     <Icon icon={SidebarRight01Icon} />
                   </Button>
@@ -158,11 +181,17 @@ export function AppShell({ workspace, actions = [], sections, user, breadcrumb, 
               <Button asChild variant="outline" size="sm" className="hidden sm:inline-flex">
                 <Link href="/showcase">All screens</Link>
               </Button>
+              <SidePanelTrigger asChild view="assistant">
+                <Button variant="outline" size="sm" aria-label="AI assistant" className="aria-expanded:bg-hover">
+                  <Icon icon={SparklesIcon} />
+                  <span className="hidden sm:inline">AI assistant</span>
+                </Button>
+              </SidePanelTrigger>
             </div>
           </header>
           <main className="@container flex min-h-0 min-w-0 flex-1 flex-col overflow-y-auto overscroll-contain">{children}</main>
         </SidePanelInset>
-        {panel ? <SidePanel label={panelLabel}>{panel}</SidePanel> : null}
+        <ShellPanel panel={panel} panelLabel={panelLabel} />
       </SidePanelLayout>
       </SidePanelProvider>
     </div>
