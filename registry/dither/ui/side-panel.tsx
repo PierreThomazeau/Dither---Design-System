@@ -103,7 +103,10 @@ function SidePanel({
   React.useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(false);
+      if (e.key !== "Escape" || e.defaultPrevented) return;
+      // A popover, menu or select open on top handles this Escape: close that, not the panel.
+      if (document.querySelector("[data-radix-popper-content-wrapper]")) return;
+      setOpen(false);
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);

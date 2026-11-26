@@ -4,6 +4,8 @@ import * as React from "react";
 import type * as Three from "three";
 
 import { cn } from "@/registry/dither/lib/utils";
+import { Button } from "@/registry/dither/ui/button";
+import { Popover, PopoverAnchor, PopoverContent } from "@/registry/dither/ui/popover";
 
 /* ------------------------------------------------------------------ *
  * Companion: the 3D AI buddy of the chat.
@@ -46,6 +48,12 @@ export type CompanionPhase = CompanionStatus | "slow" | "stalled";
 
 export type CompanionEvent = "bounce" | "spin" | "bravo" | "blink" | "yawn";
 
+/** Body material. Default: soft plastic. */
+export type CompanionMaterial = "plastic" | "ceramic" | "frosted" | "clear" | "gel" | "chrome" | "brushed" | "gold" | "iridescent";
+
+/** Body colour: the neutral background tint, or one of the chart colours. */
+export type CompanionColor = "neutral" | "chart-1" | "chart-2" | "chart-3" | "chart-4" | "chart-5";
+
 export interface CompanionHandle {
   play: (event: CompanionEvent) => void;
 }
@@ -64,8 +72,14 @@ export interface CompanionProps extends Omit<React.ComponentProps<"div">, "child
   /** Eyes follow the pointer anywhere on the page. */
   followPointer?: boolean;
   onPhaseChange?: (phase: CompanionPhase) => void;
-  /** Click (or Enter / Space) makes it spin. */
-  spinOnClick?: boolean;
+  /** Click (or Enter / Space): it spins and opens a picker for its colour and material. */
+  customizable?: boolean;
+  /** Body material (controlled). Default: the viewer's last choice, else "plastic". */
+  material?: CompanionMaterial;
+  onMaterialChange?: (material: CompanionMaterial) => void;
+  /** Body colour (controlled). Default: the viewer's last choice, else "neutral". */
+  color?: CompanionColor;
+  onColorChange?: (color: CompanionColor) => void;
   /** Imperative events: bounce, spin, bravo, blink, yawn. */
   controlRef?: React.Ref<CompanionHandle>;
 }
@@ -142,6 +156,72 @@ const PHASE_LABEL: Record<CompanionPhase, string> = {
   error: "something went wrong",
 };
 
+/* ---------- Materials (three.js MeshPhysicalMaterial settings) ---------- */
+type MaterialSpec = {
+  label: string;
+  params: Record<string, number | [number, number]>;
+  /** Glows from inside: a lit core shows through the glass. */
+  core?: boolean;
+  /** Glass tinted deep in the mass (gel). */
+  deep?: boolean;
+  /** Keeps its own colour (gold). */
+  fixed?: string;
+  brushed?: boolean;
+};
+
+const MATERIALS: Record<CompanionMaterial, MaterialSpec> = {
+  plastic: { label: "Soft plastic", params: { metalness: 0, roughness: 0.62, sheen: 0.35, sheenRoughness: 0.8, envMapIntensity: 0.3 } },
+  ceramic: { label: "Ceramic", params: { metalness: 0, roughness: 0.35, clearcoat: 1, clearcoatRoughness: 0.04, envMapIntensity: 0.55 } },
+  frosted: {
+    label: "Frosted glass",
+    params: { metalness: 0, roughness: 0.38, transmission: 1, thickness: 1.8, ior: 1.45, clearcoat: 0.4, clearcoatRoughness: 0.35, attenuationDistance: 2.2, envMapIntensity: 1 },
+    core: true,
+  },
+  clear: {
+    label: "Clear glass",
+    params: { metalness: 0, roughness: 0.02, transmission: 1, thickness: 1.2, ior: 1.5, clearcoat: 1, clearcoatRoughness: 0, attenuationDistance: 4, envMapIntensity: 1.2 },
+    core: true,
+  },
+  gel: {
+    label: "Gel",
+    params: { metalness: 0, roughness: 0.14, transmission: 1, thickness: 2.4, ior: 1.33, clearcoat: 1, clearcoatRoughness: 0.08, attenuationDistance: 0.45, envMapIntensity: 0.9 },
+    core: true,
+    deep: true,
+  },
+  chrome: { label: "Satin chrome", params: { metalness: 1, roughness: 0.34, clearcoat: 0.3, clearcoatRoughness: 0.45, envMapIntensity: 1.1 } },
+  brushed: { label: "Brushed metal", params: { metalness: 1, roughness: 0.3, envMapIntensity: 1.1 }, brushed: true },
+  gold: { label: "Gold", params: { metalness: 1, roughness: 0.1, clearcoat: 0.6, clearcoatRoughness: 0.05, envMapIntensity: 1.2 }, fixed: "#F0C063" },
+  iridescent: {
+    label: "Iridescent",
+    params: { metalness: 1, roughness: 0.06, clearcoat: 0.5, clearcoatRoughness: 0.03, iridescence: 1, iridescenceIOR: 1.8, iridescenceThicknessRange: [0, 420], envMapIntensity: 1.2 },
+  },
+};
+
+const COLORS: { id: CompanionColor; label: string }[] = [
+  { id: "neutral", label: "Neutral" },
+  { id: "chart-1", label: "Sky" },
+  { id: "chart-2", label: "Indigo" },
+  { id: "chart-3", label: "Violet" },
+  { id: "chart-4", label: "Orange" },
+  { id: "chart-5", label: "Teal" },
+];
+
+const STORAGE_KEY = "dither-companion-appearance";
+
+function readStoredAppearance(): { material: CompanionMaterial; color: CompanionColor } {
+  const fallback = { material: "plastic" as CompanionMaterial, color: "neutral" as CompanionColor };
+  if (typeof window === "undefined") return fallback;
+  try {
+    const v = JSON.parse(window.localStorage.getItem(STORAGE_KEY) ?? "null") as { material?: string; color?: string } | null;
+    return {
+      material: v?.material && v.material in MATERIALS ? (v.material as CompanionMaterial) : fallback.material,
+      color: COLORS.some((c) => c.id === v?.color) ? (v!.color as CompanionColor) : fallback.color,
+    };
+  } catch {
+    return fallback;
+  }
+}
+
 const BAYER = [0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5];
 const DONE_HOLD = 2.4;
 const SWEEP = 1.4;
@@ -153,6 +233,8 @@ type Live = {
   slowAfter: number;
   followPointer: boolean;
   onPhaseChange?: (phase: CompanionPhase) => void;
+  material: CompanionMaterial;
+  color: CompanionColor;
 };
 
 /* ------------------------------------------------------------------ */
@@ -266,29 +348,89 @@ function mountCompanion(THREE: typeof Three, host: HTMLDivElement, live: { curre
     }
   }
   bodyGeo.translate(0, 1, 0);
-  const bodyMat = keep(
-    new THREE.MeshPhysicalMaterial({ color: 0xf5f5f5, metalness: 1, roughness: 0.34, clearcoat: 0.3, clearcoatRoughness: 0.45, envMapIntensity: 1.1 }),
-  );
-  /* Multicolour sweep: a rainbow band that travels up the body once when an answer is done. */
+  /* Multicolour sweep: a rainbow band that travels up the body once when an answer is done. Added to every material. */
   const sweepU = { uSweep: { value: -10 }, uSweepAmt: { value: 0 }, uTime: { value: 0 } };
-  bodyMat.onBeforeCompile = (shader) => {
-    Object.assign(shader.uniforms, sweepU);
-    shader.vertexShader = shader.vertexShader
-      .replace("#include <common>", "#include <common>\nvarying vec3 vBodyPos;")
-      .replace("#include <begin_vertex>", "#include <begin_vertex>\nvBodyPos = position;");
-    shader.fragmentShader = shader.fragmentShader
-      .replace("#include <common>", "#include <common>\nvarying vec3 vBodyPos;\nuniform float uSweep;\nuniform float uSweepAmt;\nuniform float uTime;")
-      .replace(
-        "#include <color_fragment>",
-        `#include <color_fragment>
+  const addSweep = (mat: Three.MeshPhysicalMaterial) => {
+    mat.onBeforeCompile = (shader) => {
+      Object.assign(shader.uniforms, sweepU);
+      shader.vertexShader = shader.vertexShader
+        .replace("#include <common>", "#include <common>\nvarying vec3 vBodyPos;")
+        .replace("#include <begin_vertex>", "#include <begin_vertex>\nvBodyPos = position;");
+      shader.fragmentShader = shader.fragmentShader
+        .replace("#include <common>", "#include <common>\nvarying vec3 vBodyPos;\nuniform float uSweep;\nuniform float uSweepAmt;\nuniform float uTime;")
+        .replace(
+          "#include <color_fragment>",
+          `#include <color_fragment>
         float band = smoothstep(0.85, 0.0, abs(vBodyPos.y - uSweep)) * uSweepAmt;
         float hue = fract(vBodyPos.y * 0.45 + vBodyPos.x * 0.25 - uTime * 0.6);
         vec3 rainbow = clamp(abs(mod(hue * 6.0 + vec3(0.0, 4.0, 2.0), 6.0) - 3.0) - 1.0, 0.0, 1.0);
         diffuseColor.rgb = mix(diffuseColor.rgb, 0.25 + rainbow * 0.7, band * 0.9);`,
-      );
+        );
+    };
   };
+
+  /* Fine horizontal strokes of brushed metal (bump + roughness), made once. */
+  let brushTex: Three.CanvasTexture | null = null;
+  const brushTexture = () => {
+    if (brushTex) return brushTex;
+    const c = document.createElement("canvas");
+    c.width = 1024;
+    c.height = 512;
+    const g = c.getContext("2d")!;
+    g.fillStyle = "#8a8a8a";
+    g.fillRect(0, 0, 1024, 512);
+    for (let y = 0; y < 512; y++) {
+      const v = 100 + Math.random() * 90;
+      g.fillStyle = `rgb(${v},${v},${v})`;
+      g.fillRect(0, y, 1024, 1);
+    }
+    for (let k = 0; k < 900; k++) {
+      const v = 70 + Math.random() * 150;
+      g.fillStyle = `rgba(${v},${v},${v},.5)`;
+      g.fillRect(Math.random() * 1024, Math.random() * 512, 80 + Math.random() * 500, 1);
+    }
+    brushTex = keep(new THREE.CanvasTexture(c));
+    brushTex.wrapS = brushTex.wrapT = THREE.RepeatWrapping;
+    return brushTex;
+  };
+
+  const makeMaterial = (id: CompanionMaterial) => {
+    const spec = MATERIALS[id];
+    const mat = new THREE.MeshPhysicalMaterial(spec.params as Three.MeshPhysicalMaterialParameters);
+    if (spec.brushed) {
+      const t = brushTexture();
+      mat.bumpMap = t;
+      mat.bumpScale = 0.004;
+      mat.roughnessMap = t;
+    }
+    if (mat.sheen) mat.sheenColor.set(0xffffff);
+    addSweep(mat);
+    return mat;
+  };
+
+  let materialId: CompanionMaterial = live.current.material;
+  let bodyMat = makeMaterial(materialId);
   const body = new THREE.Mesh(bodyGeo, bodyMat);
   body.castShadow = true;
+
+  /* Glass: a lit core inside the body (seen through the sides), and a backdrop in the page's colour that only
+     the transmission pass sees (the canvas is transparent, so glass would otherwise refract black). */
+  const coreMat = keep(new THREE.MeshBasicMaterial({ color: 0xffffff }));
+  const core = new THREE.Mesh(keep(new THREE.SphereGeometry(0.62, 48, 32)), coreMat);
+  core.position.y = 1;
+  const backdropMat = keep(new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.BackSide, depthWrite: false }));
+  const backdrop = new THREE.Mesh(keep(new THREE.SphereGeometry(40, 16, 12)), backdropMat);
+  backdrop.renderOrder = -1;
+  backdrop.onBeforeRender = (r) => {
+    backdropMat.colorWrite = r.getRenderTarget() !== null;
+  };
+  const applyGlass = () => {
+    const glass = !!MATERIALS[materialId].core;
+    core.visible = glass;
+    backdrop.visible = glass;
+  };
+  scene.add(backdrop);
+  applyGlass();
 
   /* Screen: face drawn crisp (ZH), shrunk to N×N with a halo, dithered (Bayer 4×4), scaled up as LEDs (P px per dot). */
   const ZH = 320, N = 80, P = 6;
@@ -318,7 +460,7 @@ function mountCompanion(THREE: typeof Three, host: HTMLDivElement, live: { curre
   screen.position.set(0, 1, 1.004);
 
   const spin = new THREE.Group();
-  spin.add(body, screen);
+  spin.add(body, core, screen);
   const root = new THREE.Group();
   root.add(spin);
   scene.add(root);
@@ -340,7 +482,21 @@ function mountCompanion(THREE: typeof Three, host: HTMLDivElement, live: { curre
   const white = new THREE.Color(1, 1, 1);
   const hsl = { h: 0, s: 0, l: 0 };
   const readPalette = () => {
-    for (const t of [BODY_TOKEN, "--positive", "--brand", "--destructive"]) readToken(t);
+    for (const t of [BODY_TOKEN, "--positive", "--brand", "--destructive", "--chart-1", "--chart-2", "--chart-3", "--chart-4", "--chart-5"]) readToken(t);
+    // The colour actually behind the companion (first opaque ancestor), for the glass backdrop.
+    let el: HTMLElement | null = host.parentElement;
+    let bg = "";
+    while (el) {
+      const c = getComputedStyle(el).backgroundColor;
+      if (c && c !== "transparent" && !/rgba\([^)]*,\s*0\)$/.test(c)) {
+        bg = c;
+        break;
+      }
+      el = el.parentElement;
+    }
+    norm.fillStyle = "#fff";
+    if (bg) norm.fillStyle = bg;
+    backdropMat.color.set(norm.fillStyle as string);
     // On a dark background the tint is near black and would melt into the screen: lift it a little.
     const body = palette.get(BODY_TOKEN)!;
     body.getHSL(hsl);
@@ -686,11 +842,28 @@ function mountCompanion(THREE: typeof Three, host: HTMLDivElement, live: { curre
       readPalette();
       nextPalette = 0.5;
     }
+    // Material swap (picker): new material, a little hop.
+    if (L.material !== materialId) {
+      materialId = L.material;
+      bodyMat.dispose();
+      bodyMat = makeMaterial(materialId);
+      body.material = bodyMat;
+      applyGlass();
+      if (!reduced) events.push({ name: "bounce", t0: clock, amp: 0.35 });
+    }
+    const spec = MATERIALS[materialId];
     const [token, mix] = TINT[phase];
-    tintTarget.copy(palette.get(BODY_TOKEN)!);
-    if (token) tintTarget.lerp(palette.get(token)!, mix);
+    if (spec.fixed) tintTarget.set(spec.fixed);
+    else tintTarget.copy(palette.get(L.color === "neutral" ? BODY_TOKEN : `--${L.color}`)!);
+    if (token) tintTarget.lerp(palette.get(token)!, mix * (spec.fixed ? 0.6 : 1));
     tint.lerp(tintTarget, 1 - Math.exp(-dt * 3));
     bodyMat.color.copy(tint);
+    if (bodyMat.transmission) {
+      // Glass: tinted in the mass, lighter surface; the core glows in the same colour.
+      bodyMat.attenuationColor.copy(tint);
+      bodyMat.color.lerp(white, spec.deep ? 0.2 : 0.55);
+      coreMat.color.copy(tint).lerp(white, 0.35);
+    }
     const su = (clock - sweepT0) / SWEEP;
     if (su >= 0 && su <= 1.15) {
       sweepU.uSweep.value = -0.9 + su * 3.8;
@@ -754,6 +927,7 @@ function mountCompanion(THREE: typeof Three, host: HTMLDivElement, live: { curre
       io.disconnect();
       document.removeEventListener("visibilitychange", onVisibility);
       window.removeEventListener("pointermove", onPointer);
+      bodyMat.dispose();
       for (const d of disposables) d.dispose();
       scene.environment = null;
       renderer.dispose();
@@ -773,7 +947,11 @@ function Companion({
   size = 96,
   followPointer = true,
   onPhaseChange,
-  spinOnClick = true,
+  customizable = true,
+  material: materialProp,
+  onMaterialChange,
+  color: colorProp,
+  onColorChange,
   controlRef,
   className,
   style,
@@ -782,12 +960,28 @@ function Companion({
   ...props
 }: CompanionProps) {
   const hostRef = React.useRef<HTMLDivElement>(null);
-  const live = React.useRef<Live>({ status, mood, talking, slowAfter, followPointer, onPhaseChange });
   const api = React.useRef<{ play: (e: CompanionEvent) => void } | null>(null);
+  const [stored, setStored] = React.useState(readStoredAppearance);
+  const [open, setOpen] = React.useState(false);
+  const material = materialProp ?? stored.material;
+  const color = colorProp ?? stored.color;
+  const live = React.useRef<Live>({ status, mood, talking, slowAfter, followPointer, onPhaseChange, material, color });
 
   React.useEffect(() => {
-    live.current = { status, mood, talking, slowAfter, followPointer, onPhaseChange };
+    live.current = { status, mood, talking, slowAfter, followPointer, onPhaseChange, material, color };
   });
+
+  const choose = (next: { material?: CompanionMaterial; color?: CompanionColor }) => {
+    const value = { material: next.material ?? material, color: next.color ?? color };
+    setStored(value);
+    try {
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(value));
+    } catch {
+      /* storage unavailable: the choice lasts for this page only */
+    }
+    if (next.material) onMaterialChange?.(next.material);
+    if (next.color) onColorChange?.(next.color);
+  };
 
   React.useImperativeHandle(controlRef, () => ({ play: (e) => api.current?.play(e) }), []);
 
@@ -808,32 +1002,84 @@ function Companion({
     };
   }, []);
 
-  return (
+  const activate = () => {
+    api.current?.play("spin");
+    setOpen((o) => !o);
+  };
+
+  const node = (
     <div
       ref={hostRef}
-      role={spinOnClick ? "button" : "img"}
-      tabIndex={spinOnClick ? 0 : undefined}
+      role={customizable ? "button" : "img"}
+      tabIndex={customizable ? 0 : undefined}
       aria-label="AI companion"
+      aria-haspopup={customizable ? "dialog" : undefined}
+      aria-expanded={customizable ? open : undefined}
       data-slot="companion"
       onClick={(e) => {
         onClick?.(e);
-        if (spinOnClick && !e.defaultPrevented) api.current?.play("spin");
+        if (customizable && !e.defaultPrevented) activate();
       }}
       onKeyDown={(e) => {
         onKeyDown?.(e);
-        if (spinOnClick && !e.defaultPrevented && (e.key === "Enter" || e.key === " ")) {
+        if (customizable && !e.defaultPrevented && (e.key === "Enter" || e.key === " ")) {
           e.preventDefault();
-          api.current?.play("spin");
+          activate();
         }
       }}
       className={cn(
         "relative shrink-0 select-none",
-        spinOnClick && "pointer-events-auto cursor-pointer rounded-surface outline-none focus-visible:shadow-focus",
+        customizable && "pointer-events-auto cursor-pointer rounded-surface outline-none focus-visible:shadow-focus",
         className,
       )}
       style={{ width: size, height: size, ...style }}
       {...props}
     />
+  );
+
+  if (!customizable) return node;
+  return (
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverAnchor asChild>{node}</PopoverAnchor>
+      <PopoverContent side="bottom" align="start" className="flex w-64 flex-col gap-4" aria-label="Companion appearance">
+        <div className="flex flex-col gap-2">
+          <span className="text-xs text-muted-foreground">Colour</span>
+          <div className="flex flex-wrap gap-2" role="radiogroup" aria-label="Colour">
+            {COLORS.map((c) => (
+              <button
+                key={c.id}
+                type="button"
+                role="radio"
+                aria-checked={color === c.id}
+                aria-label={c.label}
+                title={c.label}
+                onClick={() => choose({ color: c.id })}
+                className="size-7 rounded-full border outline-none ring-offset-2 ring-offset-surface transition-[box-shadow] focus-visible:shadow-focus aria-checked:ring-2 aria-checked:ring-foreground"
+                style={{ background: c.id === "neutral" ? "var(--background-muted)" : `var(--${c.id})` }}
+              />
+            ))}
+          </div>
+        </div>
+        <div className="flex flex-col gap-2">
+          <span className="text-xs text-muted-foreground">Material</span>
+          <div className="flex flex-wrap gap-1.5" role="radiogroup" aria-label="Material">
+            {(Object.keys(MATERIALS) as CompanionMaterial[]).map((m) => (
+              <Button
+                key={m}
+                type="button"
+                role="radio"
+                aria-checked={material === m}
+                size="xs"
+                variant={material === m ? "default" : "outline"}
+                onClick={() => choose({ material: m })}
+              >
+                {MATERIALS[m].label}
+              </Button>
+            ))}
+          </div>
+        </div>
+      </PopoverContent>
+    </Popover>
   );
 }
 
@@ -912,7 +1158,11 @@ function CompanionAnchor({ size = 72, className, style, ...props }: React.Compon
   return <div ref={ref} aria-hidden data-slot="companion-anchor" className={cn("shrink-0", className)} style={{ width: size, height: size, ...style }} {...props} />;
 }
 
+/** Every material and colour, in picker order. */
+const companionMaterials = Object.keys(MATERIALS) as CompanionMaterial[];
+const companionColors = COLORS.map((c) => c.id);
+
 /** Every expression, in display order. */
 const companionMoods = Object.keys(MOODS) as CompanionMood[];
 
-export { Companion, CompanionAnchor, CompanionLayer, companionMoods };
+export { Companion, CompanionAnchor, CompanionLayer, companionColors, companionMaterials, companionMoods };

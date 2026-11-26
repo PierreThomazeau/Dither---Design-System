@@ -1,9 +1,9 @@
 ---
 title: Companion
-description: "The 3D AI buddy of the chat: a satin chrome squircle tinted with the page's background, with a dithered LED face that thinks, talks and reacts."
+description: "The 3D AI buddy of the chat: a soft plastic squircle in a neutral tint, with a dithered LED face that thinks, talks and reacts. Click it to change its colour and material."
 status: beta
 variants: 11
-props: 12
+props: 15
 registry: companion
 ---
 
@@ -42,16 +42,20 @@ import { CompanionAnchor, CompanionLayer } from "@/components/blocks/companion";
 
 | Status | Face | Body |
 | --- | --- | --- |
-| `idle` | Happy, faces you, eyes follow the pointer | Satin chrome tinted `background-muted` |
+| `idle` | Happy, faces you, eyes follow the pointer | Its colour (neutral by default) |
 | `listening` | Looks down at what you type | Tinted `positive` |
 | `thinking` | Looks up, thought dots | Tinted `brand` |
 | `thinking` after `slowAfter` s | Bored: heavy lids, sighs | Tinted `destructive` |
 | `thinking` after 2.2 × `slowAfter` | Lazy: slumped, yawns | More `destructive` |
-| `responding` | Talks | Satin chrome |
-| `done` | Proud, bounces, "Done" on the screen | One multicolour band sweeps up, then satin chrome |
+| `responding` | Talks | Its colour |
+| `done` | Proud, bounces, "Done" on the screen | One multicolour band sweeps up, then its colour |
 | `error` | Sad | Tinted `destructive` |
 
-Tints are token colours mixed into the background colour, read live from CSS, so light and dark follow.
+Tints are token colours mixed into its colour, read live from CSS, so light and dark follow.
+
+## Colour and material
+
+By default the body is **soft plastic** in a **neutral** tint (`background-muted`, lifted a little on dark backgrounds). Click it to pick a colour (neutral or one of the five chart colours) and a material: soft plastic, ceramic, frosted glass, clear glass, gel, satin chrome, brushed metal, gold (keeps its own colour) or iridescent. Glass materials glow from a lit core inside and refract the page colour behind them. Changing material makes it hop.
 
 `mood` forces an expression: `happy`, `proud`, `excited`, `impatient`, `sleepy`, `resting`, `bored`, `disdainful`, `lazy`, `thinking`, `sad`. Every expression is a set of numbers that glide to the target, so changes are always smooth.
 
@@ -59,7 +63,7 @@ The face is drawn crisp, shrunk to 80 × 80 dots and dithered in 1 bit (Bayer 4 
 
 ## Props
 
-<TypeTable type={{"status": {"type": "\"idle\" | \"listening\" | \"thinking\" | \"responding\" | \"done\" | \"error\"", "default": "\"idle\""}, "mood": {"type": "CompanionMood", "description": "Forces an expression instead of the one derived from the status."}, "talking": {"type": "boolean", "description": "Forces the mouth to talk. Default: while responding."}, "slowAfter": {"type": "number", "default": "4", "description": "Seconds of thinking before it gets bored and turns red."}, "size": {"type": "number", "default": "96"}, "followPointer": {"type": "boolean", "default": "true"}, "spinOnClick": {"type": "boolean", "default": "true", "description": "Faces front; a click (or Enter / Space) makes it spin."}, "onPhaseChange": {"type": "(phase: CompanionPhase) => void", "description": "Status plus \"slow\" and \"stalled\": useful for a \"still thinking\" line."}, "controlRef": {"type": "Ref<{ play(event) }>", "description": "bounce, spin, bravo, blink, yawn."}, "className": {"type": "string"}}} />
+<TypeTable type={{"status": {"type": "\"idle\" | \"listening\" | \"thinking\" | \"responding\" | \"done\" | \"error\"", "default": "\"idle\""}, "mood": {"type": "CompanionMood", "description": "Forces an expression instead of the one derived from the status."}, "talking": {"type": "boolean", "description": "Forces the mouth to talk. Default: while responding."}, "slowAfter": {"type": "number", "default": "4", "description": "Seconds of thinking before it gets bored and turns red."}, "size": {"type": "number", "default": "96"}, "followPointer": {"type": "boolean", "default": "true"}, "customizable": {"type": "boolean", "default": "true", "description": "Click (or Enter / Space): it spins and opens a picker for colour and material. The viewer's choice is remembered in their browser."}, "material": {"type": "\"plastic\" | \"ceramic\" | \"frosted\" | \"clear\" | \"gel\" | \"chrome\" | \"brushed\" | \"gold\" | \"iridescent\"", "description": "Controlled material. Default: the viewer's last choice, else plastic."}, "color": {"type": "\"neutral\" | \"chart-1\" … \"chart-5\"", "description": "Controlled colour. Neutral = background-muted; the others are the chart colours."}, "onMaterialChange / onColorChange": {"type": "(value) => void"}, "onPhaseChange": {"type": "(phase: CompanionPhase) => void", "description": "Status plus \"slow\" and \"stalled\": useful for a \"still thinking\" line."}, "controlRef": {"type": "Ref<{ play(event) }>", "description": "bounce, spin, bravo, blink, yawn."}, "className": {"type": "string"}}} />
 
 ### CompanionLayer / CompanionAnchor
 

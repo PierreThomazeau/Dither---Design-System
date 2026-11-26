@@ -9,7 +9,7 @@ import { cn } from "@/registry/dither/lib/utils";
  * never a flat purple block.
  * Put it as the first child of a `relative isolate overflow-hidden` element.
  *
- * Pink: `chart-3` in light mode, `chart-5` in dark mode (the palette's pink-most tones).
+ * Pink end: `chart-3` (violet) in both modes, the palette being the same hues in light and dark.
  */
 function AiGlow({
   className,
@@ -24,7 +24,7 @@ function AiGlow({
     <span
       aria-hidden="true"
       data-slot="ai-glow"
-      className={cn("pointer-events-none absolute inset-0 -z-10 [--ai-pink:var(--chart-3)] dark:[--ai-pink:var(--chart-5)]", className)}
+      className={cn("pointer-events-none absolute inset-0 -z-10 [--ai-pink:var(--chart-3)]", className)}
       style={{ maskImage: mask, WebkitMaskImage: mask }}
     >
       <span className="absolute inset-0 opacity-60 dark:opacity-75">

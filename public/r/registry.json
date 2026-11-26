@@ -947,9 +947,11 @@
       "name": "companion",
       "type": "registry:block",
       "title": "Companion",
-      "description": "3D AI companion: chrome body, dithered LED face, moods and status colours.",
+      "description": "3D AI companion: soft plastic body (or 8 other materials) in neutral or chart colours, dithered LED face, moods and status tints.",
       "registryDependencies": [
-        "utils"
+        "utils",
+        "@dither/button",
+        "@dither/popover"
       ],
       "files": [
         {
