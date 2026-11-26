@@ -1,5 +1,6 @@
 import * as React from "react";
 
+import { DitherFill } from "@/registry/dither/lib/dither";
 import { ChartTag, HtmlPlot, niceScale } from "@/registry/dither/charts/chart-kit";
 import { cn } from "@/registry/dither/lib/utils";
 
@@ -34,9 +35,11 @@ export function Histogram({ bins, start, step, core, median, format = (n) => `${
               <span
                 key={i}
                 title={`${format(start + i * step)}–${format(start + (i + 1) * step)}: ${count}`}
-                className={cn("flex-1 rounded-t-[3px]", inCore ? "bg-chart-1" : "bg-dither-organic")}
+                className={cn("relative flex-1 overflow-hidden rounded-t-[3px]", inCore && "bg-chart-1")}
                 style={{ height: `${(count / max) * 100}%` }}
-              />
+              >
+                {inCore ? null : <DitherFill variant="organic" />}
+              </span>
             );
           })}
         </div>

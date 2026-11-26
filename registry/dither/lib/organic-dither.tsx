@@ -38,6 +38,25 @@ export interface OrganicDitherProps extends React.ComponentProps<"canvas"> {
   tint?: { stops: string[]; direction?: "to-r" | "to-l" | "to-b" };
 }
 
+/* One animation loop for every dither on the page: each instance registers a step that returns
+   whether it still wants frames. Dozens of small canvases (chart tracks, legend swatches) then cost
+   one requestAnimationFrame, not one each. Exported for the animated SVG pattern. */
+type Step = (now: number) => boolean;
+const steps = new Set<Step>();
+let frame = 0;
+function tick(now: number) {
+  frame = 0;
+  for (const step of steps) if (!step(now)) steps.delete(step);
+  if (steps.size) frame = requestAnimationFrame(tick);
+}
+export function runDitherStep(step: Step) {
+  steps.add(step);
+  if (!frame) frame = requestAnimationFrame(tick);
+}
+export function stopDitherStep(step: Step) {
+  steps.delete(step);
+}
+
 function readVar(el: HTMLElement, name: string) {
   if (!name.startsWith("--")) return name;
   return getComputedStyle(el).getPropertyValue(name).trim() || "transparent";
@@ -91,7 +110,6 @@ export function OrganicDither({
     let w = 0;
     let h = 0;
     let fill = readColor(canvas, color);
-    let raf = 0;
     let last = 0;
     let visible = true;
     const start = performance.now();
@@ -201,20 +219,18 @@ export function OrganicDither({
       paintTint();
     };
 
-    const loop = (now: number) => {
-      raf = 0;
-      if (!visible) return;
+    const loop: Step = (now) => {
+      if (!visible) return false;
       for (const pt of trail) pt.life *= 0.965;
       while (trail.length && trail[0].life < 0.03) trail.shift();
       if (now - last > 33) {
         last = now;
         draw(((now - start) / 1000) * speed);
       }
-      const moving = speed > 0 || trail.length > 0;
-      if (moving) raf = requestAnimationFrame(loop);
+      return speed > 0 || trail.length > 0;
     };
     const wake = () => {
-      if (!raf && !reduce) raf = requestAnimationFrame(loop);
+      if (!reduce) runDitherStep(loop);
     };
 
     const resize = () => {
@@ -263,7 +279,7 @@ export function OrganicDither({
     }
     wake();
     return () => {
-      cancelAnimationFrame(raf);
+      stopDitherStep(loop);
       ro.disconnect();
       io.disconnect();
       mo.disconnect();

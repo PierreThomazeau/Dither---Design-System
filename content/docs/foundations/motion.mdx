@@ -53,7 +53,7 @@ import { DitherFill } from "@/lib/dither";
 </div>
 ```
 
-`static` renders the plain SVG tile instead (print, thumbnails). Small data marks drawn with CSS or SVG patterns (chart tracks, remaining capacity, legends) keep the static tile, with a few dots twinkling.
+`static` renders the plain SVG tile instead (print, thumbnails). Chart tracks, bars, heatmap cells, legends and skeletons use the same living dither (`DitherFill`, or the animated `DitherPattern` in SVG): one pattern, one motion everywhere, no twinkle.
 
 ## Tokens
 

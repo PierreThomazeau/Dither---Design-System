@@ -1,6 +1,7 @@
 import * as React from "react";
 import { ArrowRight01Icon, Tick02Icon } from "@hugeicons/core-free-icons";
 
+import { DitherFill } from "@/registry/dither/lib/dither";
 import { Icon } from "@/registry/dither/lib/icon";
 import { cn } from "@/registry/dither/lib/utils";
 
@@ -37,7 +38,7 @@ function OnboardingChecklist({ title, steps, actions, className, ...props }: Onb
           aria-valuenow={done}
           className="relative h-1.5 overflow-hidden rounded-full"
         >
-          <span aria-hidden="true" className="bg-dither-organic absolute inset-0" />
+          <DitherFill variant="organic" />
           <span className="absolute inset-y-0 left-0 rounded-full bg-positive transition-[width]" style={{ width: `${(done / steps.length) * 100}%` }} />
         </div>
       </div>

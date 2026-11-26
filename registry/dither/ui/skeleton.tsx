@@ -1,25 +1,22 @@
 import * as React from "react";
 
+import { DitherFill } from "@/registry/dither/lib/dither";
 import { cn } from "@/registry/dither/lib/utils";
 
 /**
- * Loading placeholder in organic dither: a muted block with the organic texture (a few dots
- * twinkle), and a darker band of the same texture sweeping across. Both stop with
- * prefers-reduced-motion.
+ * Loading placeholder: a muted block filled with the living dither (the same animated organic
+ * tile as everywhere else: drifting noise, pointer wake; still under reduced motion).
  */
 function Skeleton({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="skeleton"
       aria-hidden="true"
-      className={cn(
-        "relative isolate overflow-hidden rounded-control-min bg-background-muted/60",
-        "before:bg-dither-organic before:absolute before:inset-0 before:-z-10 before:content-['']",
-        "after:bg-dither-sweep after:absolute after:inset-0 after:-z-10 after:content-[''] after:[--dither-color:color-mix(in_oklab,var(--muted-foreground)_55%,transparent)] after:animate-dither-sweep motion-reduce:after:animate-none",
-        className,
-      )}
+      className={cn("relative isolate overflow-hidden rounded-control-min bg-background-muted/60", className)}
       {...props}
-    />
+    >
+      <DitherFill variant="organic" className="-z-10" />
+    </div>
   );
 }
 

@@ -1,5 +1,6 @@
 import * as React from "react";
 
+import { DitherFill } from "@/registry/dither/lib/dither";
 import { cn } from "@/registry/dither/lib/utils";
 
 const SEGMENT_COLORS = ["bg-foreground", "bg-chart-4", "bg-chart-1", "bg-chart-2", "bg-chart-3"] as const;
@@ -37,7 +38,7 @@ function ContextWindow({ max, segments, title = "Context window", className, ...
         aria-label="Tokens used"
         className="relative flex h-1.5 gap-0.5 overflow-hidden rounded-full"
       >
-        <span aria-hidden="true" className="bg-dither-organic absolute inset-0" />
+        <DitherFill variant="organic" />
         {segments.map((s, i) => (
           <span key={s.label} className={cn("relative h-full first:rounded-l-full", SEGMENT_COLORS[i % SEGMENT_COLORS.length])} style={{ width: `${(s.tokens / max) * 100}%` }} />
         ))}
@@ -51,7 +52,7 @@ function ContextWindow({ max, segments, title = "Context window", className, ...
           </li>
         ))}
         <li className="flex items-center gap-2">
-          <span className="bg-dither-fine size-2.5 rounded-[2px]" />
+          <span className="relative size-2.5 overflow-hidden rounded-[2px]"><DitherFill variant="fine" /></span>
           <span className="flex-1 text-muted-foreground">Free</span>
           <span className="font-mono font-medium tabular">{compact(max - used)}</span>
         </li>

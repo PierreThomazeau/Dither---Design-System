@@ -1,6 +1,7 @@
 import * as React from "react";
 import { ArrowDown01Icon } from "@hugeicons/core-free-icons";
 
+import { DitherFill } from "@/registry/dither/lib/dither";
 import { Icon } from "@/registry/dither/lib/icon";
 import { cn } from "@/registry/dither/lib/utils";
 
@@ -112,7 +113,7 @@ export function ChartLegend({ items, className }: { items: LegendItem[]; classNa
 }
 
 export function LegendSwatch({ kind, tone = chartTone.highlight }: { kind: LegendKind; tone?: string }) {
-  if (kind === "dither") return <span className="bg-dither-fine size-2.5 rounded-[2px] ring-1 ring-border ring-inset" />;
+  if (kind === "dither") return <span className="relative size-2.5 overflow-hidden rounded-[2px] ring-1 ring-border ring-inset"><DitherFill variant="fine" /></span>;
   if (kind === "line") return <span className={cn("h-0.5 w-3 rounded-full", tone)} />;
   if (kind === "dashed") return <span className="w-3 border-t-2 border-dashed border-foreground" />;
   return <span className={cn("size-2.5 rounded-[2px]", tone)} />;

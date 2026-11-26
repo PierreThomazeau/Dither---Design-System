@@ -1,5 +1,6 @@
 import * as React from "react";
 
+import { DitherFill } from "@/registry/dither/lib/dither";
 import { DitherPattern } from "@/registry/dither/lib/dither";
 import { cn } from "@/registry/dither/lib/utils";
 
@@ -69,7 +70,7 @@ export function DonutChart({ segments, value, caption, format = (n) => `${n}`, l
           {arcs.map((a) => (
             <li key={a.label} className="contents">
               {a.unallocated ? (
-                <span className="bg-dither-fine size-2.5 rounded-[2px] ring-1 ring-border ring-inset" />
+                <span className="relative size-2.5 overflow-hidden rounded-[2px] ring-1 ring-border ring-inset"><DitherFill variant="fine" /></span>
               ) : (
                 <span className="size-2.5 rounded-[2px]" style={{ background: a.color }} />
               )}

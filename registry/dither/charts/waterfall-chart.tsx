@@ -1,5 +1,6 @@
 import * as React from "react";
 
+import { DitherFill } from "@/registry/dither/lib/dither";
 import { DeltaChip, HtmlPlot, niceScale } from "@/registry/dither/charts/chart-kit";
 import { cn } from "@/registry/dither/lib/utils";
 
@@ -53,7 +54,7 @@ export function WaterfallChart({ steps, format = (n) => `${n}`, delta, height = 
             const sign = b.kind === "total" ? "" : b.value >= 0 ? "+" : "−";
             return (
               <div key={b.label} className="relative h-full flex-1" role="img" aria-label={`${b.label}: ${sign}${format(Math.abs(b.value))}`}>
-                {b.kind === "total" ? <span aria-hidden="true" className="bg-dither-organic absolute inset-x-0 top-[8%] bottom-0 rounded-[4px]" /> : null}
+                {b.kind === "total" ? <DitherFill variant="organic" className="inset-auto inset-x-0 top-[8%] bottom-0 rounded-[4px]" /> : null}
                 <span className={cn("absolute inset-x-[8%] rounded-[4px]", tone)} style={{ bottom: `${(lo / max) * 100}%`, height: `max(${((hi - lo) / max) * 100}%, 3px)` }} />
                 <span className="absolute left-1/2 -translate-x-1/2 -translate-y-[calc(100%+4px)] font-mono text-[11px] font-medium whitespace-nowrap tabular" style={{ bottom: `${(hi / max) * 100}%` }}>
                   {sign}

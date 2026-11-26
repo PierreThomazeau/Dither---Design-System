@@ -1,3 +1,4 @@
+import { DitherFill } from "@/registry/dither/lib/dither";
 import { Button } from "@/registry/dither/ui/button";
 import { Popover, PopoverContent, PopoverDescription, PopoverHeader, PopoverInset, PopoverTitle, PopoverTrigger } from "@/registry/dither/ui/popover";
 
@@ -18,7 +19,7 @@ export default function PopoverInsetDemo() {
             <span className="font-mono text-xs text-muted-foreground tabular">of 2.4M</span>
           </div>
           <div className="relative h-2 overflow-hidden rounded-full">
-            <span className="bg-dither-organic absolute inset-0" />
+            <DitherFill variant="organic" />
             <span className="absolute inset-y-0 left-0 w-[92%] rounded-full bg-chart-1" />
           </div>
         </PopoverInset>

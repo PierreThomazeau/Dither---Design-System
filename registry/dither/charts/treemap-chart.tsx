@@ -1,5 +1,6 @@
 import * as React from "react";
 
+import { DitherFill } from "@/registry/dither/lib/dither";
 import { cn } from "@/registry/dither/lib/utils";
 
 export interface TreemapItem {
@@ -96,7 +97,7 @@ export function TreemapChart({ items, format = (n) => `${n}`, height = 220, clas
                 item.unassigned ? "border border-dashed border-border-strong" : tone,
               )}
             >
-              {item.unassigned ? <span aria-hidden="true" className="bg-dither-organic absolute inset-0 -z-0" /> : null}
+              {item.unassigned ? <DitherFill variant="organic" /> : null}
               {/* Label chip on surface: readable on any tile colour, light or dark. */}
               <span className="relative flex max-w-full flex-col self-start rounded-hairline bg-surface/90 px-1.5 py-0.5 text-foreground">
                 <span className="truncate font-medium">{item.label}</span>

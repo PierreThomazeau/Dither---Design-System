@@ -22,8 +22,6 @@ export interface DitherDot {
   y: number;
   /** Per-dot side (organic tile); falls back to the tile's `dot`. */
   size?: number;
-  /** Organic tile: twinkle delay in seconds (the dot fades in and out). */
-  twinkle?: number;
 }
 
 export interface DitherTile {
@@ -83,7 +81,8 @@ export const band = (v: number, lo: number, hi: number) => smooth(clamp01((v - l
  * value noise, so the tile repeats without a visible seam.
  * ------------------------------------------------------------------ */
 
-function periodicNoise(x: number, y: number, period: number, seed: number) {
+/** Value noise that repeats every `period` cells: tiles seamlessly. */
+export function periodicNoise(x: number, y: number, period: number, seed: number) {
   const xi = Math.floor(x);
   const yi = Math.floor(y);
   const tx = smooth(x - xi);
@@ -112,8 +111,6 @@ interface OrganicTileDot {
   x: number;
   y: number;
   size: number;
-  /** Twinkle delay in seconds: about one dot in five fades in and out (micro animation). */
-  twinkle?: number;
 }
 
 export interface OrganicTile {
@@ -137,8 +134,7 @@ export function organicTile({ size = 96, cell = 4, dot = [1.25, 2], period = 3, 
       if (dens <= bayer(col, row)) continue;
       const s = Math.round((dot[0] + (dot[1] - dot[0]) * Math.min(1, dens * 1.8)) * 4) / 4;
       const o = (cell - s) / 2;
-      const h = hash(col, row, seed + 101);
-      dots.push({ x: col * cell + o, y: row * cell + o, size: s, ...(h < 0.2 ? { twinkle: Math.round(h * 5 * 36) / 10 } : {}) });
+      dots.push({ x: col * cell + o, y: row * cell + o, size: s });
     }
   }
   return { size, dots };
@@ -213,24 +209,9 @@ export function ditherTile(variant: DitherVariant = "regular", gradientHeight = 
   }
 }
 
-/** Twinkle cycle (s) shared by the SVG/CSS tile and <DitherPattern>. */
-export const TWINKLE_DURATION = 3.6;
-
-/**
- * Standalone SVG markup of one tile, dots filled with `fill` (default black, for CSS masks).
- * Organic twinkling dots carry a CSS animation inside the SVG (off under reduced motion).
- */
+/** Standalone SVG markup of one tile, dots filled with `fill` (default black, for CSS masks). */
 export function ditherTileSvg(variant: DitherVariant, fill = "#000") {
   const { width, height, dot, dots } = ditherTile(variant);
-  const rects = dots
-    .map((d) => {
-      const s = d.size ?? dot;
-      const tw = d.twinkle !== undefined ? ` class='t' style='animation-delay:-${d.twinkle}s'` : "";
-      return `<rect x='${d.x}' y='${d.y}' width='${s}' height='${s}'${tw}/>`;
-    })
-    .join("");
-  const style = dots.some((d) => d.twinkle !== undefined)
-    ? `<style>.t{animation:t ${TWINKLE_DURATION}s ease-in-out infinite}@keyframes t{50%{opacity:.12}}@media (prefers-reduced-motion:reduce){.t{animation:none}}</style>`
-    : "";
-  return `<svg xmlns='http://www.w3.org/2000/svg' width='${width}' height='${height}' fill='${fill}'>${style}${rects}</svg>`;
+  const rects = dots.map((d) => `<rect x='${d.x}' y='${d.y}' width='${d.size ?? dot}' height='${d.size ?? dot}'/>`).join("");
+  return `<svg xmlns='http://www.w3.org/2000/svg' width='${width}' height='${height}' fill='${fill}'>${rects}</svg>`;
 }

@@ -1,5 +1,6 @@
 import * as React from "react";
 
+import { DitherFill } from "@/registry/dither/lib/dither";
 import { cn } from "@/registry/dither/lib/utils";
 
 export interface BulletDatum {
@@ -31,7 +32,7 @@ export function BulletChart({ data, className, ...props }: BulletChartProps) {
               {d.caption ? <span className="truncate font-mono text-[11px] text-muted-foreground">{d.caption}</span> : null}
             </span>
             <span className="relative h-4" role="img" aria-label={`${d.label}: ${d.display}, ${onTrack ? "on track" : "behind target"}`}>
-              <span aria-hidden="true" className="bg-dither-organic absolute inset-y-0.5 right-0 left-0 rounded-[3px]" />
+              <DitherFill variant="organic" className="inset-auto inset-y-0.5 right-0 left-0 rounded-[3px]" />
               {d.range ? (
                 <span className="absolute inset-y-0 rounded-[3px] bg-background-muted" style={{ left: `${d.range[0]}%`, width: `${d.range[1] - d.range[0]}%` }} />
               ) : null}

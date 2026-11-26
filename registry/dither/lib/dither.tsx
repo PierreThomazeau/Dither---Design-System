@@ -94,7 +94,7 @@ export function DitherFill({ variant = "regular", gradientHeight, interactive: _
   }
   if (!isStatic) {
     return (
-      <span aria-hidden="true" data-slot="dither-fill" className={cn("pointer-events-none absolute inset-0 overflow-hidden", className)}>
+      <span aria-hidden="true" data-slot="dither-fill" className={cn("pointer-events-none absolute inset-0 overflow-hidden", className)} style={props.style}>
         <OrganicDither tile={variant} gradientHeight={gradientHeight} seed={seed} />
       </span>
     );

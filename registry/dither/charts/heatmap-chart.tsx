@@ -1,5 +1,6 @@
 import * as React from "react";
 
+import { DitherFill } from "@/registry/dither/lib/dither";
 import { cn } from "@/registry/dither/lib/utils";
 
 const LEVELS = ["", "bg-chart-1/25", "bg-chart-1/50", "bg-chart-1/75", "bg-chart-1"] as const;
@@ -41,8 +42,10 @@ export function HeatmapChart({ values, rowLabels, columnLabels = {}, thresholds 
               <span
                 key={c}
                 title={`${rowLabels[r]} · ${v}${unit ? ` ${unit}` : ""}`}
-                className={cn("aspect-square w-full max-w-6 justify-self-center rounded-[4px]", l === 0 ? "bg-dither-organic" : LEVELS[l])}
-              />
+                className={cn("relative aspect-square w-full max-w-6 justify-self-center overflow-hidden rounded-[4px]", l !== 0 && LEVELS[l])}
+              >
+                {l === 0 ? <DitherFill variant="organic" /> : null}
+              </span>
             );
           })}
         </React.Fragment>

@@ -56,14 +56,18 @@ in blur. Colour is reserved for surfaces that carry it (the AI glow); neutral su
 
 ## Tile variants
 
-As a `DitherFill`, every tile is animated like the shapes (drifting noise, pointer wake); pass `static` for the
-plain SVG. Data marks (remaining capacity, chart tracks, forecast bands) use the static **`organic`** tile: a seamless
-96px tile from periodic noise, with the same clumps as the canvas texture but still, and always a floor of sparse
-dots so a track never looks empty. `bg-dither-organic` in CSS, `<DitherPattern variant="organic" />` in SVG.
-The regular, fine and bayer tiles stay for tiny swatches (legends) and skeletons.
+**One pattern everywhere, always alive.** Every dither moves the same way, whatever its tile and wherever it sits:
+a slowly drifting noise thins and refills the dots, and the pointer leaves a wake. Surfaces use the organic shapes;
+data marks (remaining capacity, chart tracks and bars, forecast bands, heatmap cells, skeletons) use the **`organic`**
+tile (a seamless 96px tile from periodic noise, with a floor of sparse dots so a track never looks empty); 10px legend
+swatches use `fine`.
 
-The organic tile twinkles: about one dot in five fades in and out (off under reduced motion). `<DitherPattern>`
-scales itself back when its SVG is stretched (a 100-unit donut drawn at 180px), so dots are the same size in every chart.
+- In HTML: `<DitherFill variant="organic" />` inside a `relative overflow-hidden` element (a canvas; all instances share
+  one animation loop).
+- In SVG: `<DitherPattern variant="organic" />` in `<defs>`; the pattern animates its own dots, and scales itself back when
+  its SVG is stretched (a 100-unit donut drawn at 180px), so dots are the same size in every chart.
+
+No twinkle, no static tile in components. `DitherFill static` (plain SVG) is only for print and thumbnails.
 
 | Variant | Spec |
 |---|---|
@@ -128,8 +132,9 @@ Fills its positioned parent: the organic canvas when `shape` is set, otherwise t
 
 ### CSS utility
 
-`bg-dither`, `bg-dither-fine`, `bg-dither-bayer` and `bg-dither-gradient` apply the texture as a mask over
-`--dither-color`. A mask also clips children, so put the utility on its own layer:
+`bg-dither`, `bg-dither-fine`, `bg-dither-bayer`, `bg-dither-gradient` and `bg-dither-organic` apply the texture as a
+static mask over `--dither-color`. Components don't use them any more (they use the living `DitherFill`); keep them for
+emails, print or places where a canvas can't run. A mask also clips children, so put the utility on its own layer:
 
 ```tsx
 <div className="relative h-24 rounded-surface border">

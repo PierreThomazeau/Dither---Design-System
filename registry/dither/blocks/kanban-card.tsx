@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Attachment01Icon, Calendar03Icon, Comment01Icon } from "@hugeicons/core-free-icons";
 
+import { DitherFill } from "@/registry/dither/lib/dither";
 import { Icon } from "@/registry/dither/lib/icon";
 import { cn } from "@/registry/dither/lib/utils";
 import { Badge } from "@/registry/dither/ui/badge";
@@ -47,7 +48,7 @@ function KanbanCard({ id, title, tag, priority = "medium", subtasks, comments, f
       {subtasks ? (
         <div className="flex items-center gap-2">
           <span className="relative h-1 flex-1 overflow-hidden rounded-full">
-            <span aria-hidden="true" className="bg-dither-organic absolute inset-0" />
+            <DitherFill variant="organic" />
             <span className="absolute inset-y-0 left-0 rounded-full bg-foreground" style={{ width: `${(subtasks.done / subtasks.total) * 100}%` }} />
           </span>
           <span className="font-mono text-xs text-muted-foreground tabular">

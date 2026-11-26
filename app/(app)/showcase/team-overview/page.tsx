@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Analytics01Icon, Calendar03Icon, FilterIcon, PieChartIcon, AlertCircleIcon, Search01Icon, SmileIcon, SparklesIcon } from "@hugeicons/core-free-icons";
 
+import { DitherFill } from "@/registry/dither/lib/dither";
 import { AppShell } from "@/components/showcase/app-shell";
 import { northwind } from "@/components/showcase/nav";
 import { PageHeader, Panel } from "@/components/showcase/page-header";
@@ -180,7 +181,7 @@ export default function TeamOverview() {
                     </span>
                   </div>
                   <span className="relative h-1.5 overflow-hidden rounded-full">
-                    <span className="bg-dither-organic absolute inset-0" />
+                    <DitherFill variant="organic" />
                     <span className="absolute inset-y-0 left-0 rounded-full bg-foreground" style={{ width: `${(s.done / s.total) * 100}%` }} />
                   </span>
                 </div>

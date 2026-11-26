@@ -1,5 +1,6 @@
 import * as React from "react";
 
+import { DitherFill } from "@/registry/dither/lib/dither";
 import { cn } from "@/registry/dither/lib/utils";
 
 type UsageStatus = "normal" | "warning" | "critical";
@@ -60,7 +61,7 @@ function UsageMeter({
         aria-label={typeof label === "string" ? label : undefined}
         className="relative flex h-2 w-full gap-0.5 overflow-hidden rounded-full"
       >
-        <span aria-hidden="true" className="bg-dither-organic absolute inset-0" />
+        <DitherFill variant="organic" />
         {segments.map((s, i) => (
           <span
             key={s.label}

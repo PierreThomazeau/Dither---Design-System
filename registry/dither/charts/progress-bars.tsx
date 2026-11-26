@@ -1,5 +1,6 @@
 import * as React from "react";
 
+import { DitherFill } from "@/registry/dither/lib/dither";
 import { ChartTag, DeltaChip } from "@/registry/dither/charts/chart-kit";
 import { cn } from "@/registry/dither/lib/utils";
 
@@ -32,7 +33,7 @@ export function ProgressBars({ items, highlight, target, delta, height = 180, cl
           const hl = i === highlight;
           return (
             <div key={i} className="relative flex-1">
-              <span aria-hidden="true" className="bg-dither-organic absolute inset-0 rounded-control-min" />
+              <DitherFill variant="organic" className="rounded-control-min" />
               {hl && delta ? (
                 <span className="absolute left-1/2 z-10 -translate-x-1/2 -translate-y-[calc(100%+4px)]" style={{ bottom: `${item.value}%` }}>
                   <DeltaChip>{delta}</DeltaChip>

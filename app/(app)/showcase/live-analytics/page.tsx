@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { SparklesIcon } from "@hugeicons/core-free-icons";
 
+import { DitherFill } from "@/registry/dither/lib/dither";
 import { AppShell } from "@/components/showcase/app-shell";
 import { lumen } from "@/components/showcase/nav";
 import { PageHeader, Panel } from "@/components/showcase/page-header";
@@ -70,7 +71,7 @@ export default function LiveAnalytics() {
                     <span className="font-mono text-xs text-muted-foreground tabular">{p.visitors}</span>
                   </div>
                   <span className="relative h-1.5 overflow-hidden rounded-full">
-                    <span className="bg-dither-organic absolute inset-0" />
+                    <DitherFill variant="organic" />
                     <span className="absolute inset-y-0 left-0 rounded-full bg-chart-1" style={{ width: `${p.share * 3}%` }} />
                   </span>
                 </li>
