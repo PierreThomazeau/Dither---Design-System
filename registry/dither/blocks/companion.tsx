@@ -48,7 +48,7 @@ export type CompanionPhase = CompanionStatus | "slow" | "stalled";
 
 export type CompanionEvent = "bounce" | "spin" | "bravo" | "blink" | "yawn";
 
-/** Body material. Default: soft plastic. */
+/** Body material. Default: clear glass. */
 export type CompanionMaterial = "plastic" | "ceramic" | "frosted" | "clear" | "gel" | "chrome" | "brushed" | "gold" | "iridescent";
 
 /** Body colour: the neutral background tint, or one of the chart colours. */
@@ -74,7 +74,7 @@ export interface CompanionProps extends Omit<React.ComponentProps<"div">, "child
   onPhaseChange?: (phase: CompanionPhase) => void;
   /** Click (or Enter / Space): it spins and opens a picker for its colour and material. */
   customizable?: boolean;
-  /** Body material (controlled). Default: the viewer's last choice, else "plastic". */
+  /** Body material (controlled). Default: the viewer's last choice, else "clear" (clear glass). */
   material?: CompanionMaterial;
   onMaterialChange?: (material: CompanionMaterial) => void;
   /** Body colour (controlled). Default: the viewer's last choice, else "neutral". */
@@ -209,7 +209,7 @@ const COLORS: { id: CompanionColor; label: string }[] = [
 const STORAGE_KEY = "dither-companion-appearance";
 
 function readStoredAppearance(): { material: CompanionMaterial; color: CompanionColor } {
-  const fallback = { material: "plastic" as CompanionMaterial, color: "neutral" as CompanionColor };
+  const fallback = { material: "clear" as CompanionMaterial, color: "neutral" as CompanionColor };
   if (typeof window === "undefined") return fallback;
   try {
     const v = JSON.parse(window.localStorage.getItem(STORAGE_KEY) ?? "null") as { material?: string; color?: string } | null;
