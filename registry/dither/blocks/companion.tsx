@@ -6,19 +6,23 @@ import type * as Three from "three";
 import { cn } from "@/registry/dither/lib/utils";
 
 /* ------------------------------------------------------------------ *
- * Companion: the 3D AI buddy that sits above the prompt.
- * A chrome "squircle" body (superellipsoid) with a square LED screen;
+ * Companion: the 3D AI buddy of the chat.
+ * A matte "squircle" body (superellipsoid) in the page's background
+ * colour, with a square LED screen;
  * the face is drawn crisp, shrunk to 80×80 dots and dithered in 1 bit
  * (Bayer 4×4), so it speaks the same dither language as the rest of
  * the system. Every expression is a set of numbers that glide toward
  * the requested mood, so changes are always smooth.
  *
  * Driven by `status` (what the AI is doing) and optionally `mood`:
- *  - thinking   → looks up, thought dots, indigo chrome
- *  - long wait  → bored, then lazy (yawns), chrome turns red
- *  - responding → talks, sky chrome
- *  - done       → one multicolour sweep through the chrome + "Done"
- *  - error      → sad, orange chrome
+ *  - listening  → looks at what you type, tinted positive
+ *  - thinking   → looks up, thought dots, tinted brand
+ *  - long wait  → bored, then lazy (yawns), tinted destructive
+ *  - responding → talks
+ *  - done       → one multicolour band sweeps up the body + "Done"
+ *  - error      → sad, tinted destructive
+ * Tints are design tokens mixed into the background colour, read live
+ * from CSS (so light / dark and theme changes follow).
  * three.js is loaded on demand and everything is disposed on unmount.
  * ------------------------------------------------------------------ */
 
@@ -101,17 +105,18 @@ const MOODS: Record<CompanionMood, { face: Face; gaze: Gaze }> = {
   sad: { face: face({ w: 0.12, h: 0.13, tilt: 0.16, lid: 0.25, curve: -0.035, mw: 0.09, blush: 0, lean: 0.06, slump: 0.03, breath: 0.9 }), gaze: { x: 0, y: 0.5, jitter: 0.25 } },
 };
 
-/* Chrome tint per phase. "chrome" = the neutral polished metal. */
-const TINT: Record<CompanionPhase, string> = {
-  idle: "#E9EAEE",
-  listening: "#B6E2C4",
-  thinking: "#BBB4F4",
-  slow: "#F08A80",
-  stalled: "#E3544A",
-  responding: "#A9D2E6",
-  done: "#E9EAEE",
-  error: "#F4A646",
+/* Body colour per phase: the page background, with a share of a design token mixed in. */
+const TINT: Record<CompanionPhase, [token: string | null, mix: number]> = {
+  idle: [null, 0],
+  listening: ["--positive", 0.28],
+  thinking: ["--brand", 0.38],
+  slow: ["--destructive", 0.42],
+  stalled: ["--destructive", 0.68],
+  responding: [null, 0],
+  done: [null, 0],
+  error: ["--destructive", 0.5],
 };
+const BODY_TOKEN = "--background-muted";
 
 const PHASE_MOOD: Record<CompanionPhase, CompanionMood> = {
   idle: "happy",
@@ -162,8 +167,8 @@ function mountCompanion(THREE: typeof Three, host: HTMLDivElement, live: { curre
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-  renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.05;
+  renderer.toneMapping = THREE.NeutralToneMapping;
+  renderer.toneMappingExposure = 1;
   const canvas = renderer.domElement;
   /* The canvas overflows the box (wider, and twice as tall upward) so bounces and spins are never clipped;
      the box itself is the body's footprint, feet on its bottom edge. */
@@ -177,40 +182,24 @@ function mountCompanion(THREE: typeof Three, host: HTMLDivElement, live: { curre
   camera.position.set(0, 3.2, 9.6);
   camera.lookAt(0, 2.15, 0);
 
-  /* Liquid chrome studio: wavy bands painted in an equirect canvas (seamless in x), prefiltered by PMREM. */
+  /* Soft neutral studio for a matte body: white top, light grey floor, two soft light bands (seamless in x). */
   {
-    const W = 1024, H = 512;
+    const W = 512, H = 256;
     const c = document.createElement("canvas");
     c.width = W;
     c.height = H;
     const g = c.getContext("2d")!;
     const sky = g.createLinearGradient(0, 0, 0, H);
     sky.addColorStop(0, "#ffffff");
-    sky.addColorStop(0.35, "#d9e0ea");
-    sky.addColorStop(0.5, "#3d4a5f");
-    sky.addColorStop(0.58, "#5d6f88");
-    sky.addColorStop(1, "#c4ccd8");
+    sky.addColorStop(0.45, "#f2f2f2");
+    sky.addColorStop(0.55, "#d6d6d6");
+    sky.addColorStop(1, "#bdbdbd");
     g.fillStyle = sky;
     g.fillRect(0, 0, W, H);
-    const bands: [string, number, number, number, number][] = [
-      ["#0a0f1a", 30, 0.22, 2, 0.4], ["#ffffff", 35, 0.3, 3, 1.9], ["#2f4462", 35, 0.44, 2, 3.1], ["#ffffff", 15, 0.52, 4, 0.7],
-      ["#0d1422", 35, 0.64, 1, 2.2], ["#e9eef5", 30, 0.74, 3, 4.4], ["#3c5578", 25, 0.84, 2, 5.3], ["#ffffff", 13, 0.12, 2, 2.8],
-      ["#101826", 20, 0.06, 3, 0.2], ["#ffffff", 17, 0.92, 1, 1.2],
-    ];
-    g.lineCap = "round";
-    g.filter = "blur(5px)";
-    for (const [col, w, yy, f, ph] of bands) {
-      g.strokeStyle = col;
-      g.lineWidth = w;
-      g.beginPath();
-      for (let x = -10; x <= W + 10; x += 4) {
-        const t = (x / W) * Math.PI * 2;
-        const y = yy * H + Math.sin(t * f + ph) * H * 0.07 + Math.sin(t * (f + 2) + ph * 1.7) * H * 0.03;
-        if (x < 0) g.moveTo(x, y);
-        else g.lineTo(x, y);
-      }
-      g.stroke();
-    }
+    g.filter = "blur(12px)";
+    g.fillStyle = "#ffffff";
+    g.fillRect(0, H * 0.18, W, H * 0.08);
+    g.fillRect(0, H * 0.34, W, H * 0.04);
     const tex = new THREE.CanvasTexture(c);
     tex.mapping = THREE.EquirectangularReflectionMapping;
     tex.colorSpace = THREE.SRGBColorSpace;
@@ -220,8 +209,8 @@ function mountCompanion(THREE: typeof Three, host: HTMLDivElement, live: { curre
     tex.dispose();
   }
   /* Physical light units since r155: legacy intensities × π. */
-  scene.add(new THREE.HemisphereLight(0xffffff, 0xd8cfc4, 0.6 * Math.PI));
-  const key = new THREE.DirectionalLight(0xffffff, 1.1 * Math.PI);
+  scene.add(new THREE.HemisphereLight(0xffffff, 0xd9d9d9, 0.55 * Math.PI));
+  const key = new THREE.DirectionalLight(0xffffff, 0.9 * Math.PI);
   key.position.set(1.2, 7, 2.2);
   key.castShadow = true;
   key.shadow.mapSize.set(512, 512);
@@ -260,7 +249,7 @@ function mountCompanion(THREE: typeof Three, host: HTMLDivElement, live: { curre
   }
   bodyGeo.translate(0, 1, 0);
   const bodyMat = keep(
-    new THREE.MeshPhysicalMaterial({ color: TINT.idle, metalness: 1, roughness: 0.03, clearcoat: 1, clearcoatRoughness: 0.02, envMapIntensity: 1.25 }),
+    new THREE.MeshPhysicalMaterial({ color: 0xf5f5f5, metalness: 0, roughness: 0.62, clearcoat: 0.15, clearcoatRoughness: 0.6, envMapIntensity: 0.7, sheen: 0.4, sheenRoughness: 0.8 }),
   );
   /* Multicolour sweep: a rainbow band that travels up the body once when an answer is done. */
   const sweepU = { uSweep: { value: -10 }, uSweepAmt: { value: 0 }, uTime: { value: 0 } };
@@ -277,7 +266,7 @@ function mountCompanion(THREE: typeof Three, host: HTMLDivElement, live: { curre
         float band = smoothstep(0.85, 0.0, abs(vBodyPos.y - uSweep)) * uSweepAmt;
         float hue = fract(vBodyPos.y * 0.45 + vBodyPos.x * 0.25 - uTime * 0.6);
         vec3 rainbow = clamp(abs(mod(hue * 6.0 + vec3(0.0, 4.0, 2.0), 6.0) - 3.0) - 1.0, 0.0, 1.0);
-        diffuseColor.rgb = mix(diffuseColor.rgb, 0.18 + rainbow * 0.82, band);`,
+        diffuseColor.rgb = mix(diffuseColor.rgb, 0.25 + rainbow * 0.7, band * 0.9);`,
       );
   };
   const body = new THREE.Mesh(bodyGeo, bodyMat);
@@ -319,7 +308,23 @@ function mountCompanion(THREE: typeof Three, host: HTMLDivElement, live: { curre
   /* ---------- State ---------- */
   const cur: Face = { ...BASE };
   const extra = { open: 0, smileBoost: 0, text: 0, gx: 0, gy: 0, turn: 0, squint: 0 };
-  const tint = new THREE.Color(TINT.idle);
+  /* Token colours, read from CSS and refreshed twice a second (theme changes). Normalised through a 2D context. */
+  const norm = document.createElement("canvas").getContext("2d")!;
+  const palette = new Map<string, Three.Color>();
+  const readToken = (name: string) => {
+    const raw = getComputedStyle(host).getPropertyValue(name).trim();
+    norm.fillStyle = "#000";
+    if (raw) norm.fillStyle = raw;
+    const c = palette.get(name) ?? new THREE.Color();
+    c.set(norm.fillStyle as string);
+    palette.set(name, c);
+  };
+  const readPalette = () => {
+    for (const t of [BODY_TOKEN, "--positive", "--brand", "--destructive"]) readToken(t);
+  };
+  readPalette();
+  let nextPalette = 0.5;
+  const tint = palette.get(BODY_TOKEN)!.clone();
   const tintTarget = new THREE.Color();
   const fontFamily = getComputedStyle(host).fontFamily || "sans-serif";
 
@@ -531,13 +536,14 @@ function mountCompanion(THREE: typeof Three, host: HTMLDivElement, live: { curre
     // Status → phase (thinking turns into slow, then stalled; done falls back to idle).
     if (L.status !== lastStatus) {
       lastStatus = L.status;
-      statusSince = clock;
+      statusSince = now / 1000;
       if (L.status === "done") {
         sweepT0 = clock;
         play("bravo");
       }
     }
-    const elapsed = clock - statusSince;
+    // Wall-clock time: the animation clock is capped per frame and would run slow on a slow device.
+    const elapsed = now / 1000 - statusSince;
     let next: CompanionPhase = L.status;
     if (L.status === "thinking" && elapsed > L.slowAfter) next = elapsed > L.slowAfter * 2.2 ? "stalled" : "slow";
     if (L.status === "done" && elapsed > DONE_HOLD) next = "idle";
@@ -651,8 +657,14 @@ function mountCompanion(THREE: typeof Three, host: HTMLDivElement, live: { curre
     spin.rotation.z =
       moodId === "impatient" && !reduced ? Math.pow(Math.max(0, Math.sin(clock * 1.1)), 6) * Math.sin(clock * 22) * 0.025 : 0;
 
-    // Chrome tint and the one-shot multicolour sweep.
-    tintTarget.set(TINT[phase]);
+    // Body tint and the one-shot multicolour sweep.
+    if ((nextPalette -= dt) <= 0) {
+      readPalette();
+      nextPalette = 0.5;
+    }
+    const [token, mix] = TINT[phase];
+    tintTarget.copy(palette.get(BODY_TOKEN)!);
+    if (token) tintTarget.lerp(palette.get(token)!, mix);
     tint.lerp(tintTarget, 1 - Math.exp(-dt * 3));
     bodyMat.color.copy(tint);
     const su = (clock - sweepT0) / SWEEP;
@@ -782,7 +794,82 @@ function Companion({
   );
 }
 
+/* ------------------------------------------------------------------ *
+ * Layer + anchors: ONE companion that glides between places.
+ * Put <CompanionAnchor /> where it should stand (centre of an empty
+ * chat, top of the message being written); the most recently mounted
+ * anchor wins. The companion is never remounted, it moves.
+ * ------------------------------------------------------------------ */
+
+type AnchorEntry = { el: HTMLElement; size: number };
+const LayerContext = React.createContext<((a: AnchorEntry) => () => void) | null>(null);
+
+export interface CompanionLayerProps extends React.ComponentProps<"div"> {
+  /** Props of the single Companion (status, mood, onPhaseChange…). Its size comes from the active anchor. */
+  companion?: Omit<CompanionProps, "size">;
+}
+
+function CompanionLayer({ companion, className, children, ...props }: CompanionLayerProps) {
+  const layerRef = React.useRef<HTMLDivElement>(null);
+  const anchors = React.useRef<AnchorEntry[]>([]);
+  const [anchor, setAnchor] = React.useState<AnchorEntry | null>(null);
+  const [box, setBox] = React.useState<{ x: number; y: number; size: number } | null>(null);
+
+  const register = React.useCallback((a: AnchorEntry) => {
+    anchors.current.push(a);
+    setAnchor(a);
+    return () => {
+      anchors.current = anchors.current.filter((x) => x !== a);
+      setAnchor(anchors.current.at(-1) ?? null);
+    };
+  }, []);
+
+  React.useEffect(() => {
+    const layer = layerRef.current;
+    if (!anchor || !layer) return;
+    const update = () => {
+      const l = layer.getBoundingClientRect();
+      const r = anchor.el.getBoundingClientRect();
+      setBox({ x: r.left - l.left, y: r.top - l.top, size: anchor.size });
+    };
+    // Fires once on observe, then whenever the layout around the anchor changes (new messages, streaming text).
+    const ro = new ResizeObserver(update);
+    ro.observe(layer);
+    ro.observe(anchor.el);
+    return () => ro.disconnect();
+  }, [anchor]);
+
+  return (
+    <div ref={layerRef} data-slot="companion-layer" className={cn("relative", className)} {...props}>
+      <LayerContext.Provider value={register}>{children}</LayerContext.Provider>
+      {box ? (
+        <div
+          aria-hidden={!anchor}
+          className={cn(
+            "pointer-events-none absolute top-0 left-0 z-10 transition-[translate,width,height,opacity] duration-500 ease-(--motion-open-ease) motion-reduce:transition-none",
+            !anchor && "opacity-0",
+          )}
+          style={{ translate: `${box.x}px ${box.y}px`, width: box.size, height: box.size }}
+        >
+          <Companion {...companion} size={box.size} style={{ width: "100%", height: "100%" }} />
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+/** Where the companion stands: reserves `size`×`size` px; the companion's feet sit on its bottom edge. */
+function CompanionAnchor({ size = 72, className, style, ...props }: React.ComponentProps<"div"> & { size?: number }) {
+  const ref = React.useRef<HTMLDivElement>(null);
+  const register = React.useContext(LayerContext);
+  React.useEffect(() => {
+    if (!register || !ref.current) return;
+    return register({ el: ref.current, size });
+  }, [register, size]);
+  return <div ref={ref} aria-hidden data-slot="companion-anchor" className={cn("shrink-0", className)} style={{ width: size, height: size, ...style }} {...props} />;
+}
+
 /** Every expression, in display order. */
 const companionMoods = Object.keys(MOODS) as CompanionMood[];
 
-export { Companion, companionMoods };
+export { Companion, CompanionAnchor, CompanionLayer, companionMoods };

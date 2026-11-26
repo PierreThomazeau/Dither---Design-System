@@ -1,9 +1,9 @@
 ---
 title: Companion
-description: "The 3D AI buddy that stands on the prompt: a chrome squircle with a dithered LED face that thinks, talks and reacts."
+description: "The 3D AI buddy of the chat: a matte squircle in the page's background colour, with a dithered LED face that thinks, talks and reacts."
 status: beta
 variants: 11
-props: 9
+props: 11
 registry: companion
 ---
 
@@ -15,32 +15,43 @@ registry: companion
 
 ## Usage
 
-Put it on a [Chat Composer](/docs/ai/chat-composer) with `companion`, and drive it with the status of your AI call.
+Wrap the conversation in `CompanionLayer` and drop a `CompanionAnchor` where it should stand: in the middle of an empty chat, then on top of the answer being written. The most recent anchor wins and the companion glides there (it is never remounted). Drive it with the status of your AI call.
 
 ```tsx
 import { ChatComposer } from "@/components/blocks/chat-composer";
-import { Companion } from "@/components/blocks/companion";
+import { CompanionAnchor, CompanionLayer } from "@/components/blocks/companion";
 
-<ChatComposer
-  busy={status === "thinking" || status === "responding"}
-  onValueChange={(v) => setStatus(v ? "listening" : "idle")}
-  onSubmit={ask}
-  companion={<Companion status={status} />}
-/>
+<CompanionLayer companion={{ status }}>
+  {messages.length === 0 ? (
+    <CompanionAnchor size={128} />
+  ) : (
+    messages.map((m, i) => (
+      <Message key={m.id} from={m.from}>
+        {i === lastAnswer ? <CompanionAnchor size={64} /> : null}
+        <Bubble>{m.text}</Bubble>
+      </Message>
+    ))
+  )}
+</CompanionLayer>
+<ChatComposer onValueChange={(v) => setStatus(v ? "listening" : "idle")} onSubmit={ask} />
 ```
+
+`Companion` alone renders it at a fixed `size`.
 
 ## How it reacts
 
-| Status | Face | Chrome |
+| Status | Face | Body |
 | --- | --- | --- |
-| `idle` | Happy, eyes follow the pointer | Polished chrome |
-| `listening` | Looks down at what you type | Mint |
-| `thinking` | Looks up, thought dots | Indigo |
-| `thinking` after `slowAfter` s | Bored: heavy lids, sighs | Red |
-| `thinking` after 2.2 × `slowAfter` | Lazy: slumped, yawns | Deep red |
-| `responding` | Talks | Sky |
-| `done` | Proud, bounces, "Done" on the screen | One multicolour sweep, then chrome |
-| `error` | Sad | Orange |
+| `idle` | Happy, eyes follow the pointer | Matte, `background-muted` |
+| `listening` | Looks down at what you type | Tinted `positive` |
+| `thinking` | Looks up, thought dots | Tinted `brand` |
+| `thinking` after `slowAfter` s | Bored: heavy lids, sighs | Tinted `destructive` |
+| `thinking` after 2.2 × `slowAfter` | Lazy: slumped, yawns | More `destructive` |
+| `responding` | Talks | Matte |
+| `done` | Proud, bounces, "Done" on the screen | One multicolour band sweeps up, then matte |
+| `error` | Sad | Tinted `destructive` |
+
+Tints are token colours mixed into the background colour, read live from CSS, so light and dark follow.
 
 `mood` forces an expression: `happy`, `proud`, `excited`, `impatient`, `sleepy`, `resting`, `bored`, `disdainful`, `lazy`, `thinking`, `sad`. Every expression is a set of numbers that glide to the target, so changes are always smooth.
 
@@ -50,10 +61,14 @@ The face is drawn crisp, shrunk to 80 × 80 dots and dithered in 1 bit (Bayer 4 
 
 <TypeTable type={{"status": {"type": "\"idle\" | \"listening\" | \"thinking\" | \"responding\" | \"done\" | \"error\"", "default": "\"idle\""}, "mood": {"type": "CompanionMood", "description": "Forces an expression instead of the one derived from the status."}, "talking": {"type": "boolean", "description": "Forces the mouth to talk. Default: while responding."}, "slowAfter": {"type": "number", "default": "4", "description": "Seconds of thinking before it gets bored and turns red."}, "size": {"type": "number", "default": "96"}, "followPointer": {"type": "boolean", "default": "true"}, "onPhaseChange": {"type": "(phase: CompanionPhase) => void", "description": "Status plus \"slow\" and \"stalled\": useful for a \"still thinking\" line."}, "controlRef": {"type": "Ref<{ play(event) }>", "description": "bounce, spin, bravo, blink, yawn."}, "className": {"type": "string"}}} />
 
+### CompanionLayer / CompanionAnchor
+
+<TypeTable type={{"CompanionLayer companion": {"type": "Omit<CompanionProps, \"size\">", "description": "Props of the single companion; its size comes from the active anchor."}, "CompanionAnchor size": {"type": "number", "default": "72", "description": "Reserves size × size px; feet on the bottom edge."}}} />
+
 ## Examples
 
-### On the composer
+### In a chat
 
-Send a message to see it think, talk and sweep. Type "deep" for a long wait: bored, then lazy, chrome red.
+In the middle while empty, then on top of the answer. Type "deep" for a long wait: bored, then lazy, tinted red.
 
-<ComponentPreview name="companion-composer" stacked />
+<ComponentPreview name="companion-chat" stacked />

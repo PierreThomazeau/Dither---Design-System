@@ -4,7 +4,7 @@ import * as React from "react";
 import { Alert02Icon, ChartLineData02Icon, FlashIcon, SparklesIcon } from "@hugeicons/core-free-icons";
 
 import { ChatComposer } from "@/registry/dither/blocks/chat-composer";
-import { Companion, type CompanionPhase, type CompanionStatus } from "@/registry/dither/blocks/companion";
+import { CompanionAnchor, CompanionLayer, type CompanionPhase, type CompanionStatus } from "@/registry/dither/blocks/companion";
 import { Bubble, Message } from "@/registry/dither/blocks/message";
 import { StarterPrompt } from "@/registry/dither/blocks/starter-prompt";
 import { Icon } from "@/registry/dither/lib/icon";
@@ -107,11 +107,15 @@ const THINKING_TEXT: Partial<Record<CompanionPhase, string>> = {
   stalled: "Taking longer than usual…",
 };
 
-/** The "AI assistant" view of the showcase Side Panel: chat with the companion standing on the composer. */
+/**
+ * The "AI assistant" view of the showcase Side Panel. One companion: big in the middle of the empty chat,
+ * then standing on top of the message being written; it glides from one to the next.
+ */
 export function AssistantPanel() {
   const { messages, status, busy, send, stop, typing } = useSimulatedAssistant();
   const [phase, setPhase] = React.useState<CompanionPhase>("idle");
   const end = React.useRef<HTMLDivElement>(null);
+  const lastAssistant = messages.findLast((m) => m.from === "assistant")?.id;
 
   React.useEffect(() => {
     end.current?.scrollIntoView({ block: "end" });
@@ -120,51 +124,53 @@ export function AssistantPanel() {
   return (
     <>
       <SidePanelHeader title="AI assistant" description="Atlas 2 · knows this page" />
-      <SidePanelContent className="gap-4">
-        {messages.length === 0 ? (
-          <div className="flex flex-col gap-2">
-            <p className="text-sm text-muted-foreground">Ask about this page, or try one of these.</p>
-            <StarterPrompt icon={<Icon icon={FlashIcon} />} title="Summarize this page" description="Quick answer" onClick={() => send("Summarize this page")} />
-            <StarterPrompt
-              icon={<Icon icon={ChartLineData02Icon} />}
-              title="Run a deep analysis"
-              description="Takes a while: watch the chrome turn red"
-              onClick={() => send("Run a deep analysis of the last sprints")}
-            />
-            <StarterPrompt icon={<Icon icon={Alert02Icon} />} title="Pull live data" description="Fails on purpose" onClick={() => send("Pull live data")} />
-          </div>
-        ) : (
-          messages.map((m) =>
-            m.from === "user" ? (
-              <Message key={m.id} from="user">
-                <Bubble>{m.text}</Bubble>
-              </Message>
-            ) : (
-              <Message key={m.id} from="assistant" meta={m.meta} className="[&>div]:max-w-full">
-                {m.state === "thinking" ? (
-                  <p className="flex items-center gap-1.5 text-sm text-muted-foreground" aria-live="polite">
-                    <Icon icon={SparklesIcon} size={14} />
-                    {THINKING_TEXT[phase] ?? "Thinking…"}
-                  </p>
-                ) : (
-                  <Bubble variant={m.state === "error" ? "error" : undefined}>{m.text}</Bubble>
-                )}
-              </Message>
-            ),
-          )
-        )}
-        <div ref={end} />
+      <SidePanelContent className="pb-3">
+        <CompanionLayer companion={{ status, onPhaseChange: setPhase }} className="flex min-h-full flex-1 flex-col gap-4">
+          {messages.length === 0 ? (
+            <div className="my-auto flex flex-col items-center gap-5 py-6">
+              <CompanionAnchor size={128} />
+              <div className="flex flex-col items-center gap-1 text-center">
+                <h3 className="text-lg font-semibold tracking-tight">How can I help?</h3>
+                <p className="text-sm text-muted-foreground">Ask about this page, or try one of these.</p>
+              </div>
+              <div className="flex w-full flex-col gap-2">
+                <StarterPrompt icon={<Icon icon={FlashIcon} />} title="Summarize this page" description="Quick answer" onClick={() => send("Summarize this page")} />
+                <StarterPrompt
+                  icon={<Icon icon={ChartLineData02Icon} />}
+                  title="Run a deep analysis"
+                  description="Takes a while: watch it turn red"
+                  onClick={() => send("Run a deep analysis of the last sprints")}
+                />
+                <StarterPrompt icon={<Icon icon={Alert02Icon} />} title="Pull live data" description="Fails on purpose" onClick={() => send("Pull live data")} />
+              </div>
+            </div>
+          ) : (
+            messages.map((m) =>
+              m.from === "user" ? (
+                <Message key={m.id} from="user">
+                  <Bubble>{m.text}</Bubble>
+                </Message>
+              ) : (
+                <Message key={m.id} from="assistant" meta={m.id === lastAssistant ? undefined : m.meta} className="[&>div]:max-w-full">
+                  {m.id === lastAssistant ? <CompanionAnchor size={68} className="-mb-1" /> : null}
+                  {m.state === "thinking" ? (
+                    <p className="flex items-center gap-1.5 px-1 text-sm text-muted-foreground" aria-live="polite">
+                      <Icon icon={SparklesIcon} size={14} />
+                      {THINKING_TEXT[phase] ?? "Thinking…"}
+                    </p>
+                  ) : (
+                    <Bubble variant={m.state === "error" ? "error" : undefined}>{m.text}</Bubble>
+                  )}
+                  {m.id === lastAssistant && m.meta ? <span className="px-1 font-mono text-xs text-muted-foreground tabular">{m.meta}</span> : null}
+                </Message>
+              ),
+            )
+          )}
+          <div ref={end} />
+        </CompanionLayer>
       </SidePanelContent>
       <div className="p-2 pt-0">
-        <ChatComposer
-          placeholder="Ask the assistant…"
-          showTools={false}
-          busy={busy}
-          onStop={stop}
-          onSubmit={(v) => send(v)}
-          onValueChange={typing}
-          companion={<Companion status={status} onPhaseChange={setPhase} size={84} />}
-        />
+        <ChatComposer placeholder="Ask the assistant…" showTools={false} busy={busy} onStop={stop} onSubmit={(v) => send(v)} onValueChange={typing} />
       </div>
     </>
   );

@@ -3,9 +3,10 @@ import { File02Icon, SparklesIcon } from "@hugeicons/core-free-icons";
 
 import { DitherFill } from "@/registry/dither/lib/dither";
 import { AppShell } from "@/components/showcase/app-shell";
-import { CopilotComposer } from "@/components/showcase/copilot-composer";
+import { CopilotChat, CopilotComposer } from "@/components/showcase/copilot-composer";
 import { atlas } from "@/components/showcase/nav";
 import { AgentStep, AgentSteps } from "@/registry/dither/blocks/agent-step";
+import { CompanionAnchor } from "@/registry/dither/blocks/companion";
 import { ContextWindow } from "@/registry/dither/blocks/context-window";
 import { Bubble, Message } from "@/registry/dither/blocks/message";
 import { ReasoningBlock } from "@/registry/dither/blocks/reasoning-block";
@@ -30,11 +31,11 @@ function InsetPanel({ title, subtitle, children }: { title: string; subtitle: st
   );
 }
 
-export default function CopilotChat() {
+export default function CopilotChatPage() {
   return (
     <AppShell {...atlas("Q4 delivery report")} breadcrumb={["Q4 delivery report"]}>
       <div className="grid flex-1 gap-5 p-5 md:p-6 xl:grid-cols-[1fr_320px]">
-        <div className="mx-auto flex w-full max-w-2xl min-w-0 flex-col gap-5">
+        <CopilotChat className="mx-auto flex w-full max-w-2xl min-w-0 flex-col gap-5">
           <div className="flex items-center gap-3 text-xs text-muted-foreground">
             <span className="h-px flex-1 bg-border" />
             Today
@@ -44,7 +45,8 @@ export default function CopilotChat() {
             <Bubble>Build the Q4 delivery report: velocity by squad, the review backlog and the top 3 risks. Use the Checkout board and last week’s critique notes.</Bubble>
             <SourceCard icon={<Icon icon={File02Icon} />} title="critique-notes-w46.pdf" meta="PDF · 2.4 MB" />
           </Message>
-          <Message from="assistant" meta="Copilot · 9:41" avatar={<Avatar size="xs"><AvatarFallback className="bg-foreground text-primary-foreground">AI</AvatarFallback></Avatar>}>
+          <Message from="assistant" meta="Copilot · 9:41">
+            <CompanionAnchor size={72} className="-mb-1" />
             <ReasoningBlock label="Thought for 9 seconds">Pulled open tasks from the Checkout board, grouped review items by squad, then ranked risks by blocked specs and capacity.</ReasoningBlock>
             <div className="w-full rounded-field border bg-surface p-3 shadow-xs">
               <p className="mb-2 flex items-center gap-1.5 text-xs text-muted-foreground">
@@ -66,7 +68,7 @@ export default function CopilotChat() {
               <span className="font-mono text-xs text-muted-foreground">Atlas 2 · 38 s · 4 tools · 12.4k tokens</span>
             </div>
           </Message>
-          <div className="sticky bottom-3 mt-auto flex flex-col gap-2">
+          <div className="sticky bottom-3 z-20 mt-auto flex flex-col gap-2">
             <CopilotComposer />
             <div className="flex flex-wrap gap-2">
               <Button variant="outline" size="sm">Turn risks into tasks</Button>
@@ -74,7 +76,7 @@ export default function CopilotChat() {
               <Button variant="outline" size="sm">Share with the team</Button>
             </div>
           </div>
-        </div>
+        </CopilotChat>
         <aside className="flex flex-col gap-3">
           <InsetPanel title="Plan" subtitle="4 of 5 steps done">
             <span className="relative h-1.5 overflow-hidden rounded-full">

@@ -1,22 +1,37 @@
 "use client";
 
+import * as React from "react";
+
 import { ChatComposer } from "@/registry/dither/blocks/chat-composer";
-import { Companion } from "@/registry/dither/blocks/companion";
+import { CompanionLayer } from "@/registry/dither/blocks/companion";
 
 import { useSimulatedAssistant } from "./assistant-panel";
 
-/** Copilot screen composer: the companion stands on it and reacts to typing and (simulated) answers. */
+type Assistant = ReturnType<typeof useSimulatedAssistant>;
+const CopilotContext = React.createContext<Assistant | null>(null);
+
+/** Copilot conversation column: one companion (placed by <CompanionAnchor />), driven by the composer below. */
+export function CopilotChat({ className, children }: { className?: string; children: React.ReactNode }) {
+  const assistant = useSimulatedAssistant();
+  return (
+    <CopilotContext.Provider value={assistant}>
+      <CompanionLayer companion={{ status: assistant.status }} className={className}>
+        {children}
+      </CompanionLayer>
+    </CopilotContext.Provider>
+  );
+}
+
 export function CopilotComposer() {
-  const { status, busy, send, stop, typing } = useSimulatedAssistant();
+  const a = React.useContext(CopilotContext);
   return (
     <ChatComposer
       placeholder="Ask Copilot to refine, chart or share the report…"
       mode="Agent"
-      busy={busy}
-      onStop={stop}
-      onSubmit={(v) => send(v)}
-      onValueChange={typing}
-      companion={<Companion status={status} size={88} />}
+      busy={a?.busy}
+      onStop={a?.stop}
+      onSubmit={(v) => a?.send(v)}
+      onValueChange={a?.typing}
     />
   );
 }

@@ -58,8 +58,6 @@ export interface ChatComposerProps extends Omit<React.ComponentProps<"form">, "o
   onStop?: () => void;
   /** Called on every keystroke (e.g. to put a Companion in "listening"). */
   onValueChange?: (value: string) => void;
-  /** Sits on top of the composer, feet on its edge (e.g. `<Companion />`). */
-  companion?: React.ReactNode;
 }
 
 const pill =
@@ -91,7 +89,6 @@ function ChatComposer({
   busy = false,
   onStop,
   onValueChange,
-  companion,
   className,
   ...props
 }: ChatComposerProps) {
@@ -108,7 +105,7 @@ function ChatComposer({
     onValueChange?.("");
   };
 
-  const form = (
+  return (
     <form
       data-slot="chat-composer"
       className={cn("flex w-full flex-col rounded-surface bg-background-muted p-1", showFooter && "pb-0", className)}
@@ -238,15 +235,6 @@ function ChatComposer({
         </div>
       ) : null}
     </form>
-  );
-
-  if (!companion) return form;
-  return (
-    <div data-slot="chat-composer-stack" className="flex w-full flex-col">
-      {/* The companion's feet (and its soft floor shadow) overlap the composer's top edge. */}
-      <div className="pointer-events-none relative z-10 -mb-1.5 flex px-4">{companion}</div>
-      {form}
-    </div>
   );
 }
 
