@@ -2,7 +2,6 @@ import * as React from "react";
 
 import { ditherTile, type DitherVariant } from "@/registry/dither/lib/dither-tile";
 import { DitherPattern } from "@/registry/dither/lib/dither-pattern";
-import { DitherField } from "@/registry/dither/lib/dither-field";
 import { OrganicDither, type OrganicDitherProps, type OrganicShape } from "@/registry/dither/lib/organic-dither";
 import { cn } from "@/registry/dither/lib/utils";
 
@@ -13,8 +12,10 @@ export { DitherPattern, type DitherPatternProps } from "@/registry/dither/lib/di
 
 export interface DitherFillProps extends React.ComponentProps<"svg"> {
   variant?: DitherVariant;
-  /** Dots move away from the pointer (canvas, client-side). Static under reduced motion. */
+  /** @deprecated Every DitherFill is animated now (drift + pointer wake). Kept for compatibility. */
   interactive?: boolean;
+  /** Render the plain SVG tile, without the canvas animation (print, thumbnails). */
+  static?: boolean;
   /** Gradient variant: height over which the density fades out (match the element height). */
   gradientHeight?: number;
   /**
@@ -25,7 +26,7 @@ export interface DitherFillProps extends React.ComponentProps<"svg"> {
   shape?: OrganicShape;
   /** Organic only: noise scale (higher = smaller clumps). */
   scale?: number;
-  /** Organic only: seed, to vary neighbouring panels. */
+  /** Seed, to vary neighbouring panels. */
   seed?: number;
   /** Organic only: gradient tint (see OrganicDither). */
   tint?: OrganicDitherProps["tint"];
@@ -65,10 +66,11 @@ const DEFAULT_SCALE: Record<OrganicShape, number> = { cloud: 2.4, scatter: 3, ha
  * Fills its positioned parent with the texture.
  * - `shape`: organic texture (surfaces: heroes, cards, empty states, AI headers), with optional
  *   soft edge (`fade`) and blurred colour (`glow`).
- * - otherwise the regular tile as SVG (data marks: tracks, remaining capacity), or the
- *   repelling dot field with `interactive`.
+ * - otherwise the tile `variant` (regular, fine, bayer, gradient, organic), animated the same way as
+ *   the shapes: drifting noise and the pointer wake (canvas, still under reduced motion).
+ *   `static` renders the plain SVG tile instead.
  */
-export function DitherFill({ variant = "regular", gradientHeight, interactive = false, shape, scale, seed, tint, dot, fade = "none", glow, className, ...props }: DitherFillProps) {
+export function DitherFill({ variant = "regular", gradientHeight, interactive: _interactive, static: isStatic = false, shape, scale, seed, tint, dot, fade = "none", glow, className, ...props }: DitherFillProps) {
   const id = `dither-${React.useId().replace(/[^a-zA-Z0-9-]/g, "")}`;
   if (shape) {
     const mask = ditherFadeMask[fade];
@@ -90,7 +92,13 @@ export function DitherFill({ variant = "regular", gradientHeight, interactive = 
       </span>
     );
   }
-  if (interactive) return <DitherField variant={variant} gradientHeight={gradientHeight} className={className} />;
+  if (!isStatic) {
+    return (
+      <span aria-hidden="true" data-slot="dither-fill" className={cn("pointer-events-none absolute inset-0 overflow-hidden", className)}>
+        <OrganicDither tile={variant} gradientHeight={gradientHeight} seed={seed} />
+      </span>
+    );
+  }
   return (
     <svg aria-hidden="true" className={cn("pointer-events-none absolute inset-0 size-full", className)} {...props}>
       <defs>

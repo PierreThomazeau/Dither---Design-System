@@ -57,10 +57,6 @@
           "type": "registry:lib"
         },
         {
-          "path": "registry/dither/lib/dither-field.tsx",
-          "type": "registry:lib"
-        },
-        {
           "path": "registry/dither/lib/organic-field.ts",
           "type": "registry:lib"
         },

@@ -35,13 +35,13 @@ Never set a per-component duration on an open / close: change the tokens instead
 |---|---|
 | Switch | The thumb stretches while it travels; a trailing drop merges with it through a gooey SVG filter. |
 | Tabs | The active pill (or underline) slides between triggers on a spring and stretches on the way. |
-| Button (primary) | On hover, the dither lights up under the cursor and crawls; on press, the button squashes and springs back. |
+| Button (primary) | On hover, a soft light and a small organic dither follow the cursor; on press, the button squashes and springs back. |
 | Checkbox, Radio, Chip | The mark pops in with a small overshoot. |
 | Dialog, Popover, Menus, Select, Tooltip, Sheet, Side Panel | Open / close rule above (200ms ease-out in, 100ms ease-in out). |
 
-## Interactive dither
+## Living dither
 
-`DitherFill interactive` draws the same dot grid on a canvas: dots near the pointer are pushed away and spring back. It listens on its parent, so it works under content.
+Every `DitherFill` moves the same way, whether it draws an organic shape (`cloud`, `scatter`, `halo`, `flow`) or a tile (`regular`, `fine`, `bayer`, `gradient`, `organic`): a slowly drifting noise thins and refills the dots, and the pointer leaves an organic wake (a frayed trail where the texture thins out, then heals). It runs on a canvas, pauses off-screen and stays still under reduced motion.
 
 <ComponentPreview name="dither-field-demo" stacked />
 
@@ -49,13 +49,11 @@ Never set a per-component duration on an open / close: change the tokens instead
 import { DitherFill } from "@/lib/dither";
 
 <div className="relative h-40 overflow-hidden rounded-surface border">
-  <DitherFill interactive variant="regular" />
+  <DitherFill variant="regular" />
 </div>
 ```
 
-Props of `DitherField` (used by `DitherFill interactive`): `variant`, `gradientHeight`, `radius` (px, default 72), `strength` (default 1).
-
-The organic texture (`DitherFill shape`, see [Dither pattern](/docs/foundations/dither-pattern)) moves differently: its noise field drifts slowly and the pointer clears a soft hole, which closes again when it leaves.
+`static` renders the plain SVG tile instead (print, thumbnails). Small data marks drawn with CSS or SVG patterns (chart tracks, remaining capacity, legends) keep the static tile, with a few dots twinkling.
 
 ## Tokens
 

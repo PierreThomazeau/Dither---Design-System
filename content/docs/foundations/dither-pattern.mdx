@@ -56,7 +56,8 @@ in blur. Colour is reserved for surfaces that carry it (the AI glow); neutral su
 
 ## Tile variants
 
-Data marks (remaining capacity, chart tracks, forecast bands) use the static **`organic`** tile: a seamless
+As a `DitherFill`, every tile is animated like the shapes (drifting noise, pointer wake); pass `static` for the
+plain SVG. Data marks (remaining capacity, chart tracks, forecast bands) use the static **`organic`** tile: a seamless
 96px tile from periodic noise, with the same clumps as the canvas texture but still, and always a floor of sparse
 dots so a track never looks empty. `bg-dither-organic` in CSS, `<DitherPattern variant="organic" />` in SVG.
 The regular, fine and bayer tiles stay for tiny swatches (legends) and skeletons.
@@ -103,7 +104,7 @@ Fills its positioned parent: the organic canvas when `shape` is set, otherwise t
     glow: { type: "string[]", description: "Organic: blurred colour blobs under the dots (custom property names)." },
     tint: { type: '{ stops: string[]; direction?: "to-r" | "to-l" | "to-b" }', description: "Organic: gradient of custom properties instead of --dither-color." },
     variant: { type: '"regular" | "fine" | "bayer" | "gradient" | "organic"', default: '"regular"', description: "Tile variant when no shape." },
-    interactive: { type: "boolean", default: "false", description: "Tile only: dots pushed away by the pointer." },
+    static: { type: "boolean", default: "false", description: "Tile only: plain SVG, no canvas animation." },
   }}
 />
 

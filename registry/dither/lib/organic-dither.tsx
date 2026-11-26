@@ -3,12 +3,21 @@
 import * as React from "react";
 
 import { cn } from "@/registry/dither/lib/utils";
-import { bayer, density, fbm, type OrganicShape } from "@/registry/dither/lib/organic-field";
+import { ditherTile, type DitherVariant } from "@/registry/dither/lib/dither-tile";
+import { bayer, density, fbm, valueNoise, type OrganicShape } from "@/registry/dither/lib/organic-field";
 
 export type { OrganicShape } from "@/registry/dither/lib/organic-field";
 
 export interface OrganicDitherProps extends React.ComponentProps<"canvas"> {
   shape?: OrganicShape;
+  /**
+   * Animate a tile instead of a shape: the tile's exact geometry (regular, fine, bayer, gradient,
+   * organic), brought to life the same way as the shapes: a slowly drifting noise thins and refills
+   * it, and the pointer leaves the same organic wake.
+   */
+  tile?: DitherVariant;
+  /** Tile "gradient" only: height over which the density fades (defaults to the element height). */
+  gradientHeight?: number;
   /** Grid cell in px (6 = the Dither grid). */
   cell?: number;
   /** Dot side range in px: dense areas get bigger dots (squares almost touch at full density). */
@@ -45,15 +54,17 @@ function readColor(el: HTMLElement, fallback?: string) {
  * (masses, holes, ragged edges; dense areas get bigger dots). Drifts slowly; the pointer leaves an
  * organic wake (noisy edge, the texture thins out and regrows as grain, then heals). Pauses off-screen,
  * static under reduced motion. Fills its `relative` parent.
- * Use it for surfaces (heroes, cards, empty states, AI headers). For data marks (tracks,
- * remaining capacity, legends) keep the regular tile: <DitherPattern> / bg-dither-*.
+ * With `tile`, the same motion is applied to a tile's exact geometry, so every DitherFill moves alike.
+ * Small data marks drawn with CSS / SVG (tracks, legends) keep the twinkling static tile.
  */
 export function OrganicDither({
   shape = "cloud",
+  tile,
+  gradientHeight,
   cell = 6,
   dot = [2, 4],
   scale = 3,
-  seed = 7,
+  seed: seedProp,
   speed = 1,
   interactive = true,
   color,
@@ -62,6 +73,9 @@ export function OrganicDither({
   ...props
 }: OrganicDitherProps) {
   const ref = React.useRef<HTMLCanvasElement>(null);
+  // Tiles get a per-instance seed by default, so neighbouring panels don't drift in lockstep.
+  const uid = React.useId();
+  const seed = seedProp ?? (tile ? 7 + [...uid].reduce((a, c) => (a * 31 + c.charCodeAt(0)) % 9973, 0) : 7);
   const [d0, d1] = dot;
   const tintKey = tint ? `${tint.direction ?? "to-r"}:${tint.stops.join(",")}` : "";
 
@@ -84,6 +98,23 @@ export function OrganicDither({
     // Pointer trail: each point fades out; together they draw an organic wake, not a round hole.
     const trail: { x: number; y: number; life: number }[] = [];
     let lastPt = { x: -999, y: -999 };
+    // Tile mode: every dot of the tile repeated over the canvas, computed on resize.
+    let tileDots: { x: number; y: number; s: number }[] = [];
+    const buildTile = () => {
+      if (!tile) return;
+      const t = ditherTile(tile, tile === "gradient" ? (gradientHeight ?? h) : undefined);
+      const rows = tile === "gradient" ? 1 : Math.ceil(h / t.height);
+      const cols = Math.ceil(w / t.width);
+      const out: { x: number; y: number; s: number }[] = [];
+      for (let r = 0; r < rows; r++)
+        for (let c = 0; c < cols; c++)
+          for (const d of t.dots) {
+            const x = c * t.width + d.x;
+            const y = r * t.height + d.y;
+            if (x < w && y < h) out.push({ x, y, s: d.size ?? t.dot });
+          }
+      tileDots = out;
+    };
 
     const paintTint = () => {
       if (!tint) return;
@@ -96,9 +127,44 @@ export function OrganicDither({
       ctx.globalCompositeOperation = "source-over";
     };
 
+    // Shared wake: how strongly the pointer trail stirs the point (x, y), with a frayed edge.
+    const wakeAt = (x: number, y: number, t: number, r: number) => {
+      let infl = 0;
+      for (const pt of trail) {
+        const dx = x - pt.x;
+        const dy = y - pt.y;
+        const d2 = dx * dx + dy * dy;
+        if (d2 < r * r * 2.6) infl = Math.max(infl, pt.life * (1 - Math.sqrt(d2) / (r * 1.6)));
+      }
+      if (infl <= 0.02) return 0;
+      const wobble = fbm(x * 0.02 + t * 0.4, y * 0.02, seed + 31);
+      return Math.min(1, Math.max(0, infl * (0.6 + wobble * 0.9)));
+    };
+
+    const drawTile = (t: number) => {
+      const r = Math.max(56, Math.min(w, h) * 0.3);
+      const active = trail.length > 0;
+      for (const d of tileDots) {
+        // Two octaves of drifting noise: holes open, travel and close across the tile.
+        let n = valueNoise(d.x * 0.03 + t * 0.25, d.y * 0.03 - t * 0.15, seed) * 0.62 + valueNoise(d.x * 0.08 - t * 0.4, d.y * 0.08 + t * 0.2, seed + 5) * 0.38;
+        if (active) {
+          const k = wakeAt(d.x, d.y, t, r);
+          // Inside the wake the tile thins out, a few dots stay as loose grain.
+          if (k > 0) n -= k * (0.75 + valueNoise(d.x * 0.2 - t, d.y * 0.2, seed + 9) * 0.5);
+        }
+        if (n < 0.32) continue;
+        ctx.fillRect(d.x, d.y, d.s, d.s);
+      }
+    };
+
     const draw = (t: number) => {
       ctx.clearRect(0, 0, w, h);
       ctx.fillStyle = fill;
+      if (tile) {
+        drawTile(t);
+        paintTint();
+        return;
+      }
       const cols = Math.ceil(w / cell);
       const rows = Math.ceil(h / cell);
       const aspect = w / h;
@@ -160,6 +226,7 @@ export function OrganicDither({
       canvas.height = h * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       fill = readColor(canvas, color);
+      buildTile();
       draw(((performance.now() - start) / 1000) * speed);
     };
 
@@ -203,7 +270,7 @@ export function OrganicDither({
       host.removeEventListener("pointermove", onMove);
       host.removeEventListener("pointerleave", onLeave);
     };
-  }, [shape, cell, d0, d1, scale, seed, speed, interactive, color, tintKey]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [shape, tile, gradientHeight, cell, d0, d1, scale, seed, speed, interactive, color, tintKey]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return <canvas ref={ref} aria-hidden="true" className={cn("pointer-events-none absolute inset-0 size-full", className)} {...props} />;
 }
