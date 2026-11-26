@@ -6,6 +6,7 @@ import type { MDXComponents } from "mdx/types";
 import { ComponentPreview } from "@/components/docs/component-preview";
 import { InstallCommand } from "@/components/docs/install-command";
 import { Preview } from "@/components/docs/preview";
+import { AbstractGallery, DitherImageSourceDemo } from "@/components/docs/abstract-gallery";
 import { DitherTrackDemo, DitherVariantsDemo } from "@/components/docs/dither-demo";
 import { DitherFill } from "@/registry/dither/lib/dither";
 
@@ -21,6 +22,8 @@ export function getMDXComponents(components?: MDXComponents) {
     DitherFill,
     DitherVariantsDemo,
     DitherTrackDemo,
+    AbstractGallery,
+    DitherImageSourceDemo,
     ...components,
   } satisfies MDXComponents;
 }

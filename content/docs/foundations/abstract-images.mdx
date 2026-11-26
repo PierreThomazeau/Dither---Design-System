@@ -1,0 +1,57 @@
+---
+title: Abstract images
+description: "A library of abstract images, painted from the token colours and rendered through the Dither grid. Use them for heroes, covers, empty states and placeholders."
+status: beta
+variants: 8
+props: 9
+registry: dither-image
+---
+
+<AbstractGallery />
+
+Each image is a composition of soft, blurred colour bands and glows, painted from the chart, brand and status tokens, so light and dark follow. It is then drawn through the grid: no photo, no file to load, and it drifts slowly (still under reduced motion, paused off-screen). Download any of them as a 1600 × 1200 PNG.
+
+## Installation
+
+<InstallCommand name="dither-image" />
+
+## Usage
+
+```tsx
+import { DitherImage } from "@/lib/dither-image";
+
+<DitherImage preset="ember" className="aspect-[4/3] rounded-surface" />
+<DitherImage preset="lagoon" mode="pixel" ground="light" className="h-64" />
+```
+
+It fills its box: give it a size or an aspect ratio.
+
+## Two renderings
+
+- **Dots** (default): one square dot per cell, coloured by the image and sized by its brightness; a Bayer 4 × 4 threshold thins dark areas to nothing, so colour packs where the image is bright. Same grid and dot sizes (2 → 4 px) as the organic dither.
+- **Pixel**: the same threshold, but lit cells fill the whole cell and their colours are posterised (six levels per channel, ordered dither): blocks merge into a crisp print.
+
+`ground="dark"` (default) lays the dots on the darkest neutral of the theme; `ground="light"` on the lightest, where colour reads as ink.
+
+## Your own image
+
+Pass `src` instead of a preset (same origin, or a CORS-enabled URL). The image is fitted like `object-fit: cover`.
+
+<DitherImageSourceDemo />
+
+```tsx
+<DitherImage src="/hero.jpg" mode="dots" className="aspect-video" />
+```
+
+## Export
+
+`renderDitherImage(element, width, height, options)` returns a canvas with a still, to save or upload.
+
+```tsx
+const canvas = await renderDitherImage(document.body, 1600, 1200, { preset: "dusk", mode: "pixel" });
+canvas.toBlob((blob) => save(blob));
+```
+
+## Props
+
+<TypeTable type={{"preset": {"type": "\"ember\" | \"lagoon\" | \"dusk\" | \"aurora\" | \"prism\" | \"nebula\" | \"tide\" | \"flare\"", "default": "\"ember\""}, "src": {"type": "string", "description": "Your own image instead of a preset."}, "mode": {"type": "\"dots\" | \"pixel\"", "default": "\"dots\""}, "ground": {"type": "\"dark\" | \"light\"", "default": "\"dark\""}, "cell": {"type": "number", "default": "6", "description": "Grid cell in px."}, "dot": {"type": "[min, max]", "default": "[2, 4]", "description": "Dot size range in px (dots mode)."}, "seed": {"type": "number", "default": "0", "description": "Shifts the waves: same preset, another take."}, "animated": {"type": "boolean", "default": "true", "description": "Slow drift (presets only)."}, "className": {"type": "string"}}} />

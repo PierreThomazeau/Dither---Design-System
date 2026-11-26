@@ -71,6 +71,22 @@
       ]
     },
     {
+      "name": "dither-image",
+      "type": "registry:lib",
+      "title": "Dither image",
+      "description": "A library of abstract images (token colours, soft bands and glows) or your own image, rendered through the Dither grid as dots or pixels.",
+      "registryDependencies": [
+        "utils",
+        "@dither/dither"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/lib/dither-image.tsx",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
       "name": "icon",
       "type": "registry:lib",
       "title": "Icon",
