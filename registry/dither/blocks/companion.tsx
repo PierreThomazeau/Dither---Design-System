@@ -85,40 +85,52 @@ export interface CompanionProps extends Omit<React.ComponentProps<"div">, "child
 }
 
 /* ---------- Expressions: all numbers ---------- *
- * Eyes: w, h size · sep spacing · tilt (+ sad slant) · lid top lid · skew lid difference L/R ·
- *   smile ^ eyes · arrow > < · closed line, ccurve its curve.
- * Mouth: curve smile (+) / pout (−) · smirk one corner up · open D mouth · mw width.
- * blush cheeks · zz "zZ" · dots thought dots · lean forward (+) / back (−) · slump sag · breath speed. */
+ * Drawn in a dry, sketchy style (thin vertical eye strokes, flat brow bars, small dash mouths), not a cute one.
+ * Eyes: w width of arcs / closed lines · h stroke height · sep spacing · tilt slant · lid top cut · skew lid L/R ·
+ *   smile ∩ arcs · arrow > < · closed line, ccurve its curve.
+ * Brows: brow presence · browY raise · browTilt (+ inner end down: cross, − inner end up: worried) · browSkew one brow up.
+ * Mouth: curve smile (+) / frown (−) · smirk one corner up · open D mouth · mw width.
+ * blush cheeks (unused by default) · zz "zZ" · dots thought dots · lean forward (+) / back (−) · slump sag · breath speed. */
 const KEYS = [
   "w", "h", "sep", "tilt", "lid", "skew", "smile", "arrow", "closed", "ccurve",
+  "brow", "browY", "browTilt", "browSkew",
   "curve", "smirk", "open", "mw", "blush", "zz", "dots", "lean", "slump", "breath",
 ] as const;
 type Key = (typeof KEYS)[number];
 type Face = Record<Key, number>;
 
 const BASE: Face = {
-  w: 0.1, h: 0.12, sep: 0.2, tilt: 0, lid: 0, skew: 0, smile: 0, arrow: 0, closed: 0, ccurve: 0,
-  curve: 0.045, smirk: 0, open: 0, mw: 0.1, blush: 0.3, zz: 0, dots: 0, lean: 0, slump: 0, breath: 1.6,
+  w: 0.1, h: 0.11, sep: 0.17, tilt: 0, lid: 0, skew: 0, smile: 0, arrow: 0, closed: 0, ccurve: 0,
+  brow: 0, browY: 0, browTilt: 0, browSkew: 0,
+  curve: 0.008, smirk: 0, open: 0, mw: 0.05, blush: 0, zz: 0, dots: 0, lean: 0, slump: 0, breath: 1.6,
 };
 const face = (p: Partial<Face>): Face => ({ ...BASE, ...p });
 
 type Gaze = "follow" | "drift" | { x: number; y: number; jitter: number };
 
 const MOODS: Record<CompanionMood, { face: Face; gaze: Gaze }> = {
+  /* Calm: two strokes and a short dash. */
   happy: { face: BASE, gaze: "follow" },
-  proud: { face: face({ w: 0.13, h: 0.17, smile: 0.8, curve: 0.05, open: 0.1, mw: 0.16, blush: 0.7, lean: -0.06 }), gaze: "follow" },
-  excited: { face: face({ w: 0.12, h: 0.15, arrow: 1, curve: 0.06, open: 0.14, mw: 0.2, blush: 0.4, lean: 0.04, breath: 2.6 }), gaze: "follow" },
-  impatient: { face: face({ w: 0.13, h: 0.13, sep: 0.19, tilt: -0.05, lid: 0.5, curve: -0.012, mw: 0.09, blush: 0, breath: 2 }), gaze: "follow" },
-  sleepy: { face: face({ w: 0.13, closed: 1, curve: 0, open: 0.05, mw: 0.05, blush: 0.25, zz: 1, lean: 0.07, breath: 0.8 }), gaze: { x: 0, y: 0.3, jitter: 0 } },
-  resting: { face: face({ w: 0.13, closed: 1, ccurve: 0.5, curve: 0.04, blush: 0.45, lean: 0.02, breath: 1 }), gaze: { x: 0, y: 0.2, jitter: 0 } },
-  /* Fed up: heavy lids, flat drooping mouth, leaning back, slow breath, eyes wandering off. */
-  bored: { face: face({ w: 0.13, tilt: 0.05, lid: 0.58, curve: -0.012, mw: 0.085, blush: 0, lean: -0.07, slump: 0.02, breath: 0.7 }), gaze: "drift" },
-  /* Looking down its nose: one lid low, one corner up, eyes to the side, head back. */
-  disdainful: { face: face({ w: 0.13, tilt: -0.04, lid: 0.42, skew: 0.3, curve: 0, smirk: 0.035, mw: 0.09, blush: 0, lean: -0.1, breath: 1.1 }), gaze: { x: 0.85, y: 0.15, jitter: 0.15 } },
-  /* Can't be bothered: lids almost shut, slumped forward, yawns now and then. */
-  lazy: { face: face({ w: 0.13, lid: 0.7, curve: -0.004, mw: 0.07, blush: 0.1, lean: 0.1, slump: 0.06, breath: 0.55 }), gaze: { x: -0.1, y: 0.4, jitter: 0.2 } },
-  thinking: { face: face({ w: 0.11, h: 0.14, lid: 0.1, curve: -0.006, mw: 0.055, blush: 0.15, dots: 1, lean: -0.04, breath: 1.3 }), gaze: { x: -0.55, y: -0.9, jitter: 0.12 } },
-  sad: { face: face({ w: 0.12, h: 0.13, tilt: 0.16, lid: 0.25, curve: -0.035, mw: 0.09, blush: 0, lean: 0.06, slump: 0.03, breath: 0.9 }), gaze: { x: 0, y: 0.5, jitter: 0.25 } },
+  /* Confident: ∩ eyes, wide open grin. */
+  proud: { face: face({ w: 0.11, smile: 1, curve: 0.045, open: 0.1, mw: 0.13, lean: -0.06 }), gaze: "follow" },
+  /* Excited: ∩ eyes, a wide U line. */
+  excited: { face: face({ w: 0.11, smile: 1, curve: 0.06, mw: 0.15, lean: 0.04, breath: 2.6 }), gaze: "follow" },
+  /* Irritated: brows pressed down on the strokes, small frown. */
+  impatient: { face: face({ h: 0.1, lid: 0.25, brow: 1, browTilt: 0.2, curve: -0.018, mw: 0.06, breath: 2 }), gaze: "follow" },
+  /* Tired: closed lines, drooping brows, zZ. */
+  sleepy: { face: face({ closed: 1, brow: 1, browY: 0.015, browTilt: -0.1, curve: 0, open: 0.04, mw: 0.035, zz: 1, lean: 0.07, breath: 0.8 }), gaze: { x: 0, y: 0.3, jitter: 0 } },
+  /* Pleased: closed ∩ arcs, faint smile. */
+  resting: { face: face({ smile: 1, curve: 0.025, mw: 0.05, lean: 0.02, breath: 1 }), gaze: { x: 0, y: 0.2, jitter: 0 } },
+  /* Bored: T T (flat brows sitting on cut strokes), flat dash, leaning back, eyes wandering off. */
+  bored: { face: face({ lid: 0.42, brow: 1, curve: 0, mw: 0.045, lean: -0.07, slump: 0.02, breath: 0.7 }), gaze: "drift" },
+  /* Snooty: one lid low, one brow up, smirk, head back, eyes to the side. */
+  disdainful: { face: face({ lid: 0.3, skew: 0.22, brow: 1, browY: 0.02, browSkew: -0.045, browTilt: 0.05, curve: 0, smirk: 0.03, mw: 0.06, lean: -0.1, breath: 1.1 }), gaze: { x: 0.85, y: 0.15, jitter: 0.15 } },
+  /* Lazy: lids almost shut under heavy brows, slumped, yawns now and then. */
+  lazy: { face: face({ lid: 0.66, brow: 1, browTilt: -0.12, curve: -0.006, mw: 0.045, lean: 0.1, slump: 0.06, breath: 0.55 }), gaze: { x: -0.1, y: 0.4, jitter: 0.2 } },
+  /* Curious: one brow up, tight mouth, thought dots. */
+  thinking: { face: face({ h: 0.12, brow: 1, browY: 0.015, browSkew: 0.05, curve: -0.006, mw: 0.035, dots: 1, lean: -0.04, breath: 1.3 }), gaze: { x: -0.55, y: -0.9, jitter: 0.12 } },
+  /* Concerned: short strokes, brows lifted at the inner end, small frown. */
+  sad: { face: face({ h: 0.075, brow: 1, browY: 0.025, browTilt: -0.22, curve: -0.028, mw: 0.06, lean: 0.06, slump: 0.03, breath: 0.9 }), gaze: { x: 0, y: 0.5, jitter: 0.25 } },
 };
 
 /* Body colour per phase: the page background, with a share of a design token mixed in. */
@@ -556,7 +568,7 @@ function mountCompanion(THREE: typeof Three, host: HTMLDivElement, live: { curre
     const Z = ZH, m = cur, lw = Z * 0.036;
     ex.setTransform(1, 0, 0, 1, 0, 0);
     ex.clearRect(0, 0, Z, Z);
-    ex.setTransform(1.3, 0, 0, 1.3, -Z * 0.15, -Z * 0.13);
+    ex.setTransform(1.44, 0, 0, 1.44, -Z * 0.22, -Z * 0.19);
     ex.lineCap = ex.lineJoin = "round";
     ex.strokeStyle = ex.fillStyle = "#fff";
     ex.lineWidth = lw;
@@ -568,32 +580,34 @@ function mountCompanion(THREE: typeof Three, host: HTMLDivElement, live: { curre
     const pillA = Math.max(0, 1 - arrow - closed);
     const cy = Z * 0.42 + extra.gy * Z * 0.05;
     const gx = extra.gx * Z * 0.07;
+    const barW = lw * 1.2;
     for (const side of [-1, 1]) {
-      const w = m.w * Z, h = Math.max(w * 0.3, m.h * Z * (1 - blink * 0.85));
+      const w = m.w * Z;
+      const h = Math.max(barW, m.h * Z * 1.5 * (1 - blink * 0.92));
       const cx = Z / 2 + side * m.sep * Z + gx;
       const lid = Math.min(0.95, Math.max(0, (m.lid + m.skew * side) * (1 - boost)));
+      const strokeA = pillA * (1 - smile);
       ex.save();
       ex.translate(cx, cy);
       ex.rotate(m.tilt * -side);
-      if (pillA > 0.01) {
-        ex.globalAlpha = pillA;
+      // Thin vertical stroke; the lid cuts its top.
+      if (strokeA > 0.01) {
+        const top = -h / 2 + h * lid;
+        ex.globalAlpha = strokeA;
         ex.beginPath();
-        ex.roundRect(-w / 2, -h / 2, w, h, Math.min(w, h) / 2);
+        ex.roundRect(-barW / 2, top, barW, Math.max(barW, h / 2 - top), barW / 2);
         ex.fill();
-        ex.globalAlpha = 1;
-        ex.globalCompositeOperation = "destination-out";
-        if (lid > 0.001) ex.fillRect(-w, -h / 2 - 2, w * 2, h * lid + 2);
-        if (smile > 0.001) {
-          const r = w * 1.1;
-          ex.beginPath();
-          ex.arc(0, h / 2 + r - smile * h * 0.8, r, 0, Math.PI * 2);
-          ex.fill();
-        }
-        ex.globalCompositeOperation = "source-over";
+      }
+      // ∩ arcs (pleased, confident, laughing).
+      if (smile * pillA > 0.01) {
+        ex.globalAlpha = smile * pillA;
+        ex.beginPath();
+        ex.arc(0, w * 0.35, w * 0.55, Math.PI * 1.08, Math.PI * 1.92);
+        ex.stroke();
       }
       if (arrow > 0.01) {
         ex.globalAlpha = arrow;
-        const aw = w * 0.9, ah = m.h * Z * 0.9;
+        const aw = w * 0.8, ah = m.h * Z * 0.8;
         ex.beginPath();
         ex.moveTo((side * aw) / 2, -ah / 2);
         ex.lineTo((-side * aw) / 2, 0);
@@ -608,8 +622,24 @@ function mountCompanion(THREE: typeof Three, host: HTMLDivElement, live: { curre
         ex.quadraticCurveTo(0, m.ccurve * cw * 1.1, cw / 2, 0);
         ex.stroke();
       }
-      ex.globalAlpha = 1;
       ex.restore();
+      // Brow: a flat bar sitting on the lid line (T), raised, tilted or lifted on one side.
+      const browA = m.brow * (1 - smile) * (1 - boost);
+      if (browA > 0.01) {
+        const top = closed > 0.5 ? -lw * 2.5 : -h / 2 + h * lid;
+        const by = cy + top - lw * 0.9 - (m.browY + m.browSkew * side) * Z;
+        const bw = w * 1.15;
+        ex.save();
+        ex.translate(cx - side * w * 0.12, by);
+        ex.rotate(m.browTilt * -side);
+        ex.globalAlpha = browA;
+        ex.beginPath();
+        ex.moveTo(-bw / 2, 0);
+        ex.lineTo(bw / 2, 0);
+        ex.stroke();
+        ex.restore();
+      }
+      ex.globalAlpha = 1;
     }
     // Cheeks: low intensity, so the dither turns them into dots.
     if (m.blush + boost * 0.3 > 0.01) {
@@ -664,7 +694,7 @@ function mountCompanion(THREE: typeof Three, host: HTMLDivElement, live: { curre
       ex.globalAlpha = extra.text;
       ex.textAlign = "center";
       ex.font = `800 ${Z * 0.14}px ${fontFamily}`;
-      ex.fillText("DONE", Z / 2, Z * 0.83);
+      ex.fillText("DONE", Z / 2, Z * 0.78);
       ex.textAlign = "start";
       ex.globalAlpha = 1;
     }
