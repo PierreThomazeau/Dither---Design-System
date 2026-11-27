@@ -2,6 +2,7 @@
   "name": "dither",
   "version": "0.1.0",
   "private": true,
+  "license": "SEE LICENSE IN LICENSE",
   "type": "module",
   "packageManager": "pnpm@10.28.0",
   "scripts": {

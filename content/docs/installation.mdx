@@ -8,15 +8,26 @@ You need a React project with Tailwind CSS v4 and a `components.json` (run `npx 
 
 ## 1. Add the registry
 
-In `components.json`:
+The registry needs your access code. Put it in an environment variable (never in the repository):
+
+```bash title=".env.local"
+DITHER_ACCESS_CODE=your-code
+```
+
+Then in `components.json`, send it as a bearer token:
 
 ```json title="components.json"
 {
   "registries": {
-    "@dither": "https://dither-design-system.vercel.app/r/{name}.json"
+    "@dither": {
+      "url": "https://dither-design-system.vercel.app/r/{name}.json",
+      "headers": { "Authorization": "Bearer ${DITHER_ACCESS_CODE}" }
+    }
   }
 }
 ```
+
+Without the code, the registry answers `401`.
 
 ## 2. Install the theme
 

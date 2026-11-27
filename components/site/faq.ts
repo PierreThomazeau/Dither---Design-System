@@ -2,7 +2,7 @@
 export const faqs: { q: string; a: string }[] = [
   {
     q: "Is Dither free?",
-    a: "Yes. Everything (tokens, the dither texture, primitives, blocks, AI blocks, charts and showcase screens) is free and MIT licensed.",
+    a: "Yes, free of charge. It is not open source though: the docs, components and registry open with an access code, and Dither itself can't be redistributed.",
   },
   {
     q: "Is Dither a package I install from npm?",
@@ -14,7 +14,11 @@ export const faqs: { q: string; a: string }[] = [
   },
   {
     q: "Can I use it in client projects?",
-    a: "Yes, in personal and commercial projects, for you or your clients. Keep the MIT notice in the source files.",
+    a: "Yes, in personal and commercial projects, for you or your clients. Don't redistribute Dither itself or share your access code, and keep the notice in the files you copy.",
+  },
+  {
+    q: "How do I get access?",
+    a: "Enter your access code on the site to open the docs, showcase and registry. For the shadcn CLI and the MCP server, send the same code as `Authorization: Bearer <code>`.",
   },
   {
     q: "Does it work in dark mode?",

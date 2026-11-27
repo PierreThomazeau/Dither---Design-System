@@ -89,7 +89,7 @@ async function callTool(name: string, args: Record<string, unknown>, origin: str
       if (!item) return { ...text(`Unknown component "${String(args.name)}".`), isError: true };
       return text({
         command: `npx shadcn add @dither/${item.name}`,
-        componentsJson: { registries: { "@dither": `${origin}/r/{name}.json` } },
+        componentsJson: { registries: { "@dither": { url: `${origin}/r/{name}.json`, headers: { Authorization: "Bearer ${DITHER_ACCESS_CODE}" } } } },
       });
     }
     case "get_tokens":

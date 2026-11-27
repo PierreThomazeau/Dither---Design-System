@@ -11,4 +11,12 @@ pnpm dev
 - `/tokens`: colours, radius, heights, spacing, type, elevation, dither variants
 - `public/r/*.json`: registry (`npx shadcn add @dither/<name>`)
 
+## Access code
+
+Dither is free to use but not open source (see `LICENSE`). The docs, showcase, tokens, registry (`/r`), MCP server and llms files open with an access code:
+
+- Set `DITHER_ACCESS_CODE` in the Vercel project (Settings, Environment Variables). Never commit it. Changing it signs everyone out.
+- Without it, production keeps everything locked; `pnpm dev` accepts `dither`.
+- People unlock in the browser at `/access`; tools send `Authorization: Bearer <code>`.
+
 See `CLAUDE.md` for the brief and build order.

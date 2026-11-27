@@ -50,7 +50,7 @@ export default function HomePage() {
             <LogoMark className="size-10 md:size-14" />
             The design system with a texture.
           </h1>
-          <p className="max-w-2xl text-lg text-muted-foreground">{appDescription} Free and open source: copy the code, own it, ship it.</p>
+          <p className="max-w-2xl text-lg text-muted-foreground">{appDescription} Free to use, by access code: copy the components, adapt them, ship them.</p>
           <div className="flex flex-wrap items-center gap-2">
             <Button asChild size="lg">
               <Link href="/docs">
@@ -172,7 +172,7 @@ export default function HomePage() {
           <Eyebrow>FAQ</Eyebrow>
           <h2 className="text-3xl font-semibold tracking-tight">Questions</h2>
           <p className="text-sm text-muted-foreground">
-            Dither is free and <Link href="/license" className="underline underline-offset-4">MIT licensed</Link>.
+            Dither is free to use with an access code, <Link href="/license" className="underline underline-offset-4">not open source</Link>.
           </p>
         </div>
         <div className="flex flex-col divide-y rounded-surface border bg-surface shadow-xs">

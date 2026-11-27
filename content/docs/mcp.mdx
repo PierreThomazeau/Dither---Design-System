@@ -3,7 +3,7 @@ title: MCP server
 description: "Let AI assistants browse, read and install Dither components."
 ---
 
-Dither ships a [Model Context Protocol](https://modelcontextprotocol.io) server, so assistants like Claude, Cursor or VS Code can find the right component, read its source and install it with the correct command.
+Dither ships a [Model Context Protocol](https://modelcontextprotocol.io) server (access code required, sent as a bearer token), so assistants like Claude, Cursor or VS Code can find the right component, read its source and install it with the correct command.
 
 ## Dither MCP endpoint
 
@@ -19,7 +19,7 @@ The site exposes a stateless MCP endpoint over HTTP at `/mcp`.
 ### Claude Code
 
 ```bash
-claude mcp add --transport http dither https://dither-design-system.vercel.app/mcp
+claude mcp add --transport http dither https://dither-design-system.vercel.app/mcp --header "Authorization: Bearer $DITHER_ACCESS_CODE"
 ```
 
 ### Cursor, VS Code and other clients
@@ -27,7 +27,10 @@ claude mcp add --transport http dither https://dither-design-system.vercel.app/m
 ```json title=".cursor/mcp.json"
 {
   "mcpServers": {
-    "dither": { "url": "https://dither-design-system.vercel.app/mcp" }
+    "dither": {
+      "url": "https://dither-design-system.vercel.app/mcp",
+      "headers": { "Authorization": "Bearer ${env:DITHER_ACCESS_CODE}" }
+    }
   }
 }
 ```
@@ -42,4 +45,4 @@ npx shadcn@latest mcp init --client claude
 
 ## llms.txt
 
-The docs are also available as plain text for language models: [`/llms.txt`](/llms.txt) (index) and [`/llms-full.txt`](/llms-full.txt) (every page).
+The docs are also available as plain text for language models: [`/llms.txt`](/llms.txt) (index) and [`/llms-full.txt`](/llms-full.txt) (every page). Like the MCP server, they need your access code (in the browser after unlocking, or as `Authorization: Bearer <code>`).
