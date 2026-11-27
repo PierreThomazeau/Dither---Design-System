@@ -1,0 +1,33 @@
+---
+title: Combobox
+description: "A searchable select, single or multiple with removable chips, at field height."
+status: beta
+variants: 2
+props: 8
+registry: combobox
+---
+
+<ComponentPreview name="combobox-demo" />
+
+## Installation
+
+<InstallCommand name="combobox" />
+
+## Usage
+
+```tsx
+import { Combobox } from "@/components/ui/combobox";
+
+<Combobox options={squads} placeholder="Assign a squad" onValueChange={setSquad} />
+<Combobox multiple options={squads} onValueChange={setSquads} />
+```
+
+## Guidelines
+
+- **Use** instead of Select past ~10 options, or when people know what they are looking for.
+- Multiple: chips in the trigger, each removable; the list stays open between picks.
+- Type to filter, arrows to move, Enter to pick, Escape to close (the Side Panel stays open).
+
+## Props
+
+<TypeTable type={{"options": {"type": "{ value; label; icon?; disabled? }[]"}, "multiple": {"type": "boolean", "default": "false"}, "value / defaultValue": {"type": "string | null (string[] when multiple)"}, "onValueChange": {"type": "(value) => void"}, "placeholder": {"type": "string"}, "searchPlaceholder": {"type": "string"}, "emptyText": {"type": "string"}, "size": {"type": "\"xs\" | \"sm\" | \"default\" | \"lg\""}}} />

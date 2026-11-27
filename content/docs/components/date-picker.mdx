@@ -1,0 +1,35 @@
+---
+title: Date Picker
+description: "A field-height trigger opening a calendar; single date or range, formatted in the viewer's locale."
+status: beta
+variants: 3
+props: 7
+registry: date-picker
+---
+
+<ComponentPreview name="date-picker-demo" stacked />
+
+## Installation
+
+<InstallCommand name="date-picker" />
+
+## Usage
+
+```tsx
+import { DatePicker } from "@/components/ui/date-picker";
+import { Calendar } from "@/components/ui/calendar";
+
+<DatePicker value={due} onValueChange={setDue} />
+<DatePicker mode="range" value={period} onValueChange={setPeriod} />
+<Calendar mode="single" selected={day} onSelect={setDay} />
+```
+
+## Guidelines
+
+- Range shows two months; the selected span is a muted band between two primary ends.
+- Dates are formatted with `Intl` (pass `locale` to force one).
+- The calendar is fully keyboard driven (arrows, Page Up / Down for months, Home / End for weeks).
+
+## Props
+
+<TypeTable type={{"mode": {"type": "\"single\" | \"range\"", "default": "\"single\""}, "value / defaultValue": {"type": "Date | DateRange"}, "onValueChange": {"type": "(value) => void"}, "placeholder": {"type": "string"}, "locale": {"type": "string"}, "size": {"type": "\"xs\" | \"sm\" | \"default\" | \"lg\""}, "disabled": {"type": "boolean"}}} />

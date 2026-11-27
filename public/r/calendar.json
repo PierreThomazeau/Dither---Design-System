@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "calendar",
+  "title": "Calendar",
+  "description": "Calendar (react-day-picker) in Dither style.",
+  "dependencies": [
+    "react-day-picker",
+    "@hugeicons/react",
+    "@hugeicons/core-free-icons"
+  ],
+  "registryDependencies": [
+    "utils",
+    "@dither/icon"
+  ],
+  "files": [
+    {
+      "path": "registry/dither/ui/calendar.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { ArrowLeft01Icon, ArrowRight01Icon } from \"@hugeicons/core-free-icons\";\nimport { DayPicker } from \"react-day-picker\";\n\nimport { Icon } from \"@/registry/dither/lib/icon\";\nimport { cn } from \"@/registry/dither/lib/utils\";\n\n/**\n * Calendar (react-day-picker): days are 36px pills, the selection in primary, ranges joined by a muted band,\n * today underlined with a dot. Keyboard navigation and labels come from react-day-picker.\n */\nfunction Calendar({ className, classNames, showOutsideDays = true, ...props }: React.ComponentProps<typeof DayPicker>) {\n  return (\n    <DayPicker\n      data-slot=\"calendar\"\n      showOutsideDays={showOutsideDays}\n      className={cn(\"p-3 text-sm\", className)}\n      classNames={{\n        months: \"relative flex flex-col gap-4 sm:flex-row\",\n        month: \"flex flex-col gap-3\",\n        month_caption: \"flex h-control-sm items-center justify-center px-10\",\n        caption_label: \"text-sm font-semibold\",\n        nav: \"absolute inset-x-0 top-0 flex items-center justify-between\",\n        button_previous: \"inline-flex size-control-sm items-center justify-center rounded-full text-muted-foreground outline-none hover:bg-hover hover:text-foreground focus-visible:shadow-focus disabled:opacity-40\",\n        button_next: \"inline-flex size-control-sm items-center justify-center rounded-full text-muted-foreground outline-none hover:bg-hover hover:text-foreground focus-visible:shadow-focus disabled:opacity-40\",\n        month_grid: \"w-full border-collapse\",\n        weekdays: \"flex\",\n        weekday: \"w-9 text-center text-xs font-normal text-muted-foreground\",\n        week: \"mt-1 flex w-full\",\n        day: \"relative size-9 p-0 text-center [&:has([aria-selected].range_middle)]:bg-background-muted\",\n        day_button:\n          \"inline-flex size-9 items-center justify-center rounded-full font-mono text-sm tabular outline-none hover:bg-hover focus-visible:shadow-focus aria-selected:bg-primary aria-selected:text-primary-foreground aria-selected:hover:bg-primary\",\n        selected: \"\",\n        today: \"[&>button]:font-semibold [&>button]:after:absolute [&>button]:after:bottom-1 [&>button]:after:size-1 [&>button]:after:rounded-full [&>button]:after:bg-current\",\n        outside: \"text-muted-foreground/60 [&>button]:aria-selected:opacity-70\",\n        disabled: \"opacity-40 [&>button]:pointer-events-none\",\n        range_start: \"rounded-l-full bg-background-muted\",\n        range_end: \"rounded-r-full bg-background-muted\",\n        range_middle: \"range_middle bg-background-muted [&>button]:aria-selected:bg-transparent [&>button]:aria-selected:text-foreground\",\n        hidden: \"invisible\",\n        ...classNames,\n      }}\n      components={{\n        Chevron: ({ orientation }) => <Icon icon={orientation === \"left\" ? ArrowLeft01Icon : ArrowRight01Icon} />,\n      }}\n      {...props}\n    />\n  );\n}\n\nexport { Calendar };\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

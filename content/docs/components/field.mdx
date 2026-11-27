@@ -1,0 +1,35 @@
+---
+title: Field
+description: "Label, control, description and error wired together; the error appears next to the field with a short shake."
+status: beta
+variants: 3
+props: 5
+registry: field
+---
+
+<ComponentPreview name="field-demo" />
+
+## Installation
+
+<InstallCommand name="field" />
+
+## Usage
+
+```tsx
+import { Field, FieldControl, FieldLabel } from "@/components/ui/field";
+
+<Field description="We send invoices here." error={errors.email}>
+  <FieldLabel>Work email</FieldLabel>
+  <FieldControl><Input type="email" /></FieldControl>
+</Field>
+```
+
+## Guidelines
+
+- **Show errors next to the field**, in a sentence that says how to fix it. Never in a toast.
+- Validate on submit, then live once a field has an error.
+- `FieldControl` gives the control its id, `aria-invalid` and `aria-describedby` (description and error).
+
+## Props
+
+<TypeTable type={{"error": {"type": "ReactNode", "description": "Makes the field invalid; announced with role alert."}, "description": {"type": "ReactNode"}, "invalid": {"type": "boolean"}, "moment": {"type": "boolean", "default": "false", "description": "Also emit the error moment (companion, haptics)."}, "className": {"type": "string"}}} />

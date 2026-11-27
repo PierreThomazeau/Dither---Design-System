@@ -1,0 +1,36 @@
+---
+title: Input OTP
+description: "One-time codes in boxes at control height; completing the code can play the success sweep."
+status: beta
+variants: 2
+props: 4
+registry: input-otp
+---
+
+<ComponentPreview name="input-otp-demo" />
+
+## Installation
+
+<InstallCommand name="input-otp" />
+
+## Usage
+
+```tsx
+import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
+
+<InputOTP maxLength={6} onComplete={verify}>
+  <InputOTPGroup>
+    {[0, 1, 2, 3, 4, 5].map((i) => <InputOTPSlot key={i} index={i} />)}
+  </InputOTPGroup>
+</InputOTP>
+```
+
+## Guidelines
+
+- Paste works, and phones suggest codes received by SMS (one-time-code autocomplete).
+- Verify on `onComplete`; on failure, clear and show the error under the boxes.
+- Give it an `aria-label` (for example: Verification code).
+
+## Props
+
+<TypeTable type={{"maxLength": {"type": "number"}, "value / onChange": {"type": "string / (value: string) => void"}, "onComplete": {"type": "(value: string) => void"}, "pattern": {"type": "string", "description": "For example digits only."}}} />

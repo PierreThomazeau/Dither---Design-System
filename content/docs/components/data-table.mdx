@@ -1,0 +1,33 @@
+---
+title: Data Table
+description: "TanStack Table on the Dither table: sort, search, select, paginate, a dither empty state, undoable bulk delete."
+status: beta
+variants: 1
+props: 8
+registry: data-table
+---
+
+<ComponentPreview name="data-table-demo" stacked />
+
+## Installation
+
+<InstallCommand name="data-table" />
+
+## Usage
+
+```tsx
+import { DataTable, DataTableSortHeader } from "@/components/ui/data-table";
+
+<DataTable columns={columns} data={invoices} selectable searchPlaceholder="Search invoices"
+  toolbar={(table) => <Button onClick={() => deleteSelected(table)}>Delete selected</Button>} />
+```
+
+## Guidelines
+
+- Numbers, IDs and dates in mono, right-aligned when they are compared.
+- Bulk delete with `toast.undo`, not a confirmation dialog.
+- Sortable headers are buttons and the column gets `aria-sort`.
+
+## Props
+
+<TypeTable type={{"columns": {"type": "ColumnDef<T>[]"}, "data": {"type": "T[]"}, "selectable": {"type": "boolean", "default": "false"}, "searchPlaceholder": {"type": "string", "description": "Shows the search box."}, "pageSize": {"type": "number", "default": "8"}, "getRowId": {"type": "(row: T) => string"}, "toolbar": {"type": "(table) => ReactNode"}, "emptyTitle / emptyDescription": {"type": "string"}}} />

@@ -44,6 +44,13 @@ import MomentsDemo from "./moments-demo";
 import DevelopDemo from "./develop-demo";
 import DitherTextDemo from "./dither-text-demo";
 import SweepButtonDemo from "./sweep-button-demo";
+import SliderDemo from "./slider-demo";
+import AccordionDemo from "./accordion-demo";
+import FieldDemo from "./field-demo";
+import InputOTPDemo from "./input-otp-demo";
+import ComboboxDemo from "./combobox-demo";
+import DatePickerDemo from "./date-picker-demo";
+import DataTableDemo from "./data-table-demo";
 import ChatComposerDemo from "./chat-composer-demo";
 import ChatComposerMinimal from "./chat-composer-minimal";
 import CompanionChat from "./companion-chat";
@@ -157,6 +164,13 @@ export const examples: Record<string, ComponentType> = {
   "develop-demo": DevelopDemo,
   "dither-text-demo": DitherTextDemo,
   "sweep-button-demo": SweepButtonDemo,
+  "slider-demo": SliderDemo,
+  "accordion-demo": AccordionDemo,
+  "field-demo": FieldDemo,
+  "input-otp-demo": InputOTPDemo,
+  "combobox-demo": ComboboxDemo,
+  "date-picker-demo": DatePickerDemo,
+  "data-table-demo": DataTableDemo,
   "chat-composer-demo": ChatComposerDemo,
   "chat-composer-minimal": ChatComposerMinimal,
   "companion-chat": CompanionChat,

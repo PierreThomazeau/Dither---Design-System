@@ -1,0 +1,37 @@
+---
+title: Accordion
+description: "Sections that open one at a time or several, following the motion rule (open 200ms, close 100ms)."
+status: beta
+variants: 2
+props: 4
+registry: accordion
+---
+
+<ComponentPreview name="accordion-demo" />
+
+## Installation
+
+<InstallCommand name="accordion" />
+
+## Usage
+
+```tsx
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+
+<Accordion type="single" collapsible>
+  <AccordionItem value="billing">
+    <AccordionTrigger>How does billing work?</AccordionTrigger>
+    <AccordionContent>…</AccordionContent>
+  </AccordionItem>
+</Accordion>
+```
+
+## Guidelines
+
+- **Use** for secondary content people scan by heading (FAQ, advanced settings).
+- **Don't** hide what everyone needs: primary content stays visible.
+- Triggers are real buttons in headings; Up / Down move between them, Home / End jump to the first and last.
+
+## Props
+
+<TypeTable type={{"type": {"type": "\"single\" | \"multiple\""}, "collapsible": {"type": "boolean", "description": "single: allow closing the open item."}, "defaultValue / value": {"type": "string | string[]"}, "onValueChange": {"type": "(value) => void"}}} />

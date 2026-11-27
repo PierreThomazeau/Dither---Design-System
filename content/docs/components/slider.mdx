@@ -1,0 +1,34 @@
+---
+title: Slider
+description: "Pick a value or a range on a track: the selected part solid, the rest in dither."
+status: beta
+variants: 2
+props: 5
+registry: slider
+---
+
+<ComponentPreview name="slider-demo" />
+
+## Installation
+
+<InstallCommand name="slider" />
+
+## Usage
+
+```tsx
+import { Slider } from "@/components/ui/slider";
+
+<Slider defaultValue={[40]} aria-label="Volume" />
+<Slider defaultValue={[20, 70]} step={5} />  {/* range */}
+```
+
+## Guidelines
+
+- **Use** when the exact number matters less than the feel (volume, zoom, price range); show the value next to the label.
+- **Don't** use it for precise entry: pair it with an Input, or use the Input alone.
+- Arrow keys move by `step`, Page Up / Down by 10 steps, Home / End to the ends.
+- Give a single thumb an `aria-label`; range thumbs are labelled Minimum and Maximum.
+
+## Props
+
+<TypeTable type={{"defaultValue / value": {"type": "number[]"}, "onValueChange": {"type": "(value: number[]) => void"}, "min / max": {"type": "number", "default": "0 / 100"}, "step": {"type": "number", "default": "1"}, "orientation": {"type": "\"horizontal\" | \"vertical\"", "default": "\"horizontal\""}}} />

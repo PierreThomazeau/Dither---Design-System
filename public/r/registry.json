@@ -410,6 +410,179 @@
       ]
     },
     {
+      "name": "slider",
+      "type": "registry:ui",
+      "title": "Slider",
+      "description": "Slider with the remaining track in dither.",
+      "dependencies": [
+        "radix-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "@dither/dither"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/ui/slider.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "accordion",
+      "type": "registry:ui",
+      "title": "Accordion",
+      "description": "Accordion following the open / close motion rule.",
+      "dependencies": [
+        "radix-ui",
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons"
+      ],
+      "registryDependencies": [
+        "utils",
+        "@dither/icon"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/ui/accordion.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "field",
+      "type": "registry:ui",
+      "title": "Field",
+      "description": "Label, control, description and error wired together.",
+      "dependencies": [
+        "radix-ui",
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons"
+      ],
+      "registryDependencies": [
+        "utils",
+        "@dither/icon",
+        "@dither/label",
+        "@dither/moments"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/ui/field.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "input-otp",
+      "type": "registry:ui",
+      "title": "Input OTP",
+      "description": "One-time code boxes.",
+      "dependencies": [
+        "input-otp"
+      ],
+      "registryDependencies": [
+        "utils"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/ui/input-otp.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "combobox",
+      "type": "registry:ui",
+      "title": "Combobox",
+      "description": "Searchable select, single or multiple with chips.",
+      "dependencies": [
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons"
+      ],
+      "registryDependencies": [
+        "utils",
+        "@dither/icon",
+        "@dither/command",
+        "@dither/popover"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/ui/combobox.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "calendar",
+      "type": "registry:ui",
+      "title": "Calendar",
+      "description": "Calendar (react-day-picker) in Dither style.",
+      "dependencies": [
+        "react-day-picker",
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons"
+      ],
+      "registryDependencies": [
+        "utils",
+        "@dither/icon"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/ui/calendar.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "date-picker",
+      "type": "registry:ui",
+      "title": "Date Picker",
+      "description": "Date or range picker in a popover.",
+      "dependencies": [
+        "react-day-picker",
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons"
+      ],
+      "registryDependencies": [
+        "utils",
+        "@dither/icon",
+        "@dither/calendar",
+        "@dither/popover"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/ui/date-picker.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "data-table",
+      "type": "registry:ui",
+      "title": "Data Table",
+      "description": "Sortable, searchable, selectable table with pagination.",
+      "dependencies": [
+        "@tanstack/react-table",
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons"
+      ],
+      "registryDependencies": [
+        "utils",
+        "@dither/icon",
+        "@dither/button",
+        "@dither/checkbox",
+        "@dither/empty",
+        "@dither/input",
+        "@dither/table"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/ui/data-table.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "toast",
       "type": "registry:ui",
       "title": "Toast",

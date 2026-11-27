@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "date-picker",
+  "title": "Date Picker",
+  "description": "Date or range picker in a popover.",
+  "dependencies": [
+    "react-day-picker",
+    "@hugeicons/react",
+    "@hugeicons/core-free-icons"
+  ],
+  "registryDependencies": [
+    "utils",
+    "@dither/icon",
+    "@dither/calendar",
+    "@dither/popover"
+  ],
+  "files": [
+    {
+      "path": "registry/dither/ui/date-picker.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { Calendar03Icon } from \"@hugeicons/core-free-icons\";\nimport type { DateRange } from \"react-day-picker\";\n\nimport { fieldVariants, type ControlSize } from \"@/registry/dither/lib/control\";\nimport { Icon } from \"@/registry/dither/lib/icon\";\nimport { cn } from \"@/registry/dither/lib/utils\";\nimport { Calendar } from \"@/registry/dither/ui/calendar\";\nimport { Popover, PopoverContent, PopoverTrigger } from \"@/registry/dither/ui/popover\";\n\n/* Date picker: a field-height trigger opening a Calendar in a popover. Dates are formatted with Intl\n   (the viewer's locale unless `locale` is given). */\n\nconst fmt = (d: Date, locale?: string) => new Intl.DateTimeFormat(locale, { day: \"numeric\", month: \"short\", year: \"numeric\" }).format(d);\n\ntype Common = { placeholder?: string; size?: ControlSize; disabled?: boolean; locale?: string; className?: string; id?: string; \"aria-label\"?: string };\n\nexport type DatePickerProps =\n  | (Common & { mode?: \"single\"; value?: Date; defaultValue?: Date; onValueChange?: (d: Date | undefined) => void })\n  | (Common & { mode: \"range\"; value?: DateRange; defaultValue?: DateRange; onValueChange?: (r: DateRange | undefined) => void });\n\nfunction DatePicker(props: DatePickerProps) {\n  const { placeholder = \"Pick a date\", size, disabled, locale, className, id } = props;\n  const [open, setOpen] = React.useState(false);\n  const [single, setSingle] = React.useState<Date | undefined>(props.mode === \"range\" ? undefined : props.defaultValue);\n  const [range, setRange] = React.useState<DateRange | undefined>(props.mode === \"range\" ? props.defaultValue : undefined);\n\n  const label =\n    props.mode === \"range\"\n      ? (() => {\n          const r = props.value ?? range;\n          if (!r?.from) return null;\n          return r.to ? `${fmt(r.from, locale)} – ${fmt(r.to, locale)}` : fmt(r.from, locale);\n        })()\n      : (() => {\n          const d = props.value ?? single;\n          return d ? fmt(d, locale) : null;\n        })();\n\n  return (\n    <Popover open={open} onOpenChange={setOpen}>\n      <PopoverTrigger asChild disabled={disabled}>\n        <button id={id} type=\"button\" aria-label={props[\"aria-label\"]} data-placeholder={label ? undefined : \"\"} className={cn(fieldVariants({ size }), \"justify-start gap-2 text-left\", className)}>\n          <Icon icon={Calendar03Icon} className=\"text-muted-foreground\" />\n          <span className={cn(\"truncate\", !label && \"text-muted-foreground\")}>{label ?? placeholder}</span>\n        </button>\n      </PopoverTrigger>\n      <PopoverContent align=\"start\" className=\"w-auto p-0\">\n        {props.mode === \"range\" ? (\n          <Calendar\n            mode=\"range\"\n            numberOfMonths={2}\n            selected={props.value ?? range}\n            onSelect={(r) => {\n              setRange(r);\n              props.onValueChange?.(r);\n            }}\n          />\n        ) : (\n          <Calendar\n            mode=\"single\"\n            selected={props.value ?? single}\n            onSelect={(d) => {\n              setSingle(d);\n              props.onValueChange?.(d);\n              setOpen(false);\n            }}\n          />\n        )}\n      </PopoverContent>\n    </Popover>\n  );\n}\n\nexport { DatePicker };\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}
