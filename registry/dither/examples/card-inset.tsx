@@ -23,7 +23,7 @@ export default function CardInsetDemo() {
             <span className="text-muted-foreground">{row.label}</span>
             <span className="flex items-center gap-2">
               <span className="font-mono font-medium tabular">{row.value}</span>
-              <span className="font-mono text-xs text-positive tabular">{row.delta}</span>
+              <span className="font-mono text-xs text-positive-ink tabular">{row.delta}</span>
             </span>
           </div>
         ))}

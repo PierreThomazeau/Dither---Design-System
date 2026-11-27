@@ -1,0 +1,33 @@
+---
+title: Quality
+description: "Accessibility, visual regression and performance checks, run against a local or deployed site."
+status: stable
+---
+
+Three scripts run in a real browser (Playwright). Start the site (`pnpm dev`, or `pnpm build && pnpm start`), then:
+
+```bash
+pnpm qa:a11y      # axe-core, WCAG 2 A and AA, every page, light and dark
+pnpm qa:visual    # screenshots of key pages vs tests/visual/baseline (--update to accept)
+pnpm qa:perf      # fps, long tasks and canvas count per page (--cpu to force the CPU dither)
+```
+
+`QA_URL` points them at another site (default `http://localhost:3000`) and `DITHER_ACCESS_CODE` unlocks it (default `dither`, the development code).
+
+## Accessibility
+
+Fails on any serious or critical axe violation, and lists every rule with an example element. Screenshots run with reduced motion, so the dither is still.
+
+## Visual regression
+
+Eleven key pages in light and dark. A screen counts as changed above 0.2 % of pixels; the diff image lands in `tests/visual/diff/`. Accept intended changes with `--update`.
+
+## Performance budget
+
+| Metric | Budget |
+| --- | --- |
+| Frames per second | ≥ 50 (`QA_MIN_FPS`) |
+| Long tasks during 2 s | ≤ 400 ms (`QA_MAX_LONG_MS`) |
+| Canvases on a page | ≤ 80 (`QA_MAX_CANVAS`) |
+
+The organic dither renders on the GPU: one WebGL2 context for the whole page computes one value per 4px cell, and each canvas keeps the 2px dots. The CPU path draws the same dots when WebGL2 is missing. Compare both with `pnpm qa:perf --cpu`.

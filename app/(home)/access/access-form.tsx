@@ -29,7 +29,7 @@ export function AccessForm({ next, configured }: { next: string; configured: boo
           placeholder="Your code"
         />
         {state.error ? (
-          <p id="access-error" role="alert" className="text-sm text-destructive">
+          <p id="access-error" role="alert" className="text-sm text-destructive-ink">
             {state.error}
           </p>
         ) : null}

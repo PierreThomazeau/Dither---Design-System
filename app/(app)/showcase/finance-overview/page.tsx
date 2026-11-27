@@ -110,7 +110,7 @@ export default function FinanceOverview() {
                     <TableCell className="font-mono text-xs text-muted-foreground">{t.id}</TableCell>
                     <TableCell>{t.party}</TableCell>
                     <TableCell className="font-mono text-xs text-muted-foreground">{t.date}</TableCell>
-                    <TableCell className={`text-right font-mono tabular ${t.amount.startsWith("+") ? "text-positive" : ""}`}>{t.amount}</TableCell>
+                    <TableCell className={`text-right font-mono tabular ${t.amount.startsWith("+") ? "text-positive-ink" : ""}`}>{t.amount}</TableCell>
                     <TableCell>
                       <Badge variant={t.status === "Scheduled" ? "outline" : "secondary"}>{t.status}</Badge>
                     </TableCell>

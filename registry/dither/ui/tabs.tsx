@@ -82,6 +82,15 @@ function TabsList({
   );
 }
 
+/** Tabs used as a view switch (no TabsContent): drop aria-controls when it points at nothing. */
+function dropDanglingControls(el: HTMLButtonElement | null) {
+  if (!el) return;
+  requestAnimationFrame(() => {
+    const id = el.getAttribute("aria-controls");
+    if (id && !document.getElementById(id)) el.removeAttribute("aria-controls");
+  });
+}
+
 function TabsTrigger({ className, value, children, ...props }: React.ComponentProps<typeof TabsPrimitive.Trigger>) {
   const tabs = React.useContext(TabsContext);
   const { variant } = React.useContext(TabsListContext);
@@ -89,6 +98,7 @@ function TabsTrigger({ className, value, children, ...props }: React.ComponentPr
   const active = tabs.value === value;
   return (
     <TabsPrimitive.Trigger
+      ref={dropDanglingControls}
       data-slot="tabs-trigger"
       value={value}
       className={cn(

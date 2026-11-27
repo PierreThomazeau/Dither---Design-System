@@ -12,7 +12,7 @@ export function MomentPrefsInit() {
   return null;
 }
 
-/** Viewer preferences for moments: sound (off by default), haptics, motion intensity. */
+/** Viewer preferences: sound (off by default), haptics, motion intensity, density. */
 export function MomentSettings({ className }: { className?: string }) {
   const [prefs, setPrefs] = React.useState<MomentPrefs>(getMomentPrefs);
   const update = (patch: Partial<MomentPrefs>) => setPrefs(setMomentPrefs(patch));
@@ -28,6 +28,14 @@ export function MomentSettings({ className }: { className?: string }) {
           <ToggleGroupItem value="expressive">Expressive</ToggleGroupItem>
         </ToggleGroup>
         <span className="text-xs text-muted-foreground">Your system&apos;s &quot;Reduce motion&quot; setting always wins.</span>
+      </div>
+      <div className="flex flex-col gap-2">
+        <span className="text-sm font-medium">Density</span>
+        <ToggleGroup type="single" variant="outline" size="sm" value={prefs.density} onValueChange={(v) => v && update({ density: v as MomentPrefs["density"] })} aria-label="Density">
+          <ToggleGroupItem value="comfortable">Comfortable</ToggleGroupItem>
+          <ToggleGroupItem value="compact">Compact</ToggleGroupItem>
+        </ToggleGroup>
+        <span className="text-xs text-muted-foreground">Compact moves every control one height down (36px default).</span>
       </div>
     </div>
   );

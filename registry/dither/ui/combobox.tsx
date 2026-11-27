@@ -67,6 +67,10 @@ function Combobox(props: ComboboxProps) {
           aria-controls={listId}
           aria-label={props["aria-label"]}
           data-placeholder={selected.length ? undefined : ""}
+          onKeyDown={(e) => {
+            // Backspace removes the last chip (the chips' x buttons are mouse shortcuts).
+            if (props.multiple && e.key === "Backspace" && selected.length) toggle(selected[selected.length - 1]);
+          }}
           className={cn(fieldVariants({ size }), "h-auto justify-between gap-2 text-left", props.multiple ? "min-h-control py-1 pl-1.5" : "", className)}
         >
           {props.multiple && selected.length ? (
@@ -75,9 +79,8 @@ function Combobox(props: ComboboxProps) {
                 <span key={v} className="inline-flex h-7 items-center gap-1 rounded-full bg-background-muted pr-1 pl-2.5 text-xs font-medium">
                   {byValue(v)?.label ?? v}
                   <span
-                    role="button"
-                    tabIndex={-1}
-                    aria-label={`Remove ${byValue(v)?.label ?? v}`}
+                    aria-hidden="true"
+                    title={`Remove ${byValue(v)?.label ?? v}`}
                     onPointerDown={(e) => e.preventDefault()}
                     onClick={(e) => {
                       e.stopPropagation();

@@ -7,8 +7,8 @@ import { cn } from "@/registry/dither/lib/utils";
 type AgentStepStatus = "done" | "running" | "queued";
 
 const statusIcon: Record<AgentStepStatus, React.ReactNode> = {
-  done: <Icon icon={CheckmarkCircle02Icon} className="text-positive" />,
-  running: <Icon icon={Loading03Icon} className="animate-spin text-brand motion-reduce:animate-none" />,
+  done: <Icon icon={CheckmarkCircle02Icon} className="text-positive-ink" />,
+  running: <Icon icon={Loading03Icon} className="animate-spin text-brand-ink motion-reduce:animate-none" />,
   queued: <span className="m-0.5 size-3 rounded-full border-[1.5px] border-border-strong" />,
 };
 

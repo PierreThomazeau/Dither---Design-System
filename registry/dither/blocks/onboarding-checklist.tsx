@@ -33,6 +33,7 @@ function OnboardingChecklist({ title, steps, actions, className, ...props }: Onb
         </div>
         <div
           role="progressbar"
+          aria-label="Setup progress"
           aria-valuemin={0}
           aria-valuemax={steps.length}
           aria-valuenow={done}

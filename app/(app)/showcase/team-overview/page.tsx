@@ -192,7 +192,7 @@ export default function TeamOverview() {
                 <dt className="text-muted-foreground">Forecast</dt>
                 <dd className="text-right">On track for 3 of 4 squads</dd>
                 <dt className="text-muted-foreground">At risk</dt>
-                <dd className="text-right text-destructive">Mobile app · 2 blockers</dd>
+                <dd className="text-right text-destructive-ink">Mobile app · 2 blockers</dd>
               </dl>
             </div>
           </section>

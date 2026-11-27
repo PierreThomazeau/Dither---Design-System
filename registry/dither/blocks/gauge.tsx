@@ -6,9 +6,9 @@ import { cn } from "@/registry/dither/lib/utils";
 type GaugeStatus = "good" | "warning" | "critical";
 
 const statusClass: Record<GaugeStatus, string> = {
-  good: "text-positive",
+  good: "text-positive-ink",
   warning: "text-chart-1",
-  critical: "text-destructive",
+  critical: "text-destructive-ink",
 };
 
 export interface GaugeProps extends Omit<React.ComponentProps<"div">, "children"> {
@@ -36,7 +36,7 @@ function Gauge({ value, label, status = "good", display, className, ...props }: 
       aria-valuemin={0}
       aria-valuemax={100}
       aria-valuenow={v}
-      aria-label={typeof label === "string" ? label : undefined}
+      aria-label={typeof label === "string" ? label : "Gauge"}
       className={cn("relative flex w-40 flex-col items-center", className)}
       {...props}
     >

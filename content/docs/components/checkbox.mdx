@@ -21,6 +21,12 @@ import { Checkbox } from "@/components/ui/checkbox";
 <Checkbox label="Weekly digest" description="A summary every Monday." />
 ```
 
+## Guidelines
+
+- **Use** for independent choices and for agreeing to something; a single on/off setting that applies at once is a Switch.
+- The label is the click target too; keep it positive ("Email me" rather than "Don't email me").
+- Indeterminate for "some of the children" in a selectable list.
+
 ## Props
 
 <TypeTable type={{"checked": {"type": "boolean | \"indeterminate\""}, "label": {"type": "ReactNode", "description": "Label text. Without it, the bare control renders."}, "description": {"type": "ReactNode"}, "variant": {"type": "\"default\" | \"box\"", "default": "\"default\"", "description": "box: bordered card, brand-tinted when checked."}, "placement": {"type": "\"start\" | \"end\"", "default": "\"start\"", "description": "Control before or after the text."}, "invalid": {"type": "boolean", "default": "false"}, "disabled": {"type": "boolean", "default": "false"}}} />

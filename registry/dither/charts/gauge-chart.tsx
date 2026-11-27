@@ -33,7 +33,7 @@ export function GaugeChart({ value, alert, display, caption, minLabel, maxLabel,
   const [ax2, ay2] = alert !== undefined ? at(alert, r + 18) : [0, 0];
 
   return (
-    <div data-slot="gauge-chart" className={cn("relative mx-auto w-full max-w-72", className)} role="meter" aria-valuemin={0} aria-valuemax={100} aria-valuenow={v} {...props}>
+    <div data-slot="gauge-chart" className={cn("relative mx-auto w-full max-w-72", className)} role="meter" aria-label="Gauge" aria-valuemin={0} aria-valuemax={100} aria-valuenow={v} {...props}>
       <svg viewBox="0 0 200 112" className="w-full overflow-visible">
         <defs>
           <DitherPattern id={id} variant="organic" />

@@ -12,8 +12,8 @@ const statusBar: Record<UsageStatus, string> = {
 };
 const statusText: Record<UsageStatus, string> = {
   normal: "text-muted-foreground",
-  warning: "text-chart-1",
-  critical: "text-destructive",
+  warning: "text-chart-1-ink",
+  critical: "text-destructive-ink",
 };
 
 export interface UsageSegment {

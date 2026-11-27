@@ -36,6 +36,16 @@
           "path": "styles/motion.css",
           "type": "registry:file",
           "target": "styles/dither/motion.css"
+        },
+        {
+          "path": "styles/density.css",
+          "type": "registry:file",
+          "target": "styles/dither/density.css"
+        },
+        {
+          "path": "styles/inks.css",
+          "type": "registry:file",
+          "target": "styles/dither/inks.css"
         }
       ]
     },

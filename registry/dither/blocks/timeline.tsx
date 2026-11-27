@@ -8,9 +8,9 @@ type TimelineStatus = "default" | "success" | "warning" | "error";
 
 const statusMeta: Record<TimelineStatus, { className: string; icon: React.ReactNode }> = {
   default: { className: "text-muted-foreground", icon: <span className="size-2 rounded-full border-[1.5px] border-current" /> },
-  success: { className: "text-positive", icon: <Icon icon={CheckmarkCircle02Icon} size={14} /> },
+  success: { className: "text-positive-ink", icon: <Icon icon={CheckmarkCircle02Icon} size={14} /> },
   warning: { className: "text-chart-1", icon: <Icon icon={Alert02Icon} size={14} /> },
-  error: { className: "text-destructive", icon: <Icon icon={CancelCircleIcon} size={14} /> },
+  error: { className: "text-destructive-ink", icon: <Icon icon={CancelCircleIcon} size={14} /> },
 };
 
 function Timeline({ className, ...props }: React.ComponentProps<"ol">) {

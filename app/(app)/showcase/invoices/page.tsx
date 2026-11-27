@@ -118,7 +118,7 @@ export default function Invoices() {
                     </span>
                   </TableCell>
                   <TableCell className="font-mono text-xs text-muted-foreground">{r.issued}</TableCell>
-                  <TableCell className={`font-mono text-xs ${r.status === "Overdue" ? "text-destructive" : "text-muted-foreground"}`}>{r.due}</TableCell>
+                  <TableCell className={`font-mono text-xs ${r.status === "Overdue" ? "text-destructive-ink" : "text-muted-foreground"}`}>{r.due}</TableCell>
                   <TableCell className="text-right font-mono tabular">{r.amount}</TableCell>
                   <TableCell>
                     <Badge variant={statusVariant[r.status]}>{r.status}</Badge>

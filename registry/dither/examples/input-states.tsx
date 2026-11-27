@@ -7,10 +7,10 @@ export default function InputStates() {
       <div className="grid gap-2">
         <Label htmlFor="input-states-invalid">Project name</Label>
         <Input id="input-states-invalid" aria-invalid defaultValue="Atlas" />
-        <p className="text-xs text-destructive">A project with this name already exists.</p>
+        <p className="text-xs text-destructive-ink">A project with this name already exists.</p>
       </div>
       <Input disabled placeholder="Disabled" />
-      <Input type="file" />
+      <Input type="file" aria-label="Attachment" />
     </div>
   );
 }

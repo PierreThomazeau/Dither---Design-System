@@ -34,7 +34,7 @@ export function RankingChart({ data, max, breakEven, format = (n) => `${n.toFixe
               <DitherFill variant="organic" className="rounded-full" />
               <span className={cn("absolute inset-y-0 left-0 rounded-full", tone)} style={{ width: `${(d.value / top) * 100}%` }} />
             </span>
-            <span className={cn("text-right font-mono text-xs tabular", below && "text-destructive")}>{format(d.value)}</span>
+            <span className={cn("text-right font-mono text-xs tabular", below && "text-destructive-ink")}>{format(d.value)}</span>
           </React.Fragment>
         );
       })}

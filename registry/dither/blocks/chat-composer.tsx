@@ -61,7 +61,7 @@ export interface ChatComposerProps extends Omit<React.ComponentProps<"form">, "o
 }
 
 const pill =
-  "inline-flex h-7 items-center gap-1.5 rounded-full border bg-surface px-2.5 text-xs font-medium text-foreground outline-none transition-colors hover:bg-hover focus-visible:shadow-focus aria-pressed:border-brand/40 aria-pressed:bg-brand/10 aria-pressed:text-brand [&_svg]:size-3.5";
+  "inline-flex h-7 items-center gap-1.5 rounded-full border bg-surface px-2.5 text-xs font-medium text-foreground outline-none transition-colors hover:bg-hover focus-visible:shadow-focus aria-pressed:border-brand/40 aria-pressed:bg-brand/10 aria-pressed:text-brand-ink [&_svg]:size-3.5";
 
 const iconBtn =
   "inline-flex size-8 shrink-0 items-center justify-center rounded-full text-muted-foreground outline-none transition-colors hover:bg-hover hover:text-foreground focus-visible:shadow-focus";

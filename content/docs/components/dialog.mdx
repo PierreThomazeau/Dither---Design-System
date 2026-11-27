@@ -30,6 +30,12 @@ import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogT
 
 `DialogTrigger`, `DialogContent` (rounded-body, 28), `DialogHeader`, `DialogTitle`, `DialogDescription`, `DialogFooter`, `DialogClose`.
 
+## Guidelines
+
+- **Use** for short, focused tasks or a decision that blocks the flow. Long content: a Sheet or a page.
+- Don't confirm what can be undone: act, then offer Undo in a toast.
+- Title says what happens; the primary button repeats the verb ("Delete project"). Focus is trapped and returns to the trigger on close.
+
 ## Props
 
 <TypeTable type={{"DialogContent showCloseButton": {"type": "boolean", "default": "true"}, "open / onOpenChange": {"type": "boolean / (open) => void", "description": "Controlled mode, on Dialog."}}} />

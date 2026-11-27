@@ -87,7 +87,7 @@ function FileRow({ item, onRemove, onRetry }: { item: Item; onRemove: () => void
         {item.status === "uploading" ? (
           <Progress variant="density" size="sm" value={item.progress} aria-label={`Uploading ${item.file.name}`} />
         ) : item.status === "error" ? (
-          <span className="flex items-center gap-1 text-xs text-destructive">
+          <span className="flex items-center gap-1 text-xs text-destructive-ink">
             <Icon icon={Alert02Icon} size={12} />
             {item.error}
           </span>
@@ -192,6 +192,19 @@ function FileDrop({ accept, multiple = true, maxSize = 10 * 1024 * 1024, upload 
 
   return (
     <div data-slot="file-drop" className={cn("flex w-full flex-col gap-2", className)} {...props}>
+      <input
+        ref={input}
+        type="file"
+        className="sr-only"
+        tabIndex={-1}
+        aria-label="Choose files to upload"
+        accept={accept}
+        multiple={multiple}
+        onChange={(e) => {
+          if (e.target.files?.length) add(e.target.files);
+          e.target.value = "";
+        }}
+      />
       <div
         role="button"
         tabIndex={0}
@@ -233,18 +246,7 @@ function FileDrop({ accept, multiple = true, maxSize = 10 * 1024 * 1024, upload 
           <span className="text-sm font-medium">{dragging === "zone" ? "Drop to upload" : "Drop files here or browse"}</span>
           <span className="text-xs text-muted-foreground">{hint ?? `Up to ${formatSize(maxSize)} per file`}</span>
         </span>
-        <input
-          ref={input}
-          type="file"
-          className="sr-only"
-          tabIndex={-1}
-          accept={accept}
-          multiple={multiple}
-          onChange={(e) => {
-            if (e.target.files?.length) add(e.target.files);
-            e.target.value = "";
-          }}
-        />
+
       </div>
       {items.length ? (
         <div className="flex flex-col gap-2" aria-live="polite">

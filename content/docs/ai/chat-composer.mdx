@@ -21,6 +21,12 @@ import { ChatComposer } from "@/components/blocks/chat-composer";
 <ChatComposer onSubmit={(message, tools) => send(message, tools)} />
 ```
 
+## Guidelines
+
+- Enter sends, Shift + Enter adds a line; show Stop while answering.
+- Put the [Companion](/docs/ai/companion) in the conversation (`CompanionLayer`), not on the composer.
+- Use `onValueChange` to set the companion to listening while people type.
+
 ## Props
 
 <TypeTable type={{"placeholder": {"type": "string"}, "mode": {"type": "string", "default": "\"Direct chat\""}, "modes": {"type": "string[]"}, "onModeChange": {"type": "(mode: string) => void"}, "model": {"type": "string", "default": "\"Atlas 2\""}, "models": {"type": "string[]"}, "onModelChange": {"type": "(model: string) => void"}, "showTools": {"type": "boolean", "default": "true"}, "showFooter": {"type": "boolean", "default": "true"}, "tools": {"type": "{ id: string; label: string; icon?: ReactNode }[]"}, "onSubmit": {"type": "(message: string, activeTools: string[]) => void", "description": "Enter sends, Shift + Enter adds a line."}, "busy": {"type": "boolean", "default": "false", "description": "Shows a stop button."}, "onStop": {"type": "() => void"}}} />

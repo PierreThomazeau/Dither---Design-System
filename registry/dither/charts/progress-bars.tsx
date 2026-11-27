@@ -42,7 +42,7 @@ export function ProgressBars({ items, highlight, target, delta, height = 180, cl
               <div
                 role="img"
                 aria-label={`${typeof item.label === "string" ? item.label : "Item"}: ${item.value}%`}
-                className={cn("absolute inset-x-0 bottom-0 rounded-control-min", hl ? "bg-chart-1 text-white" : "bg-border-strong text-foreground")}
+                className={cn("absolute inset-x-0 bottom-0 rounded-control-min", hl ? "bg-chart-1 text-woodsmoke-950" : "bg-border-strong text-foreground")}
                 style={{ height: `${item.value}%` }}
               >
                 <span className="absolute top-2 left-2.5 font-mono text-xs font-medium tabular">{item.value}%</span>

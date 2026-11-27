@@ -7,8 +7,8 @@ type WorkloadStatus = "backlog" | "not-started" | "in-progress" | "done";
 const statusMeta: Record<WorkloadStatus, { label: string; ring: string; progress: number }> = {
   backlog: { label: "Backlog", ring: "text-muted-foreground", progress: 0 },
   "not-started": { label: "Not started", ring: "text-chart-1", progress: 0.25 },
-  "in-progress": { label: "In progress", ring: "text-informative", progress: 0.6 },
-  done: { label: "Done", ring: "text-positive", progress: 1 },
+  "in-progress": { label: "In progress", ring: "text-informative-ink", progress: 0.6 },
+  done: { label: "Done", ring: "text-positive-ink", progress: 1 },
 };
 
 export interface WorkloadTileProps extends Omit<React.ComponentProps<"div">, "title"> {

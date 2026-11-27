@@ -1,0 +1,38 @@
+---
+title: Principles
+description: "Six rules that decide for us. When a choice is unclear, the first rule that applies wins."
+status: stable
+---
+
+## 1. Dither means state
+
+The dither is not decoration. Its **density** says how far something has come or how sure we are: empty is not started, dense is nearly there, dissolved is done. Its **motion** says something is happening. Remaining capacity, forecasts, skeletons, uploads and uncertain AI values are dither; finished, certain values are solid.
+
+## 2. Colour is a moment
+
+Neutral by default. Colour appears only for a meaning (status: `positive`, `destructive`; data: one highlighted series in `chart-1`) or a moment (AI surfaces, the success signature). No colour for decoration, no colour as the only carrier of meaning.
+
+## 3. One signature for success
+
+Every success looks the same: a band of 2px dots in the chart colours that crosses the surface once (toasts, buttons, uploads, the companion, content that develops). People learn it once.
+
+## 4. Motion is cause and effect
+
+Things open in 200ms ease-out and close in 100ms ease-in. A moment animates because something happened, never on a loop to draw attention. The viewer chooses the intensity (calm, normal, expressive) and the system's "Reduce motion" always wins: the state still changes, without motion.
+
+## 5. Undo beats confirm
+
+Destructive actions happen at once and offer Undo (the countdown drains as dither). Confirmation dialogs are kept for what cannot be undone.
+
+## 6. Same size, same height, same dot
+
+Every control is 32 / 36 / 40 / 44px at xs / sm / default / lg. Every dither dot is 2px on a 4px grid. Radii, spacing and colours come from tokens, never from hard-coded values.
+
+---
+
+## Checks before shipping
+
+- Works in light and dark, at 200 % zoom and with the keyboard alone (visible focus ring).
+- Contrast 4.5:1 for text (3:1 for large text and UI shapes); colour never the only signal.
+- Every async action has a loading, success and error state; destructive ones offer Undo.
+- `pnpm qa:a11y`, `pnpm qa:visual` and `pnpm qa:perf` pass (see [Quality](/docs/foundations/quality)).

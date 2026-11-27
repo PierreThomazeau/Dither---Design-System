@@ -34,6 +34,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardInset, CardTitle } 
 
 `CardHeader`, `CardTitle`, `CardDescription`, `CardAction` (top-right slot), `CardContent`, `CardFooter`, `CardInset` (inner panel of an inset card), `CardImage` (full-bleed media).
 
+## Guidelines
+
+- Group one subject per card; a card is not a layout grid.
+- Inset (grammar 2) for a header or footer that frames a panel; `dither` for empty or remaining parts only.
+- Make the whole card clickable only when it has a single action, and keep a real link or button inside.
+
 ## Props
 
 <TypeTable type={{"variant": {"type": "\"default\" | \"inset\"", "default": "\"default\"", "description": "inset: muted shell (p-1) + inner panel via CardInset."}, "size": {"type": "\"default\" | \"sm\"", "default": "\"default\""}, "dither": {"type": "boolean", "default": "false", "description": "Inset only: dither texture on the shell."}}} />

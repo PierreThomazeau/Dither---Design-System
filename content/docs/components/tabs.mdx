@@ -27,6 +27,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 </Tabs>
 ```
 
+## Guidelines
+
+- **Use** to switch between views of the same thing; not for steps (use a stepper) or navigation between pages.
+- Keep labels short (1–2 words); the active tab is never the only place a state shows.
+- Arrow keys move between tabs. Tabs used only as a switch (no TabsContent) drop their dangling `aria-controls`.
+
 ## Props
 
 <TypeTable type={{"TabsList variant": {"type": "\"default\" | \"line\"", "default": "\"default\""}, "TabsList size": {"type": "\"xs\" | \"sm\" | \"default\" | \"lg\"", "default": "\"default\"", "description": "List 32 / 36 / 40 / 44, triggers 24 / 28 / 32 / 36."}, "Tabs orientation": {"type": "\"horizontal\" | \"vertical\"", "default": "\"horizontal\""}}} />

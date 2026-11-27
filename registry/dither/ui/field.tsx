@@ -54,7 +54,7 @@ function Field({ error, invalid, description, moment = false, className, childre
           </p>
         ) : null}
         {error ? (
-          <p key={errorKey} id={value.errorId} role="alert" className="flex items-center gap-1.5 text-sm text-destructive motion-safe:animate-[moment-error_360ms_ease-in-out]">
+          <p key={errorKey} id={value.errorId} role="alert" className="flex items-center gap-1.5 text-sm text-destructive-ink motion-safe:animate-[moment-error_360ms_ease-in-out]">
             <Icon icon={Alert02Icon} size={14} />
             {error}
           </p>

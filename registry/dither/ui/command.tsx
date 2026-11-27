@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Command as CommandPrimitive } from "cmdk";
+import { Command as CommandPrimitive, useCommandState } from "cmdk";
 import { Search01Icon } from "@hugeicons/core-free-icons";
 
 import { Icon } from "@/registry/dither/lib/icon";
@@ -84,8 +84,11 @@ function CommandGroup({ className, ...props }: React.ComponentProps<typeof Comma
   );
 }
 
-function CommandSeparator({ className, ...props }: React.ComponentProps<typeof CommandPrimitive.Separator>) {
-  return <CommandPrimitive.Separator data-slot="command-separator" className={cn(menuSeparatorClass, className)} {...props} />;
+/** Divider between groups. Not cmdk's Separator: its role="separator" is not allowed inside a listbox. Hidden while searching. */
+function CommandSeparator({ className, alwaysRender = false, ...props }: React.ComponentProps<"div"> & { alwaysRender?: boolean }) {
+  const search = useCommandState((s) => s.search);
+  if (search && !alwaysRender) return null;
+  return <div data-slot="command-separator" role="none" className={cn(menuSeparatorClass, className)} {...props} />;
 }
 
 function CommandItem({ className, ...props }: React.ComponentProps<typeof CommandPrimitive.Item>) {

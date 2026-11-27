@@ -28,6 +28,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 </Select>
 ```
 
+## Guidelines
+
+- **Use** for 5 to ~10 options; fewer: Radio Group; more or searchable: [Combobox](/docs/components/combobox).
+- Pick a sensible default when there is one; otherwise a placeholder that says what to choose.
+- Arrow keys and type-ahead work; the list never covers its own trigger.
+
 ## Props
 
 <TypeTable type={{"SelectTrigger size": {"type": "\"xs\" | \"sm\" | \"default\" | \"lg\"", "default": "\"default\""}, "SelectContent position": {"type": "\"popper\" | \"item-aligned\"", "default": "\"popper\""}}} />

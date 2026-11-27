@@ -1,6 +1,6 @@
 {
   "name": "dither",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "license": "SEE LICENSE IN LICENSE",
   "type": "module",
@@ -12,7 +12,10 @@
     "lint": "eslint",
     "typecheck": "next typegen && tsc --noEmit",
     "registry:build": "shadcn build",
-    "styles:build": "node scripts/build-dither-css.ts && node scripts/build-light-scope.ts"
+    "styles:build": "node scripts/build-dither-css.ts && node scripts/build-light-scope.ts",
+    "qa:a11y": "node scripts/qa/a11y.mjs",
+    "qa:visual": "node scripts/qa/visual.mjs",
+    "qa:perf": "node scripts/qa/perf.mjs"
   },
   "dependencies": {
     "@hugeicons/core-free-icons": "4.4.0",
@@ -46,8 +49,12 @@
     "@types/react-dom": "^19.3.0",
     "@types/three": "0.170.0",
     "@typescript/native": "npm:typescript@^7.0.2",
+    "axe-core": "4.10.3",
     "eslint": "^9.39.4",
     "eslint-config-next": "16.4.6",
+    "pixelmatch": "6.0.0",
+    "playwright": "1.63.0",
+    "pngjs": "7.0.0",
     "postcss": "^8.5.32",
     "shadcn": "4.23.0",
     "tailwindcss": "^4.3.5",

@@ -15,7 +15,7 @@ export interface SparklineProps extends Omit<React.ComponentProps<"div">, "child
 
 /**
  * Tiny trend line that stretches to its container. Colour follows `currentColor`,
- * so set it with a text utility (`text-positive`, `text-chart-1`…).
+ * so set it with a text utility (`text-positive-ink`, `text-chart-1`…).
  */
 function Sparkline({ data, area = true, dither = false, label, className, ...props }: SparklineProps) {
   const gradientId = `spark-${React.useId().replace(/[^a-zA-Z0-9-]/g, "")}`;

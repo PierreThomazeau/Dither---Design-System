@@ -1,0 +1,9 @@
+/* Density (viewer preference, <html data-density>). Compact moves every control one step down,
+   keeping the rule "same size, same height": 28 / 32 / 36 / 40 / 44 instead of 32 / 36 / 40 / 44 / 48. */
+:root[data-density="compact"] {
+  --dither-size-control-xs: 28px;
+  --dither-size-control-sm: 32px;
+  --dither-size-control: 36px;
+  --dither-size-control-lg: 40px;
+  --dither-size-control-xl: 44px;
+}

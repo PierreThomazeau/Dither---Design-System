@@ -61,6 +61,12 @@ By default the body is **clear glass** in a **neutral** tint (`background-muted`
 
 The face is drawn crisp, shrunk to 80 × 80 dots and dithered in 1 bit (Bayer 4 × 4) on the LED screen. three.js is loaded on demand, rendering pauses off-screen and in hidden tabs, and everything is disposed on unmount. Under reduced motion only the face moves.
 
+## Guidelines
+
+- One companion per conversation (`CompanionLayer` + anchors), glides instead of remounting.
+- Drive it with the real status of the AI call; moments (success, delete, error) make it react everywhere.
+- It is decorative for screen readers except its label; never put information only in its face.
+
 ## Props
 
 <TypeTable type={{"status": {"type": "\"idle\" | \"listening\" | \"thinking\" | \"responding\" | \"done\" | \"error\"", "default": "\"idle\""}, "mood": {"type": "CompanionMood", "description": "Forces an expression instead of the one derived from the status."}, "talking": {"type": "boolean", "description": "Forces the mouth to talk. Default: while responding."}, "slowAfter": {"type": "number", "default": "4", "description": "Seconds of thinking before it gets bored and turns red."}, "size": {"type": "number", "default": "96"}, "followPointer": {"type": "boolean", "default": "true"}, "customizable": {"type": "boolean", "default": "true", "description": "Click (or Enter / Space): it spins and opens a picker for colour and material. The viewer's choice is remembered in their browser."}, "material": {"type": "\"plastic\" | \"ceramic\" | \"frosted\" | \"clear\" | \"gel\" | \"chrome\" | \"brushed\" | \"gold\" | \"iridescent\"", "description": "Controlled material. Default: the viewer's last choice, else clear glass."}, "color": {"type": "\"neutral\" | \"chart-1\" … \"chart-5\"", "description": "Controlled colour. Neutral = background-muted; the others are the chart colours."}, "onMaterialChange / onColorChange": {"type": "(value) => void"}, "onPhaseChange": {"type": "(phase: CompanionPhase) => void", "description": "Status plus \"slow\" and \"stalled\": useful for a \"still thinking\" line."}, "controlRef": {"type": "Ref<{ play(event) }>", "description": "bounce, spin, bravo, blink, yawn."}, "className": {"type": "string"}}} />

@@ -21,6 +21,12 @@ import { Switch } from "@/components/ui/switch";
 <Switch label="Airplane mode" />
 ```
 
+## Guidelines
+
+- **Use** for settings that apply immediately. If a Save button is needed, use a Checkbox.
+- The label says what is on ("Sound"), not the action ("Turn on sound").
+- Checked uses the brand colour; never rely on colour alone (the thumb position also changes).
+
 ## Props
 
 <TypeTable type={{"size": {"type": "\"default\" | \"sm\"", "default": "\"default\""}, "checked": {"type": "boolean"}, "label": {"type": "ReactNode", "description": "Label text. Without it, the bare control renders."}, "description": {"type": "ReactNode"}, "variant": {"type": "\"default\" | \"box\"", "default": "\"default\"", "description": "box: bordered card, brand-tinted when checked."}, "placement": {"type": "\"start\" | \"end\"", "default": "\"start\"", "description": "Control before or after the text."}, "invalid": {"type": "boolean", "default": "false"}, "disabled": {"type": "boolean", "default": "false"}}} />

@@ -51,7 +51,7 @@ export function Choice({
     >
       <span className={cn("flex shrink-0", description && "pt-0.5")}>{control}</span>
       <span className="flex flex-col gap-0.5">
-        {label ? <span className="leading-5 font-medium group-data-invalid/choice:text-destructive">{label}</span> : null}
+        {label ? <span className="leading-5 font-medium group-data-invalid/choice:text-destructive-ink">{label}</span> : null}
         {description ? <span className="leading-5 text-muted-foreground">{description}</span> : null}
       </span>
     </label>

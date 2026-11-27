@@ -20,11 +20,11 @@ export type MomentDetail = { name: MomentName; label?: string; at: number };
 
 export type MotionIntensity = "reduced" | "calm" | "normal" | "expressive";
 
-export type MomentPrefs = { sound: boolean; haptics: boolean; motion: Exclude<MotionIntensity, "reduced"> };
+export type MomentPrefs = { sound: boolean; haptics: boolean; motion: Exclude<MotionIntensity, "reduced">; density: "comfortable" | "compact" };
 
 const EVENT = "dither:moment";
 const PREFS_KEY = "dither-moments";
-const DEFAULT_PREFS: MomentPrefs = { sound: false, haptics: true, motion: "normal" };
+const DEFAULT_PREFS: MomentPrefs = { sound: false, haptics: true, motion: "normal", density: "comfortable" };
 
 /** The success signature: the chart colours, in order. Sweeps, toasts and the companion share it. */
 export const SIGNATURE_STOPS = ["--chart-1", "--chart-3", "--chart-4", "--positive", "--chart-2"] as const;
@@ -45,15 +45,16 @@ export function setMomentPrefs(patch: Partial<MomentPrefs>) {
   } catch {
     /* storage unavailable: lasts for this page */
   }
-  applyMotionAttribute(next.motion);
+  applyMotionAttribute(next.motion, next.density);
   window.dispatchEvent(new CustomEvent("dither:moment-prefs", { detail: next }));
   return next;
 }
 
-/** Puts the viewer's motion intensity on <html data-motion>. Call once on load (MomentPrefsInit does). */
-export function applyMotionAttribute(motion = getMomentPrefs().motion) {
+/** Puts the viewer's motion intensity and density on <html data-motion / data-density>. Call once on load (MomentPrefsInit does). */
+export function applyMotionAttribute(motion = getMomentPrefs().motion, density = getMomentPrefs().density) {
   if (typeof document === "undefined") return;
   document.documentElement.dataset.motion = motion;
+  document.documentElement.dataset.density = density;
 }
 
 export function motionIntensity(): MotionIntensity {

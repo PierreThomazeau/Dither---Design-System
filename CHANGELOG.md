@@ -1,0 +1,25 @@
+# Changelog
+
+## 0.2.0 · 2026-11-27
+
+### Moments
+- Moments bus (`lib/moments`): success, upload, delete, undo, error, with sound (off by default), haptics and motion intensity preferences.
+- Success signature (`MomentSweep`), content that develops (`DitherDevelop`), delete that disintegrates and reassembles on undo (`Disintegrate`), streaming text that resolves from dots (`DitherText`).
+- The companion reacts to moments; `CompanionPresence` shows it in a corner while they happen.
+
+### New components
+- Toast (success sweep, undo countdown in dither), Progress (bar and density), Slider, Accordion, Field, Input OTP, Combobox, Calendar, Date Picker, Data Table, File Drop.
+
+### Foundations
+- Principles and Quality pages; guidelines on core components.
+- One dot size (2px on a 4px grid) across every dither; dark chart colours use the light hues.
+- GPU renderer for the organic dither (one WebGL2 context per page, CPU fallback).
+- Density preference (comfortable or compact controls).
+- Contrast fixes: `muted-foreground` and `positive` darkened in light mode.
+
+### Access
+- Dither is free but not open source: Dither License and an access code for the docs, registry and MCP server.
+
+## 0.1.0
+
+- Tokens, dither texture, core controls, surfaces and overlays, product blocks, AI blocks, signature charts, showcase, marketing site, MCP server, AI companion, abstract images.

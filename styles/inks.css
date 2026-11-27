@@ -1,0 +1,34 @@
+/* Inks: status and brand colours as TEXT (Pierre: contrast 4.5:1 everywhere). Derived from the tokens
+   with color-mix, darker in light mode and lighter in dark mode, so coloured text stays readable on white,
+   muted and tinted (bg-destructive/10…) surfaces. Declared on the theme scopes too (docs previews). */
+:root,
+.light {
+  --positive-ink: color-mix(in oklab, var(--positive) 86%, black);
+  --destructive-ink: color-mix(in oklab, var(--destructive) 80%, black);
+  --brand-ink: color-mix(in oklab, var(--accent) 88%, black);
+  --informative-ink: color-mix(in oklab, var(--informative) 86%, black);
+  --chart-1-ink: color-mix(in oklab, var(--chart-1) 60%, black);
+}
+.dark,
+.dark .dark {
+  --positive-ink: color-mix(in oklab, var(--positive) 80%, white);
+  --destructive-ink: color-mix(in oklab, var(--destructive) 70%, white);
+  --brand-ink: color-mix(in oklab, var(--accent) 72%, white);
+  --informative-ink: color-mix(in oklab, var(--informative) 85%, white);
+  --chart-1-ink: color-mix(in oklab, var(--chart-1) 85%, white);
+}
+.dark .light {
+  --positive-ink: color-mix(in oklab, var(--positive) 86%, black);
+  --destructive-ink: color-mix(in oklab, var(--destructive) 80%, black);
+  --brand-ink: color-mix(in oklab, var(--accent) 88%, black);
+  --informative-ink: color-mix(in oklab, var(--informative) 86%, black);
+  --chart-1-ink: color-mix(in oklab, var(--chart-1) 60%, black);
+}
+
+@theme inline {
+  --color-positive-ink: var(--positive-ink);
+  --color-destructive-ink: var(--destructive-ink);
+  --color-brand-ink: var(--brand-ink);
+  --color-informative-ink: var(--informative-ink);
+  --color-chart-1-ink: var(--chart-1-ink);
+}

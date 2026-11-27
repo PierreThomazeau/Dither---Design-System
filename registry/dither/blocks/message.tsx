@@ -41,7 +41,7 @@ const bubbleVariants = cva("w-fit max-w-full rounded-field px-3.5 py-2 text-sm l
       outline: "border bg-surface text-foreground",
       /** Assistant answer without a bubble. */
       plain: "rounded-none px-0 py-0",
-      error: "border border-destructive/30 bg-destructive/5 text-destructive",
+      error: "border border-destructive/30 bg-destructive/5 text-destructive-ink",
     },
   },
 });

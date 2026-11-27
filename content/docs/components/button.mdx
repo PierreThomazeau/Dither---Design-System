@@ -22,6 +22,13 @@ import { Button } from "@/components/ui/button";
 <Button variant="outline" size="sm">Cancel</Button>
 ```
 
+## Guidelines
+
+- **One primary button per view**: the main action. Others are outline, secondary or ghost.
+- Labels are verbs ("Save changes", "Send invoice"), not "OK" or "Submit".
+- Use `loading` while the action runs, then a success moment (toast, or the sweep in the button).
+- Icon-only buttons need an `aria-label`. Destructive actions use `variant="destructive"` and offer Undo.
+
 ## Props
 
 <TypeTable type={{"variant": {"type": "\"default\" | \"outline\" | \"secondary\" | \"destructive\" | \"ghost\" | \"link\"", "default": "\"default\""}, "size": {"type": "\"xs\" | \"sm\" | \"default\" | \"lg\" | \"icon\" | \"icon-xs\" | \"icon-sm\" | \"icon-lg\"", "default": "\"default\"", "description": "Heights 32 / 36 / 40 / 44; icon sizes are square."}, "loading": {"type": "boolean", "default": "false", "description": "Spinner, disabled, aria-busy."}, "asChild": {"type": "boolean", "default": "false", "description": "Render the child element (e.g. a link) with button styles."}}} />

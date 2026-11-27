@@ -17,7 +17,7 @@ export default function CommandPaletteScreen() {
   return (
     <AppShell {...northwind("Overview")} breadcrumb={["Overview"]}>
       <div className="relative flex flex-1 flex-col">
-        <div aria-hidden="true" className="pointer-events-none flex flex-col gap-5 p-5 select-none md:p-6">
+        <div inert className="pointer-events-none flex flex-col gap-5 p-5 select-none md:p-6">
           <PageHeader title="Team overview" actions={<Button>Plan sprint</Button>} />
           <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
             <StatCard label="Delivery velocity" value="42 pts" delta="+8%" trend="up" sparkline={[30, 32, 31, 35, 34, 38, 37, 42]} />

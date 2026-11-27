@@ -14,7 +14,7 @@ const announcementBarVariants = cva(
       variant: {
         info: "bg-foreground text-primary-foreground",
         promo: "bg-informative text-informative-foreground",
-        warning: "bg-informative/10 text-informative",
+        warning: "bg-informative/10 text-informative-ink",
       },
     },
     defaultVariants: { variant: "info" },

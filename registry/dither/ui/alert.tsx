@@ -13,10 +13,10 @@ const alertVariants = cva(
     variants: {
       variant: {
         default: "[&>svg]:text-foreground",
-        brand: "border-brand/30 bg-brand/5 [&>svg]:text-brand",
-        positive: "border-positive/30 bg-positive/5 [&>svg]:text-positive",
-        informative: "border-informative/30 bg-informative/5 [&>svg]:text-informative",
-        destructive: "border-destructive/30 bg-destructive/5 text-destructive [&>svg]:text-destructive *:data-[slot=alert-description]:text-destructive/80",
+        brand: "border-brand/30 bg-brand/5 [&>svg]:text-brand-ink",
+        positive: "border-positive/30 bg-positive/5 [&>svg]:text-positive-ink",
+        informative: "border-informative/30 bg-informative/5 [&>svg]:text-informative-ink",
+        destructive: "border-destructive/30 bg-destructive/5 text-destructive-ink [&>svg]:text-destructive-ink *:data-[slot=alert-description]:text-destructive-ink",
       },
     },
     defaultVariants: { variant: "default" },

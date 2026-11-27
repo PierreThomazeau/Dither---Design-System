@@ -120,8 +120,8 @@ function ToastCard({ item }: { item: ToastItem }) {
         icon={ICONS[item.variant]}
         className={cn(
           "mt-0.5 shrink-0",
-          item.variant === "success" && "text-positive",
-          item.variant === "error" && "text-destructive",
+          item.variant === "success" && "text-positive-ink",
+          item.variant === "error" && "text-destructive-ink",
           (item.variant === "default" || item.variant === "undo") && "text-muted-foreground",
         )}
       />

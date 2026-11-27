@@ -9,8 +9,8 @@ import { cn } from "@/registry/dither/lib/utils";
 type Trend = "up" | "down" | "neutral";
 
 const trendClass: Record<Trend, string> = {
-  up: "text-positive",
-  down: "text-destructive",
+  up: "text-positive-ink",
+  down: "text-destructive-ink",
   neutral: "text-muted-foreground",
 };
 

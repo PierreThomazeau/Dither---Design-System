@@ -24,6 +24,12 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip
 </Tooltip>
 ```
 
+## Guidelines
+
+- Only for extra, non-essential information (an icon button's name, a truncated label).
+- Never put actions or anything required to complete a task in a tooltip; it doesn't exist on touch.
+- Keep it to one short line.
+
 ## Props
 
 <TypeTable type={{"TooltipContent side": {"type": "\"top\" | \"right\" | \"bottom\" | \"left\"", "default": "\"top\""}, "TooltipContent sideOffset": {"type": "number", "default": "6"}}} />

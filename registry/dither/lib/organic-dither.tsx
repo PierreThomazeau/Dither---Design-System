@@ -4,6 +4,7 @@ import * as React from "react";
 
 import { cn } from "@/registry/dither/lib/utils";
 import { DITHER_CELL, DITHER_DOT, ditherTile, type DitherVariant } from "@/registry/dither/lib/dither-tile";
+import { renderShapeGpu } from "@/registry/dither/lib/dither-gl";
 import { bayer, density, fbm, valueNoise, type OrganicShape } from "@/registry/dither/lib/organic-field";
 
 export type { OrganicShape } from "@/registry/dither/lib/organic-field";
@@ -109,6 +110,7 @@ export function OrganicDither({
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let w = 0;
     let h = 0;
+    let dpr = 1;
     let fill = readColor(canvas, color);
     let last = 0;
     let visible = true;
@@ -183,10 +185,15 @@ export function OrganicDither({
         paintTint();
         return;
       }
+      const r = Math.max(56, Math.min(w, h) * 0.3);
+      // GPU first (one shared WebGL2 context for the page); the CPU loop below is the fallback.
+      if (d0 === d1 && renderShapeGpu(ctx, { shape, w, h, dpr, cell, dot: d0, t, seed, scale, color: fill, trail, wakeRadius: r })) {
+        paintTint();
+        return;
+      }
       const cols = Math.ceil(w / cell);
       const rows = Math.ceil(h / cell);
       const aspect = w / h;
-      const r = Math.max(56, Math.min(w, h) * 0.3);
       const active = trail.length > 0;
       for (let row = 0; row < rows; row++) {
         for (let col = 0; col < cols; col++) {
@@ -235,7 +242,7 @@ export function OrganicDither({
 
     const resize = () => {
       const rect = canvas.getBoundingClientRect();
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
       w = Math.max(1, Math.round(rect.width));
       h = Math.max(1, Math.round(rect.height));
       canvas.width = w * dpr;

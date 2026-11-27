@@ -7,7 +7,7 @@ import { DitherFill } from "@/registry/dither/lib/dither";
 import { cn } from "@/registry/dither/lib/utils";
 
 /** Slider: the selected range solid, the rest of the track in dither (system rule). One or several thumbs. */
-function Slider({ className, defaultValue, value, min = 0, max = 100, ...props }: React.ComponentProps<typeof SliderPrimitive.Root>) {
+function Slider({ className, defaultValue, value, min = 0, max = 100, "aria-label": ariaLabel, ...props }: React.ComponentProps<typeof SliderPrimitive.Root>) {
   const values = value ?? defaultValue ?? [min];
   return (
     <SliderPrimitive.Root
@@ -29,7 +29,7 @@ function Slider({ className, defaultValue, value, min = 0, max = 100, ...props }
       {values.map((_, i) => (
         <SliderPrimitive.Thumb
           key={i}
-          aria-label={values.length > 1 ? (i === 0 ? "Minimum" : "Maximum") : undefined}
+          aria-label={values.length > 1 ? `${ariaLabel ? `${ariaLabel} ` : ""}${i === 0 ? "minimum" : "maximum"}` : (ariaLabel ?? "Value")}
           className="block size-5 shrink-0 rounded-full border bg-surface shadow-xs outline-none transition-[scale,box-shadow] duration-(--duration-liquid) ease-(--ease-liquid) hover:scale-110 focus-visible:shadow-focus active:scale-95 disabled:pointer-events-none"
         />
       ))}

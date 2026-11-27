@@ -7,6 +7,8 @@
 @import "../styles/scopes.css";
 @import "../styles/dither.css";
 @import "../styles/motion.css";
+@import "../styles/density.css";
+@import "../styles/inks.css";
 
 /* `dark:` applies under .dark, except inside a forced .light scope (docs previews). */
 @custom-variant dark (&:where(.dark, .dark *):not(:where(.light, .light *)));
@@ -56,4 +58,14 @@ html {
 html > body[data-scroll-locked] {
   margin-right: 0px !important;
   --removed-body-scroll-bar-size: 0px !important;
+}
+
+/* Code blocks (Shiki github-light): its orange (#E36209, 3.5:1 on white) is darkened to pass 4.5:1. */
+.shiki span[style*="--shiki-light:#E36209"] {
+  --shiki-light: #b54708 !important;
+}
+
+/* Code blocks (Shiki github-dark): comments (#6A737D, 3.9:1 on the dark surface) lightened to pass 4.5:1. */
+.dark .shiki span[style*="--shiki-dark:#6A737D"] {
+  --shiki-dark: #8b949e !important;
 }
