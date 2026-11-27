@@ -28,8 +28,8 @@ It fills its box: give it a size or an aspect ratio.
 
 ## Two renderings
 
-- **Dots** (default): one square dot per cell, coloured by the image and sized by its brightness; a Bayer 4 × 4 threshold thins dark areas to nothing, so colour packs where the image is bright. Same grid and dot sizes (2 → 4 px) as the organic dither.
-- **Pixel**: the same threshold, but lit cells fill the whole cell and their colours are posterised (six levels per channel, ordered dither): blocks merge into a crisp print.
+- **Dots** (default): one 2px dot per 4px cell, coloured by the image; a Bayer 4 × 4 threshold on its brightness thins dark areas to nothing, so colour packs where the image is bright. Same dot and grid as the organic tile.
+- **Pixel**: contiguous 2px pixels (each one system dot), the same threshold, colours posterised (six levels per channel, ordered dither): a crisp print.
 
 `ground="dark"` (default) lays the dots on the darkest neutral of the theme; `ground="light"` on the lightest, where colour reads as ink.
 
@@ -54,4 +54,4 @@ canvas.toBlob((blob) => save(blob));
 
 ## Props
 
-<TypeTable type={{"preset": {"type": "\"ember\" | \"lagoon\" | \"dusk\" | \"aurora\" | \"prism\" | \"nebula\" | \"tide\" | \"flare\"", "default": "\"ember\""}, "src": {"type": "string", "description": "Your own image instead of a preset."}, "mode": {"type": "\"dots\" | \"pixel\"", "default": "\"dots\""}, "ground": {"type": "\"dark\" | \"light\"", "default": "\"dark\""}, "cell": {"type": "number", "default": "6", "description": "Grid cell in px."}, "dot": {"type": "[min, max]", "default": "[2, 4]", "description": "Dot size range in px (dots mode)."}, "seed": {"type": "number", "default": "0", "description": "Shifts the waves: same preset, another take."}, "animated": {"type": "boolean", "default": "true", "description": "Slow drift (presets only)."}, "className": {"type": "string"}}} />
+<TypeTable type={{"preset": {"type": "\"ember\" | \"lagoon\" | \"dusk\" | \"aurora\" | \"prism\" | \"nebula\" | \"tide\" | \"flare\"", "default": "\"ember\""}, "src": {"type": "string", "description": "Your own image instead of a preset."}, "mode": {"type": "\"dots\" | \"pixel\"", "default": "\"dots\""}, "ground": {"type": "\"dark\" | \"light\"", "default": "\"dark\""}, "cell": {"type": "number", "default": "4", "description": "Grid cell in px (dots mode)."}, "dot": {"type": "[min, max]", "default": "[2, 2]", "description": "Dot size in px: the system dot. Pixel mode uses it as its pixel size."}, "seed": {"type": "number", "default": "0", "description": "Shifts the waves: same preset, another take."}, "animated": {"type": "boolean", "default": "true", "description": "Slow drift (presets only)."}, "className": {"type": "string"}}} />

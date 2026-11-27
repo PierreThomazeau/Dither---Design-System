@@ -2,6 +2,7 @@
 
 import * as React from "react";
 
+import { DITHER_CELL, DITHER_DOT } from "@/registry/dither/lib/dither-tile";
 import { runDitherStep, stopDitherStep } from "@/registry/dither/lib/organic-dither";
 import { cn } from "@/registry/dither/lib/utils";
 
@@ -10,11 +11,12 @@ import { cn } from "@/registry/dither/lib/utils";
  * colour bands and glows, painted from the design tokens), or any image
  * you pass as `src`, rendered through the Dither grid.
  *
- *  - "dots":  one square dot per cell, coloured by the image, sized and
+ *  - "dots":  one 2px dot per 4px cell, coloured by the image and
  *             thresholded (Bayer 4×4) by its brightness: dark areas thin
  *             out to nothing, bright colour packs dense.
- *  - "pixel": same threshold, but lit cells are filled whole and their
+ *  - "pixel": contiguous 2px pixels (each one system dot), same threshold,
  *             colours posterised (6 levels, ordered dither): a crisp print.
+ * Every dot is the system dot (2px, DITHER_DOT), like the organic tile.
  *
  * The source is painted at grid resolution (one sample per cell), so it
  * is cheap enough to drift slowly; rendering shares the dither rAF loop,
@@ -287,10 +289,12 @@ export interface DitherImageOptions {
  * Returns a promise because `src` images have to load first.
  */
 export async function renderDitherImage(el: Element, width: number, height: number, opts: DitherImageOptions & { time?: number } = {}) {
-  const { preset = "ember", src, mode = "dots", ground = "dark", cell = 6, dot = [2, 4], seed = 0, time = 0 } = opts;
+  const { preset = "ember", src, mode = "dots", ground = "dark", cell = DITHER_CELL, dot = [DITHER_DOT, DITHER_DOT], seed = 0, time = 0 } = opts;
   const p = src ? null : abstractPresets[preset];
   const pal = readPalette(el, p, ground);
-  const gw = Math.ceil(width / cell), gh = Math.ceil(height / cell);
+  // Pixel mode: contiguous 2px pixels (one system dot each); dots mode: one dot per grid cell.
+  const pitch = mode === "pixel" ? dot[1] : cell;
+  const gw = Math.ceil(width / pitch), gh = Math.ceil(height / pitch);
   const grid = document.createElement("canvas");
   grid.width = gw;
   grid.height = gh;
@@ -302,7 +306,7 @@ export async function renderDitherImage(el: Element, width: number, height: numb
   out.height = height;
   const o = out.getContext("2d")!;
   const img = o.createImageData(width, height);
-  rasterize(g.getImageData(0, 0, gw, gh).data, gw, gh, img, cell, mode, ground, parseColor(pal.ground), dot);
+  rasterize(g.getImageData(0, 0, gw, gh).data, gw, gh, img, pitch, mode, ground, parseColor(pal.ground), dot);
   o.putImageData(img, 0, 0);
   return out;
 }
@@ -328,8 +332,8 @@ function DitherImage({
   src,
   mode = "dots",
   ground = "dark",
-  cell = 6,
-  dot = [2, 4],
+  cell = DITHER_CELL,
+  dot = [DITHER_DOT, DITHER_DOT],
   seed = 0,
   animated = true,
   className,
@@ -345,6 +349,7 @@ function DitherImage({
     if (!host || !canvas) return;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const p = src ? null : abstractPresets[preset];
+    const pitch = mode === "pixel" ? dotMax : cell;
     const grid = document.createElement("canvas");
     const g = grid.getContext("2d", { willReadFrequently: true })!;
     const ctx = canvas.getContext("2d")!;
@@ -360,7 +365,7 @@ function DitherImage({
       if (!out || (!p && !img)) return;
       if (img) paintImage(g, gw, gh, img, pal);
       else paintPreset(g, gw, gh, p!, pal, ground, animated && !reduced ? (now - t0) / 1000 : 0, seed);
-      rasterize(g.getImageData(0, 0, gw, gh).data, gw, gh, out, cell, mode, ground, parseColor(pal.ground), [dotMin, dotMax]);
+      rasterize(g.getImageData(0, 0, gw, gh).data, gw, gh, out, pitch, mode, ground, parseColor(pal.ground), [dotMin, dotMax]);
       ctx.putImageData(out, 0, 0);
     };
 
@@ -369,8 +374,8 @@ function DitherImage({
       const w = Math.max(1, Math.round(r.width)), h = Math.max(1, Math.round(r.height));
       canvas.width = w;
       canvas.height = h;
-      gw = Math.ceil(w / cell);
-      gh = Math.ceil(h / cell);
+      gw = Math.ceil(w / pitch);
+      gh = Math.ceil(h / pitch);
       grid.width = gw;
       grid.height = gh;
       out = ctx.createImageData(w, h);

@@ -29,7 +29,7 @@ npx shadcn add @dither/dither
 
 Surfaces (heroes, cards, empty states, AI headers, footer) use the **organic** texture: the same pixel grid,
 but each cell's density comes from a noise field, so the dots gather in masses, fray at the edges and leave
-holes, and the densest areas get bigger dots (2 → 4px). It drifts slowly, the pointer clears a soft hole,
+holes. Every dot is 2px, on the organic tile's 4px grid: one dot size across the whole system. It drifts slowly, the pointer clears a soft hole,
 it pauses off-screen and stays still under reduced motion.
 
 <ComponentPreview name="dither-organic" />
@@ -72,7 +72,7 @@ No twinkle, no static tile in components. `DitherFill static` (plain SVG) is onl
 | Variant | Spec |
 |---|---|
 | `regular` | 2px squares on a 6px grid, odd rows offset by 3px |
-| `fine` | 1.5px squares on a 4px grid, odd rows offset by 2px |
+| `fine` | 2px squares on a 4px grid, odd rows offset by 2px |
 | `bayer` | 4×4 ordered dither, 4px cells, threshold 0.32 |
 | `gradient` | 4×4 ordered dither, density fading 0.68 → 0.06 top to bottom |
 | `organic` | Seamless 96px tile from periodic noise, 4px grid, 1.5 → 2.5px dots |
@@ -103,7 +103,7 @@ Fills its positioned parent: the organic canvas when `shape` is set, otherwise t
     shape: { type: '"cloud" | "scatter" | "halo" | "flow"', description: "Organic texture (canvas)." },
     scale: { type: "number", description: "Organic: noise scale, higher = smaller clumps.", default: "per shape" },
     seed: { type: "number", description: "Organic: varies the field.", default: "7" },
-    dot: { type: "[number, number]", description: "Organic: dot side range in px, sparse → dense.", default: "[2, 4]" },
+    dot: { type: "[number, number]", description: "Organic: dot side range in px. Keep the default: the system dot.", default: "[2, 2]" },
     fade: { type: '"none" | "top" | "bottom" | "left" | "right" | "corner" | "edges"', default: '"none"', description: "Organic: soft edge instead of a cut." },
     glow: { type: "string[]", description: "Organic: blurred colour blobs under the dots (custom property names)." },
     tint: { type: '{ stops: string[]; direction?: "to-r" | "to-l" | "to-b" }', description: "Organic: gradient of custom properties instead of --dither-color." },

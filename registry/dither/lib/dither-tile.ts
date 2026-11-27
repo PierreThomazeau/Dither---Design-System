@@ -5,15 +5,21 @@
  *
  * Spec (tokens.json → dither):
  * - regular  : 2px dots on a 6px grid, odd rows offset by 3px
- * - fine     : 1.5px dots on a 4px grid, odd rows offset by 2px
+ * - fine     : 2px dots on a 4px grid, odd rows offset by 2px
  * - bayer    : 4×4 ordered dither, 4px cells, threshold 0.32
  * - gradient : 4×4 ordered dither, density fades 0.68 → 0.06 top to bottom
- * - organic  : seamless 96px tile from periodic noise, clumps and gaps, 1.5 → 2.5px dots
+ * - organic  : seamless 96px tile from periodic noise, clumps and gaps, 2px dots on a 4px grid
+ *
+ * Every dot in the system is DITHER_DOT (2px), the organic tile's size (Pierre).
  *              (the static sibling of the organic canvas texture)
  */
 
 
 export type DitherVariant = "regular" | "fine" | "bayer" | "gradient" | "organic";
+
+/** The one dot size of the whole system, and the organic grid step (Pierre: the organic tile is the base). */
+export const DITHER_DOT = 2;
+export const DITHER_CELL = 4;
 
 export const DITHER_VARIANTS: readonly DitherVariant[] = ["regular", "fine", "bayer", "gradient", "organic"];
 
@@ -123,7 +129,7 @@ export interface OrganicTile {
  * `cell` is the grid step, `dot` the [sparse, dense] dot sides, `period` the number of noise
  * cells across the tile (more = smaller clumps).
  */
-export function organicTile({ size = 96, cell = 4, dot = [1.25, 2], period = 3, seed = 7 }: { size?: number; cell?: number; dot?: [number, number]; period?: number; seed?: number } = {}): OrganicTile {
+export function organicTile({ size = 96, cell = DITHER_CELL, dot = [DITHER_DOT, DITHER_DOT], period = 3, seed = 7 }: { size?: number; cell?: number; dot?: [number, number]; period?: number; seed?: number } = {}): OrganicTile {
   const dots: OrganicTileDot[] = [];
   const n = Math.round(size / cell);
   for (let row = 0; row < n; row++) {
@@ -141,7 +147,7 @@ export function organicTile({ size = 96, cell = 4, dot = [1.25, 2], period = 3, 
 }
 
 const BAYER_CELL = 4;
-const BAYER_DOT = 2;
+const BAYER_DOT = DITHER_DOT;
 const BAYER_THRESHOLD = 0.32;
 const GRADIENT_FROM = 0.68;
 const GRADIENT_TO = 0.06;
@@ -160,7 +166,7 @@ export function ditherTile(variant: DitherVariant = "regular", gradientHeight = 
     case "regular":
     case "fine": {
       const cell = variant === "fine" ? 4 : 6;
-      const dot = variant === "fine" ? 1.5 : 2;
+      const dot = DITHER_DOT;
       const offset = cell / 2;
       return {
         width: cell,

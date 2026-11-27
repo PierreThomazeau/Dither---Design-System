@@ -3,7 +3,7 @@
 import * as React from "react";
 
 import { cn } from "@/registry/dither/lib/utils";
-import { ditherTile, type DitherVariant } from "@/registry/dither/lib/dither-tile";
+import { DITHER_CELL, DITHER_DOT, ditherTile, type DitherVariant } from "@/registry/dither/lib/dither-tile";
 import { bayer, density, fbm, valueNoise, type OrganicShape } from "@/registry/dither/lib/organic-field";
 
 export type { OrganicShape } from "@/registry/dither/lib/organic-field";
@@ -18,9 +18,9 @@ export interface OrganicDitherProps extends React.ComponentProps<"canvas"> {
   tile?: DitherVariant;
   /** Tile "gradient" only: height over which the density fades (defaults to the element height). */
   gradientHeight?: number;
-  /** Grid cell in px (6 = the Dither grid). */
+  /** Grid cell in px (4 = the organic grid). */
   cell?: number;
-  /** Dot side range in px: dense areas get bigger dots (squares almost touch at full density). */
+  /** Dot side range in px. Default: the system dot (2px) everywhere, like the organic tile. */
   dot?: [number, number];
   /** Noise scale (higher = smaller clumps). */
   scale?: number;
@@ -80,8 +80,8 @@ export function OrganicDither({
   shape = "cloud",
   tile,
   gradientHeight,
-  cell = 6,
-  dot = [2, 4],
+  cell = DITHER_CELL,
+  dot = [DITHER_DOT, DITHER_DOT],
   scale = 3,
   seed: seedProp,
   speed = 1,

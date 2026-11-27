@@ -28,7 +28,7 @@ function AiGlow({
       style={{ maskImage: mask, WebkitMaskImage: mask }}
     >
       <span className="absolute inset-0 opacity-60 dark:opacity-75">
-        <DitherFill shape="cloud" scale={2.4} seed={5} dot={[1.5, 2.5]} tint={{ stops: ["--brand", "--brand", "--ai-pink"], direction }} />
+        <DitherFill shape="cloud" scale={2.4} seed={5} tint={{ stops: ["--brand", "--brand", "--ai-pink"], direction }} />
       </span>
     </span>
   );
