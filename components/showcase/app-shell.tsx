@@ -13,6 +13,8 @@ import { Avatar, AvatarFallback } from "@/registry/dither/ui/avatar";
 import { Button } from "@/registry/dither/ui/button";
 import { SidePanel, SidePanelInset, SidePanelLayout, SidePanelProvider, SidePanelTrigger, useSidePanel } from "@/registry/dither/ui/side-panel";
 
+import { CompanionPresence } from "@/registry/dither/blocks/companion";
+
 import { AssistantPanel } from "./assistant-panel";
 
 export interface NavItem {
@@ -192,6 +194,7 @@ export function AppShell({ workspace, actions = [], sections, user, breadcrumb, 
           <main className="@container flex min-h-0 min-w-0 flex-1 flex-col overflow-y-auto overscroll-contain">{children}</main>
         </SidePanelInset>
         <ShellPanel panel={panel} panelLabel={panelLabel} />
+        <CompanionPresence className="lg:left-64" />
       </SidePanelLayout>
       </SidePanelProvider>
     </div>

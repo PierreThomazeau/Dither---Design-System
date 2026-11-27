@@ -1,0 +1,40 @@
+---
+title: Toast
+description: "Short feedback in a corner. Success carries the signature sweep, undo drains a dither countdown."
+status: beta
+variants: 4
+props: 5
+registry: toast
+---
+
+<ComponentPreview name="toast-demo" />
+
+## Installation
+
+<InstallCommand name="toast" />
+
+## Usage
+
+Mount `<Toaster />` once (root layout), then call `toast()` from anywhere.
+
+```tsx
+import { toast, Toaster } from "@/components/ui/toast";
+
+toast("Report scheduled", { description: "Every Monday at 9:00." });
+toast.success("Invoice sent");
+toast.error("Payment failed", { description: "The card was declined." });
+toast.undo("Project archived", { onUndo: restore });
+```
+
+## Guidelines
+
+- **Use** for the result of an action the person just took (sent, saved, deleted). One sentence, past tense.
+- **Use `toast.undo`** for anything destructive that can be reversed, instead of a confirmation dialog.
+- **Don't** put errors that block a form in a toast: show them next to the field.
+- **Don't** stack more than three; group repeated events ("3 files uploaded").
+
+Toasts are announced politely to screen readers, pause while hovered or focused, can be swiped away, and **F8** jumps to them.
+
+## Props
+
+<TypeTable type={{"title": {"type": "ReactNode"}, "description": {"type": "ReactNode"}, "duration": {"type": "number", "default": "5000 (undo 6000)", "description": "Infinity keeps it open."}, "action": {"type": "{ label: string; onClick(): void }"}, "moment": {"type": "boolean", "default": "true", "description": "Emit the matching moment (companion, sound, haptics)."}}} />

@@ -9,6 +9,7 @@
     "foundations/dither-pattern",
     "foundations/abstract-images",
     "foundations/motion",
+    "foundations/moments",
     "---Components---",
     "...components",
     "---Blocks---",

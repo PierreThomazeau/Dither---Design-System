@@ -1,0 +1,87 @@
+---
+title: Moments
+description: "Success, upload, delete, undo and error: the product events every surface reacts to the same way, in dither."
+status: beta
+variants: 5
+props: 6
+registry: moments
+---
+
+<ComponentPreview name="moments-demo" stacked />
+
+A moment is a product event with one choreography across the whole system. Emit it once, and the toast, the companion, sound and haptics react together; nothing needs to know about anything else.
+
+| Moment | Look | Companion | Sound (off by default) | Haptics |
+| --- | --- | --- | --- | --- |
+| `success` | The signature sweep: a band of 2px dots in the chart colours | Bravo, rainbow through the body | Two-note chime | Short double tap |
+| `upload` | Same signature, the preview develops | Bravo | Rising notes | Ripple |
+| `delete` | The element disintegrates into dots, the row collapses | Shrugs; judges you after 4 deletes in 8 s | Soft falling blip | One tap |
+| `undo` | The dots gather back into place | Relieved blink | Rising blip | Light double tap |
+| `error` | A short, small shake (no flash) | Sad | Low buzz | Two pulses |
+
+## Installation
+
+<InstallCommand name="moments" />
+
+## Usage
+
+```tsx
+import { emitMoment, onMoment } from "@/lib/moments";
+
+emitMoment("success");                 // anywhere
+const off = onMoment(({ name }) => {}); // listen (returns unsubscribe)
+```
+
+`toast.success`, `toast.error` and `toast.undo` emit their moment for you; `FileDrop` emits `upload` and `error`; the [Companion](/docs/ai/companion) reacts on its own (`reactToMoments`), and `CompanionPresence` shows a small one in a corner, only while moments happen.
+
+## The signature: develop
+
+Content develops like a photo: the grey dither skeleton is crossed by the signature band, rising from the bottom; the content appears behind it.
+
+<ComponentPreview name="develop-demo" />
+
+```tsx
+import { DitherDevelop } from "@/lib/dither-develop";
+
+<DitherDevelop ready={!isLoading} moment="success">{content}</DitherDevelop>
+```
+
+## Sweep
+
+The same band, once, through any `relative overflow-hidden` surface (buttons and toasts are). Plays each time `play` changes.
+
+<ComponentPreview name="sweep-button-demo" />
+
+```tsx
+<Button><MomentSweep play={publishedCount} direction="right" />Publish</Button>
+```
+
+## Disintegrate
+
+```tsx
+<Disintegrate gone={item.deleted} reassemble={item.restored}>
+  <Row />
+</Disintegrate>
+```
+
+Pair it with `toast.undo("Deleted", { onUndo })`: the countdown in the toast drains as dither.
+
+## Streaming text
+
+Each new word resolves from sparse dots (25 %, 50 %, 75 %) into letters. Words already shown never animate again.
+
+<ComponentPreview name="dither-text-demo" />
+
+```tsx
+<DitherText text={answerSoFar} />
+```
+
+## Preferences
+
+Viewers choose. Sound is off by default; the system's "Reduce motion" setting always wins (moments then change state without motion).
+
+<Preview single>
+  <MomentSettings />
+</Preview>
+
+`<MomentPrefsInit />` (root layout) applies the motion intensity to `<html data-motion="calm | normal | expressive">`.

@@ -70,6 +70,48 @@
   animation: dither-drift 1.4s linear infinite;
 }
 
+/* ---------- Moments (lib/moments.ts) ---------- */
+
+/* Viewer motion intensity on <html data-motion>: the open / close rule stays, the expressive parts scale. */
+:root[data-motion="calm"] { --duration-liquid: 320ms; --ease-liquid: cubic-bezier(0.22, 1, 0.36, 1); }
+:root[data-motion="expressive"] { --duration-liquid: 620ms; --ease-liquid: cubic-bezier(0.34, 1.9, 0.64, 1); }
+
+/* Toast countdown: the dither strip drains left to right over the toast's duration. */
+@keyframes toast-countdown {
+  from { scale: 1 1; }
+  to { scale: 0 1; }
+}
+
+/* FileDrop: the lit halo breathes while a file is dragged. */
+@keyframes drop-breathe {
+  0%, 100% { scale: 1; opacity: 0.85; }
+  50% { scale: 1.04; opacity: 1; }
+}
+
+/* Error: a short, small shake (no flash). */
+@keyframes moment-error {
+  0%, 100% { translate: 0 0; }
+  20% { translate: -3px 0; }
+  40% { translate: 3px 0; }
+  60% { translate: -2px 0; }
+  80% { translate: 2px 0; }
+}
+
+/* 2px dots on the 4px grid at 25 / 50 / 75 % (Bayer 4x4): masks for dither-resolve. */
+:root {
+  --dither-resolve-1: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Crect x='1' y='1' width='2' height='2'/%3E%3Crect x='9' y='1' width='2' height='2'/%3E%3Crect x='1' y='9' width='2' height='2'/%3E%3Crect x='9' y='9' width='2' height='2'/%3E%3C/svg%3E");
+  --dither-resolve-2: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Crect x='1' y='1' width='2' height='2'/%3E%3Crect x='9' y='1' width='2' height='2'/%3E%3Crect x='5' y='5' width='2' height='2'/%3E%3Crect x='13' y='5' width='2' height='2'/%3E%3Crect x='1' y='9' width='2' height='2'/%3E%3Crect x='9' y='9' width='2' height='2'/%3E%3Crect x='5' y='13' width='2' height='2'/%3E%3Crect x='13' y='13' width='2' height='2'/%3E%3C/svg%3E");
+  --dither-resolve-3: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Crect x='1' y='1' width='2' height='2'/%3E%3Crect x='5' y='1' width='2' height='2'/%3E%3Crect x='9' y='1' width='2' height='2'/%3E%3Crect x='13' y='1' width='2' height='2'/%3E%3Crect x='5' y='5' width='2' height='2'/%3E%3Crect x='13' y='5' width='2' height='2'/%3E%3Crect x='1' y='9' width='2' height='2'/%3E%3Crect x='5' y='9' width='2' height='2'/%3E%3Crect x='9' y='9' width='2' height='2'/%3E%3Crect x='13' y='9' width='2' height='2'/%3E%3Crect x='5' y='13' width='2' height='2'/%3E%3Crect x='13' y='13' width='2' height='2'/%3E%3C/svg%3E");
+}
+
+/* Streaming text: each new word resolves from sparse dots to letters (masks of growing density). */
+@keyframes dither-resolve {
+  0% { mask-image: var(--dither-resolve-1); -webkit-mask-image: var(--dither-resolve-1); opacity: 0.9; }
+  33% { mask-image: var(--dither-resolve-2); -webkit-mask-image: var(--dither-resolve-2); }
+  66% { mask-image: var(--dither-resolve-3); -webkit-mask-image: var(--dither-resolve-3); }
+  100% { mask-image: none; -webkit-mask-image: none; opacity: 1; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 1ms !important;

@@ -1,0 +1,42 @@
+---
+title: File Drop
+description: "Upload as a moment: the zone wakes up when a file is dragged, progress is dither density, success sweeps and develops the preview."
+status: beta
+variants: 4
+props: 6
+registry: file-drop
+---
+
+<ComponentPreview name="file-drop-demo" stacked />
+
+## Installation
+
+<InstallCommand name="file-drop" />
+
+## Usage
+
+```tsx
+import { FileDrop } from "@/components/blocks/file-drop";
+
+<FileDrop
+  accept="image/*,application/pdf"
+  upload={(file, onProgress) => uploadToServer(file, onProgress)}
+  onFilesChange={setFiles}
+/>
+```
+
+Without `upload`, uploads are simulated (prototypes, docs).
+
+## What happens
+
+1. A file dragged anywhere on the page lights the zone's halo in the brand colours; over the zone it breathes and the icon lifts.
+2. Each file uploads with a **density** progress: the dots light up.
+3. Done: the signature sweep crosses the card, the preview develops, moment `upload` (the companion cheers).
+4. Too big or refused: a short error pulse, moment `error`, a Retry button.
+5. Remove: the card disintegrates and a "Removed · Undo" toast drains its countdown.
+
+The zone is a real button (Enter / Space opens the file picker) and the list is announced politely.
+
+## Props
+
+<TypeTable type={{"accept": {"type": "string"}, "multiple": {"type": "boolean", "default": "true"}, "maxSize": {"type": "number", "default": "10 MB"}, "upload": {"type": "(file, onProgress) => Promise<void>", "description": "Send the file; call onProgress(0–100). Reject to show an error."}, "onFilesChange": {"type": "(files: File[]) => void", "description": "Uploaded files, kept in sync."}, "hint": {"type": "ReactNode"}}} />

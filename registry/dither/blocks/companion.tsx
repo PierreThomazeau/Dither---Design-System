@@ -3,6 +3,7 @@
 import * as React from "react";
 import type * as Three from "three";
 
+import { getLastMoment, onMoment, type MomentDetail } from "@/registry/dither/lib/moments";
 import { cn } from "@/registry/dither/lib/utils";
 import { Button } from "@/registry/dither/ui/button";
 import { Popover, PopoverAnchor, PopoverContent } from "@/registry/dither/ui/popover";
@@ -46,7 +47,7 @@ export type CompanionStatus = "idle" | "listening" | "thinking" | "responding" |
 /** What the companion is showing right now: the status, plus the two "taking long" steps. */
 export type CompanionPhase = CompanionStatus | "slow" | "stalled";
 
-export type CompanionEvent = "bounce" | "spin" | "bravo" | "blink" | "yawn";
+export type CompanionEvent = "bounce" | "spin" | "bravo" | "blink" | "yawn" | "sweep" | "hop";
 
 /** Body material. Default: clear glass. */
 export type CompanionMaterial = "plastic" | "ceramic" | "frosted" | "clear" | "gel" | "chrome" | "brushed" | "gold" | "iridescent";
@@ -80,8 +81,10 @@ export interface CompanionProps extends Omit<React.ComponentProps<"div">, "child
   /** Body colour (controlled). Default: the viewer's last choice, else "neutral". */
   color?: CompanionColor;
   onColorChange?: (color: CompanionColor) => void;
-  /** Imperative events: bounce, spin, bravo, blink, yawn. */
+  /** Imperative events: bounce, spin, bravo, blink, yawn, sweep, hop. */
   controlRef?: React.Ref<CompanionHandle>;
+  /** React to app moments (lib/moments): success / upload = bravo + sweep, delete = shrug, undo = relief, error = sad. */
+  reactToMoments?: boolean;
 }
 
 /* ---------- Expressions: all numbers ---------- *
@@ -536,6 +539,12 @@ function mountCompanion(THREE: typeof Three, host: HTMLDivElement, live: { curre
 
   const play = (name: CompanionEvent) => {
     if (name === "blink") return void (blinkT = 0);
+    // The success signature through the body, without changing the status.
+    if (name === "sweep") return void (sweepT0 = clock);
+    if (name === "hop") {
+      if (!reduced) events.push({ name: "bounce", t0: clock, amp: 0.35 });
+      return;
+    }
     if (name === "bravo") {
       bravoUntil = clock + 2.2;
       if (!reduced) events.push({ name: "bounce", t0: clock, amp: 1 });
@@ -978,6 +987,7 @@ function Companion({
   followPointer = true,
   onPhaseChange,
   customizable = true,
+  reactToMoments = true,
   material: materialProp,
   onMaterialChange,
   color: colorProp,
@@ -995,11 +1005,63 @@ function Companion({
   const [open, setOpen] = React.useState(false);
   const material = materialProp ?? stored.material;
   const color = colorProp ?? stored.color;
-  const live = React.useRef<Live>({ status, mood, talking, slowAfter, followPointer, onPhaseChange, material, color });
+  // A short mood after an app moment (delete → bored, error → sad…), on top of the status mood.
+  const [transient, setTransient] = React.useState<CompanionMood | null>(null);
+  const effectiveMood = transient ?? mood;
+  const live = React.useRef<Live>({ status, mood: effectiveMood, talking, slowAfter, followPointer, onPhaseChange, material, color });
 
   React.useEffect(() => {
-    live.current = { status, mood, talking, slowAfter, followPointer, onPhaseChange, material, color };
+    live.current = { status, mood: effectiveMood, talking, slowAfter, followPointer, onPhaseChange, material, color };
   });
+
+  React.useEffect(() => {
+    if (!reactToMoments) return;
+    let timer = 0;
+    const deletes: number[] = [];
+    const hold = (m: CompanionMood, ms: number) => {
+      setTransient(m);
+      window.clearTimeout(timer);
+      timer = window.setTimeout(() => setTransient(null), ms);
+    };
+    let retry = 0;
+    const react = (m: MomentDetail, tries = 0) => {
+      // The 3D loads asynchronously: wait for it (up to ~3 s) before playing.
+      if (!api.current) {
+        if (tries < 20) retry = window.setTimeout(() => react(m, tries + 1), 150);
+        return;
+      }
+      handle(m);
+    };
+    const handle = ({ name, at }: MomentDetail) => {
+      const a = api.current;
+      if (name === "success" || name === "upload") {
+        a?.play("bravo");
+        a?.play("sweep");
+        hold("proud", 2200);
+      } else if (name === "delete") {
+        // Many deletes in a row: it starts judging.
+        deletes.push(at);
+        while (deletes.length && at - deletes[0] > 8000) deletes.shift();
+        a?.play("hop");
+        hold(deletes.length >= 4 ? "disdainful" : "bored", deletes.length >= 4 ? 3200 : 1600);
+      } else if (name === "undo") {
+        a?.play("blink");
+        a?.play("hop");
+        hold("happy", 1200);
+      } else if (name === "error") {
+        hold("sad", 2600);
+      }
+    };
+    const off = onMoment((m) => react(m));
+    // Mounted because of a moment (CompanionPresence): replay it.
+    const recent = getLastMoment();
+    if (recent && performance.now() - recent.at < 1500) react(recent);
+    return () => {
+      off();
+      window.clearTimeout(timer);
+      window.clearTimeout(retry);
+    };
+  }, [reactToMoments]);
 
   const choose = (next: { material?: CompanionMaterial; color?: CompanionColor }) => {
     const value = { material: next.material ?? material, color: next.color ?? color };
@@ -1188,6 +1250,61 @@ function CompanionAnchor({ size = 72, className, style, ...props }: React.Compon
   return <div ref={ref} aria-hidden data-slot="companion-anchor" className={cn("shrink-0", className)} style={{ width: size, height: size, ...style }} {...props} />;
 }
 
+/* ------------------------------------------------------------------ *
+ * CompanionPresence: the companion outside the chat. Hidden until an
+ * app moment happens (success, upload, delete, undo, error); then a
+ * small companion pops up in a corner, reacts, and leaves after a few
+ * quiet seconds (unmounted, so no 3D runs while nothing happens).
+ * ------------------------------------------------------------------ */
+
+export interface CompanionPresenceProps {
+  /** Corner (toasts sit bottom-right, so bottom-left by default). */
+  side?: "bottom-left" | "bottom-right" | "top-right";
+  size?: number;
+  /** ms of quiet before it leaves. */
+  linger?: number;
+  className?: string;
+}
+
+function CompanionPresence({ side = "bottom-left", size = 72, linger = 5000, className }: CompanionPresenceProps) {
+  const [shown, setShown] = React.useState(false);
+  const [leaving, setLeaving] = React.useState(false);
+  React.useEffect(() => {
+    let timer = 0;
+    let leave = 0;
+    const off = onMoment(() => {
+      setShown(true);
+      setLeaving(false);
+      window.clearTimeout(timer);
+      window.clearTimeout(leave);
+      timer = window.setTimeout(() => {
+        setLeaving(true);
+        leave = window.setTimeout(() => setShown(false), 200);
+      }, linger);
+    });
+    return () => {
+      off();
+      window.clearTimeout(timer);
+      window.clearTimeout(leave);
+    };
+  }, [linger]);
+  if (!shown) return null;
+  const pos = { "bottom-left": "bottom-4 left-4", "bottom-right": "bottom-4 right-4", "top-right": "top-20 right-4" }[side];
+  return (
+    <div
+      data-slot="companion-presence"
+      data-state={leaving ? "closed" : "open"}
+      className={cn(
+        "pointer-events-none fixed z-[95] motion-overlay data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:slide-in-from-bottom-4 data-[state=closed]:animate-out data-[state=closed]:fade-out-0",
+        pos,
+        className,
+      )}
+    >
+      <Companion size={size} customizable={false} followPointer={false} />
+    </div>
+  );
+}
+
 /** Every material and colour, in picker order. */
 const companionMaterials = Object.keys(MATERIALS) as CompanionMaterial[];
 const companionColors = COLORS.map((c) => c.id);
@@ -1195,4 +1312,4 @@ const companionColors = COLORS.map((c) => c.id);
 /** Every expression, in display order. */
 const companionMoods = Object.keys(MOODS) as CompanionMood[];
 
-export { Companion, CompanionAnchor, CompanionLayer, companionColors, companionMaterials, companionMoods };
+export { Companion, CompanionAnchor, CompanionLayer, CompanionPresence, companionColors, companionMaterials, companionMoods };

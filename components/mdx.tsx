@@ -9,6 +9,7 @@ import { Preview } from "@/components/docs/preview";
 import { AbstractGallery, DitherImageSourceDemo } from "@/components/docs/abstract-gallery";
 import { DitherTrackDemo, DitherVariantsDemo } from "@/components/docs/dither-demo";
 import { DitherFill } from "@/registry/dither/lib/dither";
+import { MomentSettings } from "@/registry/dither/lib/moment-settings";
 
 export function getMDXComponents(components?: MDXComponents) {
   return {
@@ -23,6 +24,7 @@ export function getMDXComponents(components?: MDXComponents) {
     DitherVariantsDemo,
     DitherTrackDemo,
     AbstractGallery,
+    MomentSettings,
     DitherImageSourceDemo,
     ...components,
   } satisfies MDXComponents;

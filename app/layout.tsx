@@ -3,6 +3,8 @@ import { Geist_Mono, Manrope } from "next/font/google";
 import { RootProvider } from "fumadocs-ui/provider/next";
 
 import { appDescription, appName, siteUrl } from "@/lib/shared";
+import { MomentPrefsInit } from "@/registry/dither/lib/moment-settings";
+import { Toaster } from "@/registry/dither/ui/toast";
 import "./global.css";
 
 const manrope = Manrope({
@@ -27,7 +29,11 @@ export default function Layout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${manrope.variable} ${geistMono.variable}`} suppressHydrationWarning>
       <body className="flex min-h-screen flex-col">
-        <RootProvider>{children}</RootProvider>
+        <RootProvider>
+          {children}
+          <Toaster />
+          <MomentPrefsInit />
+        </RootProvider>
       </body>
     </html>
   );

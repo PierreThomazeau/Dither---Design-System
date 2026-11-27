@@ -37,6 +37,13 @@ import ChartSplitBar from "./chart-split-bar";
 import ChartStackedArea from "./chart-stacked-area";
 import ChartTreemap from "./chart-treemap";
 import ChartWaterfall from "./chart-waterfall";
+import ToastDemo from "./toast-demo";
+import ProgressDemo from "./progress-demo";
+import FileDropDemo from "./file-drop-demo";
+import MomentsDemo from "./moments-demo";
+import DevelopDemo from "./develop-demo";
+import DitherTextDemo from "./dither-text-demo";
+import SweepButtonDemo from "./sweep-button-demo";
 import ChatComposerDemo from "./chat-composer-demo";
 import ChatComposerMinimal from "./chat-composer-minimal";
 import CompanionChat from "./companion-chat";
@@ -143,6 +150,13 @@ export const examples: Record<string, ComponentType> = {
   "chart-stacked-area": ChartStackedArea,
   "chart-treemap": ChartTreemap,
   "chart-waterfall": ChartWaterfall,
+  "toast-demo": ToastDemo,
+  "progress-demo": ProgressDemo,
+  "file-drop-demo": FileDropDemo,
+  "moments-demo": MomentsDemo,
+  "develop-demo": DevelopDemo,
+  "dither-text-demo": DitherTextDemo,
+  "sweep-button-demo": SweepButtonDemo,
   "chat-composer-demo": ChatComposerDemo,
   "chat-composer-minimal": ChatComposerMinimal,
   "companion-chat": CompanionChat,

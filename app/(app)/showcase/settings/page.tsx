@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { AppShell } from "@/components/showcase/app-shell";
 import { northwind } from "@/components/showcase/nav";
 import { PageHeader } from "@/components/showcase/page-header";
+import { ApiKeys, BrandAssets, SaveButton } from "@/components/showcase/settings-moments";
 import { UsageMeter } from "@/registry/dither/blocks/usage-meter";
 import { Avatar, AvatarFallback } from "@/registry/dither/ui/avatar";
 import { Button } from "@/registry/dither/ui/button";
@@ -37,7 +38,7 @@ export default function Settings() {
           actions={
             <>
               <Button variant="ghost">Discard</Button>
-              <Button>Save changes</Button>
+              <SaveButton />
             </>
           }
         />
@@ -52,6 +53,12 @@ export default function Settings() {
             </TabsList>
           </Tabs>
           <div className="flex min-w-0 flex-col divide-y">
+            <Row title="Brand assets" description="Logos and files your team and clients see.">
+              <BrandAssets />
+            </Row>
+            <Row title="API keys" description="Keys for integrations. Revoking takes effect at once; you can undo for a few seconds.">
+              <ApiKeys />
+            </Row>
             <Row title="Workspace" description="Name, address and look of Northwind Studio.">
               <div className="flex items-center gap-4">
                 <Avatar size="lg">

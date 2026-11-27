@@ -1,6 +1,7 @@
 {
   "title": "Blocks",
   "pages": [
+    "file-drop",
     "stat-card",
     "gauge",
     "usage-meter",

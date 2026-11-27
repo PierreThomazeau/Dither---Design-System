@@ -87,6 +87,47 @@
       ]
     },
     {
+      "name": "moments",
+      "type": "registry:lib",
+      "title": "Moments",
+      "description": "Product moments (success, upload, delete, undo, error): event bus, sound / haptics preferences, signature sweep, develop reveal, disintegrate, streaming text.",
+      "dependencies": [
+        "radix-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "@dither/dither",
+        "@dither/switch",
+        "@dither/toggle-group"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/lib/moments.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "registry/dither/lib/moment-sweep.tsx",
+          "type": "registry:lib"
+        },
+        {
+          "path": "registry/dither/lib/dither-develop.tsx",
+          "type": "registry:lib"
+        },
+        {
+          "path": "registry/dither/lib/disintegrate.tsx",
+          "type": "registry:lib"
+        },
+        {
+          "path": "registry/dither/lib/dither-text.tsx",
+          "type": "registry:lib"
+        },
+        {
+          "path": "registry/dither/lib/moment-settings.tsx",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
       "name": "icon",
       "type": "registry:lib",
       "title": "Icon",
@@ -344,6 +385,49 @@
       "files": [
         {
           "path": "registry/dither/ui/switch.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "progress",
+      "type": "registry:ui",
+      "title": "Progress",
+      "description": "Progress bar (dither remaining) or dither density.",
+      "dependencies": [
+        "radix-ui"
+      ],
+      "registryDependencies": [
+        "utils",
+        "@dither/dither",
+        "@dither/moments"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/ui/progress.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "toast",
+      "type": "registry:ui",
+      "title": "Toast",
+      "description": "Toasts with the success sweep and an undo countdown in dither.",
+      "dependencies": [
+        "radix-ui",
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons"
+      ],
+      "registryDependencies": [
+        "utils",
+        "@dither/icon",
+        "@dither/dither",
+        "@dither/moments"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/ui/toast.tsx",
           "type": "registry:ui"
         }
       ]
@@ -937,6 +1021,32 @@
       ]
     },
     {
+      "name": "file-drop",
+      "type": "registry:block",
+      "title": "File Drop",
+      "description": "Upload zone with density progress, success sweep, develop preview and undoable remove.",
+      "dependencies": [
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons"
+      ],
+      "registryDependencies": [
+        "utils",
+        "@dither/icon",
+        "@dither/button",
+        "@dither/progress",
+        "@dither/toast",
+        "@dither/moments",
+        "@dither/dither"
+      ],
+      "files": [
+        {
+          "path": "registry/dither/blocks/file-drop.tsx",
+          "type": "registry:component",
+          "target": "components/blocks/file-drop.tsx"
+        }
+      ]
+    },
+    {
       "name": "chat-composer",
       "type": "registry:block",
       "title": "Chat Composer",
@@ -965,9 +1075,10 @@
       "title": "Companion",
       "description": "3D AI companion: soft plastic body (or 8 other materials) in neutral or chart colours, dithered LED face, moods and status tints.",
       "registryDependencies": [
-        "utils",
         "@dither/button",
-        "@dither/popover"
+        "@dither/moments",
+        "@dither/popover",
+        "utils"
       ],
       "files": [
         {

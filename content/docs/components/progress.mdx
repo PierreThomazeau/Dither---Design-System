@@ -1,0 +1,35 @@
+---
+title: Progress
+description: "How far along: a solid bar with the remaining part in dither, or dither density as progress itself."
+status: beta
+variants: 3
+props: 4
+registry: progress
+---
+
+<ComponentPreview name="progress-demo" />
+
+## Installation
+
+<InstallCommand name="progress" />
+
+## Usage
+
+```tsx
+import { Progress } from "@/components/ui/progress";
+
+<Progress value={64} aria-label="Storage" />
+<Progress variant="density" value={42} aria-label="Uploading" />
+<Progress aria-label="Syncing" />  {/* indeterminate */}
+```
+
+## Guidelines
+
+- **bar** for quantities (storage, quota): the remaining part is dither, as everywhere in Dither.
+- **density** for work in progress (uploads, imports): the dots light up as it advances. It is the dither rule "density = progress".
+- No value = indeterminate: the dither drifts.
+- Always give an `aria-label` (or `aria-labelledby`).
+
+## Props
+
+<TypeTable type={{"value": {"type": "number | null", "description": "0–100; empty = indeterminate."}, "variant": {"type": "\"bar\" | \"density\"", "default": "\"bar\""}, "size": {"type": "\"sm\" | \"default\" | \"lg\"", "default": "\"default\""}, "tone": {"type": "string", "default": "\"--foreground\"", "description": "Colour token of the fill / lit dots."}}} />
