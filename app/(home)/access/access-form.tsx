@@ -24,7 +24,6 @@ export function AccessForm({ next, configured }: { next: string; configured: boo
           autoComplete="current-password"
           autoFocus
           required
-          disabled={!configured}
           aria-invalid={state.error ? true : undefined}
           aria-describedby={state.error ? "access-error" : undefined}
           placeholder="Your code"
@@ -35,11 +34,15 @@ export function AccessForm({ next, configured }: { next: string; configured: boo
           </p>
         ) : null}
       </div>
-      <Button type="submit" disabled={!configured || pending} aria-busy={pending || undefined}>
+      <Button type="submit" disabled={pending} aria-busy={pending || undefined}>
         <Icon icon={LockKeyIcon} />
         {pending ? "Checking…" : "Unlock Dither"}
       </Button>
-      {!configured ? <p className="text-sm text-muted-foreground">Access isn&apos;t open yet: no code is configured on this site.</p> : null}
+      {!configured ? (
+        <p className="text-sm text-muted-foreground">
+          No access code is set on this site yet: add <code className="font-mono text-xs">DITHER_ACCESS_CODE</code> in the hosting settings, then redeploy.
+        </p>
+      ) : null}
     </form>
   );
 }
